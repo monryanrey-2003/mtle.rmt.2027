@@ -77,7 +77,7 @@ pre,
 }
 
 /* --------------------------------------------------------------------------
-   3. View & Modal Animations
+   3. View, Tab & Modal Animations
    -------------------------------------------------------------------------- */
 @keyframes fadeSlideUp {
   from {
@@ -87,6 +87,17 @@ pre,
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes modalZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -100,6 +111,19 @@ pre,
 #adminSection_students:not(.hidden),
 #adminSection_exams:not(.hidden) {
   animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#examViewerModal:not(.hidden) > div,
+#adminScoreModal:not(.hidden) > div,
+#confirmModal:not(.hidden) > div {
+  animation: modalZoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Glassmorphism Header Utility */
+.glass-header {
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 /* --------------------------------------------------------------------------
@@ -160,6 +184,31 @@ td {
   vertical-align: middle;
 }
 
+/* Sticky First Column on Horizontal Scroll for Master Ledger */
+@media (min-width: 768px) {
+  #ledgerTableHeadRow th:first-child,
+  #ledgerTableBody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+  }
+
+  #ledgerTableHeadRow th:first-child {
+    background-color: #f8fafc;
+    box-shadow: 1px 0 0 0 var(--slate-200);
+  }
+
+  #ledgerTableBody tr td:first-child {
+    background-color: #ffffff;
+    box-shadow: 1px 0 0 0 var(--slate-200);
+    transition: background-color 0.15s ease;
+  }
+
+  #ledgerTableBody tr:hover td:first-child {
+    background-color: #f8fafc;
+  }
+}
+
 /* --------------------------------------------------------------------------
    6. Uploaded HTML Exam Iframe Container
    -------------------------------------------------------------------------- */
@@ -171,7 +220,7 @@ td {
 }
 
 /* --------------------------------------------------------------------------
-   7. Official Print Stylesheet
+   7. Official Print Stylesheet (Admin Master Ledger & Student Report Card)
    -------------------------------------------------------------------------- */
 @media print {
   @page {
@@ -201,6 +250,34 @@ td {
     margin: 0 !important;
   }
 
+  .shadow-sm,
+  .shadow-md,
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl {
+    box-shadow: none !important;
+  }
+
+  .rounded-2xl,
+  .rounded-3xl {
+    border-radius: 6px !important;
+  }
+
+  #studentView > section:first-child {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 2px solid #0f172a !important;
+    padding: 16px !important;
+  }
+
+  #studentView > section:first-child * {
+    color: #0f172a !important;
+  }
+
+  .overflow-x-auto {
+    overflow: visible !important;
+  }
+
   table {
     width: 100% !important;
     border: 1px solid #cbd5e1 !important;
@@ -210,5 +287,21 @@ td {
   td {
     border: 1px solid #cbd5e1 !important;
     padding: 6px 8px !important;
+    font-size: 9.5pt !important;
+  }
+
+  #ledgerTableHeadRow th:first-child,
+  #ledgerTableBody td:first-child {
+    position: static !important;
+    box-shadow: none !important;
+  }
+
+  tfoot#studentScoresTableFoot {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+
+  tfoot#studentScoresTableFoot * {
+    color: #0f172a !important;
   }
 }
