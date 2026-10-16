@@ -82,7 +82,7 @@ pre,
 @keyframes fadeSlideUp {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -106,10 +106,11 @@ pre,
 #studentView:not(.hidden),
 #signInPanel:not(.hidden),
 #enrollNowPanel:not(.hidden),
+#studentSelfEditSection:not(.hidden),
 #adminSection_ledger:not(.hidden),
 #adminSection_students:not(.hidden),
 #adminSection_exams:not(.hidden) {
-  animation: fadeSlideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 #examViewerModal:not(.hidden) > div,
@@ -147,7 +148,6 @@ textarea::placeholder {
   color: #94a3b8;
 }
 
-/* Keep number inputs clean and aligned */
 input[type="number"] {
   font-variant-numeric: tabular-nums;
 }
@@ -250,7 +250,6 @@ td {
     margin: 0 !important;
   }
 
-  /* Ensure cards and tables print with crisp borders and no shadows */
   .shadow-sm,
   .shadow-md,
   .shadow-lg,
@@ -264,7 +263,6 @@ td {
     border-radius: 6px !important;
   }
 
-  /* Force dark banners to print legibly */
   #studentView > section:first-child {
     background: #ffffff !important;
     color: #0f172a !important;
@@ -276,7 +274,6 @@ td {
     color: #0f172a !important;
   }
 
-  /* Expand overflow tables for full-page printing */
   .overflow-x-auto {
     overflow: visible !important;
   }

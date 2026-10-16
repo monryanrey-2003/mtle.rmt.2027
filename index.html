@@ -43,37 +43,6 @@
     }
   </script>
 
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f8fafc;
-      color: #0f172a;
-    }
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    @media print {
-      .no-print {
-        display: none !important;
-      }
-      body {
-        background: white !important;
-      }
-    }
-  </style>
-
   <!-- Inject Firebase Configuration for PulseRMT Portal -->
   <script>
     window.__app_id = "mtle-review-portal-app";
@@ -90,19 +59,20 @@
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-teal-600 selection:text-white">
 
   <!-- MAIN NAVIGATION HEADER (Shown when logged in as Admin or Student) -->
-  <header id="mainHeader" class="no-print bg-white border-b border-slate-200 shadow-sm hidden">
+  <header id="mainHeader" class="no-print bg-white border-b border-slate-200 shadow-sm sticky top-0 z-40 hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-600 to-emerald-700 flex items-center justify-center text-white shadow-md shadow-teal-600/20">
           <i class="fa-solid fa-vial-virus text-lg"></i>
         </div>
         <div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <h1 class="font-bold text-slate-900 text-base sm:text-lg tracking-tight">PulseRMT Review Center</h1>
             <span id="headerRoleBadge" class="px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-teal-100 text-teal-800">Admin</span>
-            <span id="dbStatusBadge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-[11px]">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span id="dbStatusText">Database Ready</span>
+            <!-- Live 2-Way Auto-Save Indicator -->
+            <span id="syncStatusPill" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold transition-all">
+              <span id="syncStatusDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span id="syncStatusText">2-Way Auto-Save Active</span>
             </span>
           </div>
           <p class="text-xs text-slate-500 hidden sm:block">Medical Technologist Licensure Examination (MTLE) Assessment & Ledger System</p>
@@ -123,7 +93,7 @@
   </header>
 
   <!-- ===================================================================== -->
-  <!-- VIEW 1: LOGIN & ENROLLMENT PORTAL                                     -->
+  <!-- VIEW 1: LOGIN & ENROLLMENT PORTAL (NO CREDENTIALS SHOWN)              -->
   <!-- ===================================================================== -->
   <main id="loginView" class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-10 bg-gradient-to-b from-slate-900 via-slate-900 to-teal-950">
     <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200/20">
@@ -138,7 +108,7 @@
             MTLE Online Examination & Student Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Official reviewee portal for taking interactive mock board examinations and tracking PRC MTLE subject ratings.
+            Real-time 2-way synchronized platform for student enrollment, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation.
           </p>
 
           <!-- Official MTLE Subject Weights Box -->
@@ -180,10 +150,10 @@
         <div class="relative z-10 mt-8 pt-6 border-t border-white/10">
           <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-teal-100/90 space-y-1">
             <div class="font-bold text-teal-300 flex items-center gap-1.5">
-              <i class="fa-solid fa-shield-halved"></i> Account & Enrollment Notice
+              <i class="fa-solid fa-arrows-rotate"></i> Real-Time 2-Way Sync Enabled
             </div>
             <p class="leading-relaxed text-teal-100/80">
-              New reviewees may register through the <strong>Enroll Now</strong> tab. Your unique username and password will be assigned by the Review Center Administrator.
+              Enroll via the <strong>Enroll Now</strong> tab. Once the Admin assigns your username and password in the Admin Portal, your credentials work immediately for Student Login.
             </p>
           </div>
         </div>
@@ -192,7 +162,7 @@
       <!-- Right Column: Login & Enroll Now Forms -->
       <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center bg-white">
         
-        <!-- 3-Way Navigation Tabs: Student Login | Admin Portal | Enroll Now -->
+        <!-- 3-Way Navigation Tabs: Student Login | Admin Login | Enroll Now -->
         <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
           <button type="button" id="loginTabStudent" onclick="app.setLoginTab('student')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
             <i class="fa-solid fa-user-graduate mr-1"></i>Student Login
@@ -254,7 +224,7 @@
           </form>
 
           <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <span>Not yet registered as a reviewee?</span>
+            <span>New MTLE Reviewee?</span>
             <button type="button" onclick="app.setLoginTab('enroll')" class="font-bold text-teal-600 hover:text-teal-700 hover:underline">
               Click here to Enroll Now <i class="fa-solid fa-arrow-right ml-1"></i>
             </button>
@@ -266,7 +236,7 @@
           <div class="mb-4">
             <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment</h3>
             <p class="text-xs text-slate-500 mt-0.5">
-              Complete your student profile information below. Once submitted, the Admin will assign your official login credentials via Firebase.
+              Complete your student information below. Your enrollment is automatically saved to the Admin Database for credential assignment.
             </p>
           </div>
 
@@ -322,7 +292,7 @@
               </div>
               <div class="sm:col-span-2">
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
-                <input type="number" id="enrollAge" required min="16" max="99" placeholder="22"
+                <input type="number" id="enrollAge" required min="15" max="99" placeholder="22"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono text-center focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-5">
@@ -337,11 +307,9 @@
             <div id="enrollSuccessBanner" class="hidden p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs space-y-1">
               <div class="font-bold flex items-center gap-1.5">
                 <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                <span>Enrollment Submitted to Firebase!</span>
+                <span>Enrollment Automatically Saved & Synced!</span>
               </div>
-              <p id="enrollSuccessText" class="text-emerald-700 leading-relaxed">
-                Your student record has been saved. Please contact your Admin to receive your assigned username and password.
-              </p>
+              <p id="enrollSuccessText" class="text-emerald-700 leading-relaxed"></p>
             </div>
 
             <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
@@ -416,7 +384,7 @@
       </button>
       <button onclick="app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-users-gear"></i>
-        <span>2. Admin Student Management (Add / Assign / Remove)</span>
+        <span>2. Admin Student Management (Auto-Save Credentials)</span>
       </button>
       <button onclick="app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-file-arrow-up"></i>
@@ -437,24 +405,21 @@
               Official MTLE Reviewee Master Ledger
             </h2>
             <p class="text-xs text-slate-500 mt-0.5">
-              Comprehensive record of student scores across uploaded HTML examinations, individual exam percentage ratings, and overall MTLE general average.
+              Real-time 2-way synced ledger of student scores across uploaded HTML exams, individual ratings, and overall MTLE general average.
             </p>
           </div>
 
           <div class="no-print flex flex-wrap items-center gap-2.5">
-            <!-- Search Input -->
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
               <input type="text" id="ledgerSearchInput" oninput="app.renderAdminLedger()" placeholder="Search name, username, school..."
                 class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-52" />
             </div>
 
-            <!-- Cycle Filter -->
             <select id="ledgerBatchFilter" onchange="app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
               <option value="ALL">All Examination Cycles</option>
             </select>
 
-            <!-- Status Filter -->
             <select id="ledgerStatusFilter" onchange="app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
               <option value="ALL">All Remarks</option>
               <option value="PASSED">Passed (≥75%)</option>
@@ -492,34 +457,34 @@
             <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> <strong>BELOW CUTOFF:</strong> Overall Rating &lt; 75.00%</span>
           </div>
           <div>
-            Tip: Click <strong>"Record Scores"</strong> on any row to manually input or adjust a student's examination scores.
+            <i class="fa-solid fa-bolt text-teal-600 mr-1"></i>Scores edited via <strong>"Record Scores"</strong> auto-save immediately to both Admin and Student Portals.
           </div>
         </div>
       </div>
     </section>
 
     <!-- =============================================================== -->
-    <!-- ADMIN TAB 2: DATABASE OF STUDENTS (ADD, REMOVE, ASSIGN CREDENTIALS) -->
+    <!-- ADMIN TAB 2: DATABASE OF STUDENTS (ADD, REMOVE, INLINE AUTO-SAVE) -->
     <!-- =============================================================== -->
     <section id="adminSection_students" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <!-- Left 4 Cols: Admin Form to Add Student or Assign Firebase Credentials -->
+        <!-- Left 4 Cols: Admin Form to Add Student or Edit Details -->
         <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-fit">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
               <h3 id="studentFormTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-user-plus text-teal-600"></i>
-                Add / Manage Student
+                Add / Edit Student
               </h3>
-              <p class="text-xs text-slate-500">Add a student or assign Firebase login credentials.</p>
+              <p id="studentFormSub" class="text-xs text-slate-500">When editing an existing student, changes auto-save in real time.</p>
             </div>
             <button type="button" id="cancelEditStudentBtn" onclick="app.resetStudentForm()" class="hidden text-xs text-rose-600 hover:underline font-semibold">
-              Cancel Edit
+              Done / New
             </button>
           </div>
 
-          <form id="studentForm" onsubmit="app.handleSaveStudent(event)" class="space-y-3">
+          <form id="studentForm" onsubmit="app.handleSaveStudent(event)" oninput="app.handleAdminStudentFormAutoSave()" class="space-y-3">
             <input type="hidden" id="studentEditId" value="" />
 
             <!-- Name Fields: Last Name, Given Name, Middle Initial -->
@@ -567,12 +532,12 @@
             <div class="grid grid-cols-12 gap-2.5">
               <div class="col-span-5">
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *</label>
-                <input type="date" id="stuBirthday" required onchange="app.autoComputeAge('stuBirthday', 'stuAge')"
+                <input type="date" id="stuBirthday" required onchange="app.autoComputeAge('stuBirthday', 'stuAge'); app.handleAdminStudentFormAutoSave();"
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none" />
               </div>
               <div class="col-span-3">
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
-                <input type="number" id="stuAge" required min="16" max="99" placeholder="22"
+                <input type="number" id="stuAge" required min="15" max="99" placeholder="22"
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono text-center focus:border-teal-600 outline-none" />
               </div>
               <div class="col-span-4">
@@ -586,7 +551,7 @@
             <!-- Firebase Credentials Assignment Box -->
             <div class="pt-3 border-t border-slate-100 space-y-2.5">
               <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Firebase Assigned Username *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Username *</label>
                 <button type="button" onclick="app.generateRandomUsername()" class="text-[11px] text-teal-600 hover:underline font-semibold">
                   Auto-Generate
                 </button>
@@ -595,7 +560,7 @@
                 class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
 
               <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Firebase Assigned Password *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Password *</label>
                 <button type="button" onclick="app.generateRandomPassword()" class="text-[11px] text-teal-600 hover:underline font-semibold">
                   Generate Password
                 </button>
@@ -606,20 +571,22 @@
 
             <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-floppy-disk"></i>
-              <span>Save & Sync Student to Firebase</span>
+              <span>Add Student to Database</span>
             </button>
           </form>
         </div>
 
-        <!-- Right 8 Cols: Database Table of Enrolled Students -->
+        <!-- Right 8 Cols: Database Table with Direct Inline Auto-Save Credential Inputs -->
         <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
           <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-database text-teal-600"></i>
-                Firebase Student Database & Credential Assignment
+                Student Database & Inline Auto-Save Credential Assignment
               </h3>
-              <p class="text-xs text-slate-500">Assign usernames and passwords to newly enrolled students, edit info, or remove students.</p>
+              <p class="text-xs text-slate-500">
+                Type or generate a <strong>Username</strong> and <strong>Password</strong> directly in any row below—it auto-saves to Firebase & reflects immediately on the Student Portal.
+              </p>
             </div>
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -634,9 +601,9 @@
                 <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   <th class="py-3 px-4">Student Name & School</th>
                   <th class="py-3 px-3">Target Cycle</th>
-                  <th class="py-3 px-3">Personal Records</th>
-                  <th class="py-3 px-3">Assigned Credentials</th>
-                  <th class="py-3 px-4 text-right">Admin Actions</th>
+                  <th class="py-3 px-3">Records Info</th>
+                  <th class="py-3 px-3 min-w-[230px]">Inline Credentials (Auto-Saves)</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody id="studentDatabaseBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
@@ -662,7 +629,7 @@
           </div>
           <h3 class="text-lg font-bold">Upload Any <code class="font-mono text-teal-300">.html</code> Examination File</h3>
           <p class="text-xs text-teal-100/80 max-w-2xl leading-relaxed">
-            Upload self-contained <code class="font-mono">.html</code> examination files created by your faculty. Students can open and take the uploaded HTML exam directly inside their portal.
+            Uploaded <code class="font-mono">.html</code> examinations are automatically saved and immediately appear in every Student Profile.
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -789,6 +756,9 @@
               <span id="stuProfileBatch" class="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-200 text-xs font-medium">
                 March 2027
               </span>
+              <button onclick="app.toggleStudentProfileEditor()" class="no-print px-2.5 py-0.5 rounded-full bg-teal-500/30 hover:bg-teal-500/50 border border-teal-400/40 text-teal-100 text-xs font-semibold transition">
+                <i class="fa-solid fa-user-gear mr-1"></i>Edit My Profile & Credentials
+              </button>
             </div>
             <h2 id="stuProfileName" class="text-2xl sm:text-3xl font-extrabold mt-1">Santos, Maria Clara D.</h2>
             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-teal-200/90 mt-1">
@@ -812,6 +782,63 @@
               <!-- Passed / Conditional badge -->
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collapsible 2-Way Student Profile & Credential Editor (Auto-Saves to Admin DB) -->
+    <section id="studentSelfEditSection" class="no-print hidden bg-white rounded-2xl border-2 border-teal-500/40 shadow-md p-5 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-arrows-rotate text-teal-600"></i>
+            My Profile & Login Credentials (2-Way Auto-Save with Admin Portal)
+          </h3>
+          <p class="text-xs text-slate-500">Any update you make below is automatically saved and synced to the Admin Database.</p>
+        </div>
+        <button onclick="app.toggleStudentProfileEditor()" class="text-xs font-bold text-slate-500 hover:text-slate-800">
+          <i class="fa-solid fa-xmark mr-1"></i>Close
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <div>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Last Name</label>
+          <input type="text" id="selfEditLastName" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Given Name</label>
+          <input type="text" id="selfEditGivenName" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Middle Initial</label>
+          <input type="text" id="selfEditMiddleInitial" maxlength="3" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-500 mb-1">School / University</label>
+          <input type="text" id="selfEditSchool" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Target Exam Cycle</label>
+          <div class="grid grid-cols-2 gap-1.5">
+            <select id="selfEditCycleMonth" onchange="app.handleStudentSelfProfileAutoSave()" class="px-2 py-2 rounded-xl border border-slate-300 bg-white font-semibold">
+              <option value="March">March</option>
+              <option value="August">August</option>
+            </select>
+            <input type="number" id="selfEditCycleYear" min="2026" max="2035" oninput="app.handleStudentSelfProfileAutoSave()" class="px-2.5 py-2 rounded-xl border border-slate-300 font-mono font-semibold" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Contact # (Records Only)</label>
+          <input type="tel" id="selfEditContact" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-teal-700 mb-1">Assigned Username</label>
+          <input type="text" id="selfEditUsername" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 font-mono text-slate-600 cursor-not-allowed" title="Assigned by Admin" />
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-teal-700 mb-1">My Password (Auto-Saves)</label>
+          <input type="text" id="selfEditPassword" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-teal-300 bg-teal-50/30 font-mono font-bold text-slate-900" />
         </div>
       </div>
     </section>
@@ -856,7 +883,7 @@
             Uploaded HTML Examinations
           </h3>
           <p class="text-xs text-slate-500 mt-0.5">
-            Click <strong>"Take HTML Exam"</strong> to launch the interactive examination uploaded by the Admin.
+            Click <strong>"Take HTML Exam"</strong> to launch the interactive examination. Scores auto-save to your profile and the Admin Ledger.
           </p>
         </div>
 
@@ -874,7 +901,7 @@
               Scores & Ratings per Examination
             </h3>
             <p class="text-xs text-slate-500 mt-0.5">
-              Official breakdown of your raw scores, percentage ratings, and cumulative MTLE standing.
+              Live 2-way synced breakdown of your raw scores, percentage ratings, and cumulative MTLE standing.
             </p>
           </div>
           <button onclick="window.print()" class="no-print px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition inline-flex items-center gap-1.5">
@@ -946,14 +973,14 @@
           <iframe id="examHtmlIframe" title="Uploaded HTML Examination" class="w-full h-full border-0" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
         </div>
 
-        <!-- Side Panel: Universal Score Recorder -->
+        <!-- Side Panel: Universal Score Recorder (Auto-Saves on input) -->
         <div id="universalGraderDrawer" class="w-full lg:w-80 bg-slate-50 border-t lg:border-t-0 lg:border-l border-slate-200 p-5 flex flex-col justify-between overflow-y-auto hidden">
           <div class="space-y-4">
             <div>
               <span class="px-2 py-0.5 rounded bg-teal-100 text-teal-800 font-bold text-[10px] uppercase tracking-wider">Universal HTML Grader</span>
-              <h4 class="font-bold text-slate-900 text-sm mt-1">Record / Submit Exam Score</h4>
+              <h4 class="font-bold text-slate-900 text-sm mt-1">Auto-Save Exam Score</h4>
               <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                Interactive HTML exams automatically submit your score when you click <strong>"Submit Examination"</strong> inside the page. If your instructor uploaded a static HTML questionnaire, you can also submit your score directly below:
+                Interactive HTML exams auto-save your score when you click <strong>"Submit Examination"</strong> inside the page. For static HTML files, enter your score below (auto-saves as you type):
               </p>
             </div>
 
@@ -964,7 +991,7 @@
               </div>
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Your Raw Score Earned</label>
-                <input type="number" id="drawerScoreInput" min="0" max="500" value="4" oninput="app.updateDrawerPreview()"
+                <input type="number" id="drawerScoreInput" min="0" max="500" value="4" oninput="app.handleDrawerScoreAutoSave()"
                   class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-base font-bold text-slate-900 focus:border-teal-600 outline-none" />
               </div>
               <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
@@ -975,13 +1002,13 @@
 
             <button onclick="app.submitManualDrawerScore()" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-check-double"></i>
-              <span>Record Score to My Profile</span>
+              <span>Confirm & Close</span>
             </button>
           </div>
 
           <div class="mt-6 pt-4 border-t border-slate-200 text-[11px] text-slate-400">
-            <i class="fa-solid fa-circle-info mr-1 text-teal-600"></i>
-            Scores are immediately saved to the Admin Ledger and your Student Profile.
+            <i class="fa-solid fa-arrows-rotate mr-1 text-teal-600"></i>
+            2-way synced with Admin Master Ledger & Student Profile.
           </div>
         </div>
       </div>
@@ -990,7 +1017,7 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 2: ADMIN MANUAL SCORE INPUT / EDIT FOR A STUDENT                -->
+  <!-- MODAL 2: ADMIN MANUAL SCORE INPUT / EDIT FOR A STUDENT (AUTO-SAVES)   -->
   <!-- ===================================================================== -->
   <div id="adminScoreModal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
@@ -998,7 +1025,7 @@
         <div>
           <h3 class="font-bold text-base flex items-center gap-2">
             <i class="fa-solid fa-sliders text-teal-400"></i>
-            <span>Manage Student Examination Scores</span>
+            <span>Manage Student Examination Scores (Auto-Saves)</span>
           </h3>
           <p id="scoreModalStudentSub" class="text-xs text-slate-300 mt-0.5">Student Name (@username)</p>
         </div>
@@ -1009,21 +1036,19 @@
 
       <form onsubmit="app.handleSaveAdminScores(event)" class="p-6 space-y-4">
         <input type="hidden" id="scoreModalStudentId" value="" />
-        <p class="text-xs text-slate-500">
-          Enter the raw score earned by this student for each uploaded examination. Leave blank if the student has not taken the examination yet.
-        </p>
+        <div class="flex items-center justify-between text-xs text-slate-500">
+          <span>Type a raw score below—changes auto-save & sync to the Student Portal immediately.</span>
+          <span id="modalScoreAutoSaveBadge" class="text-[11px] font-bold text-emerald-600"><i class="fa-solid fa-check mr-1"></i>Synced</span>
+        </div>
 
         <div id="scoreModalExamsContainer" class="space-y-3 max-h-80 overflow-y-auto pr-1">
           <!-- Dynamically populated inputs per exam -->
         </div>
 
         <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2">
-          <button type="button" onclick="app.closeAdminScoreModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs">
-            Cancel
-          </button>
           <button type="submit" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md shadow-teal-600/20 flex items-center gap-2">
-            <i class="fa-solid fa-floppy-disk"></i>
-            <span>Save & Recompute Ledger Ratings</span>
+            <i class="fa-solid fa-check"></i>
+            <span>Done</span>
           </button>
         </div>
       </form>
@@ -1059,14 +1084,20 @@
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
   <!-- ===================================================================== -->
-  <!-- APPLICATION LOGIC & FIRESTORE REAL-TIME DATABASE SYNC                 -->
+  <!-- APPLICATION LOGIC & 2-WAY REAL-TIME AUTO-SAVE ENGINE                  -->
   <!-- ===================================================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Helper to format student full name consistently: "Last Name, Given Name M.I."
+    const STORAGE_KEYS = {
+      STUDENTS: 'pulsermt_2way_students_v2',
+      EXAMS: 'pulsermt_2way_exams_v2',
+      SCORES: 'pulsermt_2way_scores_v2',
+      SESSION: 'pulsermt_2way_session_v2'
+    };
+
     function formatFullName(lastName, givenName, middleInitial) {
       const ln = (lastName || '').trim();
       const gn = (givenName || '').trim();
@@ -1112,7 +1143,7 @@
     <span class="badge">${category}</span>
     <h1>${title}</h1>
     <div class="meta">
-      <span>Official MTLE Interactive HTML Examination Module</span>
+      <span>Official MTLE Interactive HTML Examination Module (Auto-Saves Score)</span>
       <span>Passing Standard: <strong>75.00%</strong> | Total Items: <strong>${questions.length}</strong></span>
     </div>
 
@@ -1120,8 +1151,8 @@
     <form id="quizForm"></form>
 
     <div class="submit-bar">
-      <span style="font-size:13px;color:#64748b;">Select the best answer for every item, then click Submit Examination.</span>
-      <button type="button" class="btn-submit" onclick="gradeExam()">Submit Examination & Record Score</button>
+      <span style="font-size:13px;color:#64748b;">Select your answers—clicking Submit automatically saves to your Profile & Admin Ledger.</span>
+      <button type="button" class="btn-submit" onclick="gradeExam()">Submit Examination & Auto-Save Score</button>
     </div>
   </div>
 
@@ -1178,7 +1209,7 @@
       banner.innerHTML = \`
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
           <div>
-            <div style="font-size:12px;text-transform:uppercase;color:#5eead4;font-weight:700;">Examination Graded & Synced to Portal</div>
+            <div style="font-size:12px;text-transform:uppercase;color:#5eead4;font-weight:700;">Examination Graded & Auto-Saved to Portal</div>
             <div style="font-size:22px;font-weight:800;margin-top:4px;">Score: \${score} / \${total} (\${pct}%)</div>
           </div>
           <span style="padding:6px 14px;border-radius:999px;font-weight:800;font-size:13px;background:\${passed ? '#10b981' : '#f59e0b'};color:#022c22;">
@@ -1200,7 +1231,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // DEFAULT SEED DATA (Students, Uploaded HTML Examinations, and Scores)
+    // DEFAULT SEED DATA
     // -------------------------------------------------------------------------
     const SEED_EXAMS = [
       {
@@ -1429,24 +1460,104 @@
       { id: 'stu_04__exam_clinchem_01', studentId: 'stu_04', examId: 'exam_clinchem_01', score: 3, total: 5, dateTaken: '2026-10-14 08:45' }
     ];
 
+    // Load initial state from LocalStorage mirror (or fallback to seed data)
+    function loadCachedArray(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {
+        console.warn('LocalStorage read error:', e);
+      }
+      return [...fallback];
+    }
+
+    function saveLocalCache() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(state.students));
+        localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
+        localStorage.setItem(STORAGE_KEYS.SCORES, JSON.stringify(state.scores));
+      } catch (e) {
+        console.warn('LocalStorage write error:', e);
+      }
+    }
+
+    function saveSessionRole() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
+          currentRole: state.currentRole,
+          currentStudentId: state.currentStudentId,
+          activeAdminTab: state.activeAdminTab
+        }));
+      } catch (e) {}
+    }
+
+    function loadSessionRole() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.SESSION);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+
+    const cachedSession = loadSessionRole();
+
     // -------------------------------------------------------------------------
     // MAIN PORTAL STATE & CONTROLLER
     // -------------------------------------------------------------------------
     const state = {
-      students: [...SEED_STUDENTS],
-      exams: [...SEED_EXAMS],
-      scores: [...SEED_SCORES],
-      currentRole: 'login', // 'login' | 'admin' | 'student'
-      currentStudentId: null,
-      activeAdminTab: 'ledger',
-      loginModeTab: 'student', // 'student' | 'admin' | 'enroll'
+      students: loadCachedArray(STORAGE_KEYS.STUDENTS, SEED_STUDENTS),
+      exams: loadCachedArray(STORAGE_KEYS.EXAMS, SEED_EXAMS),
+      scores: loadCachedArray(STORAGE_KEYS.SCORES, SEED_SCORES),
+      currentRole: cachedSession?.currentRole || 'login',
+      currentStudentId: cachedSession?.currentStudentId || null,
+      activeAdminTab: cachedSession?.activeAdminTab || 'ledger',
+      loginModeTab: 'student',
       activeExamViewerId: null,
       visiblePasswords: {},
       dbConnected: false,
-      firebaseUser: null,
       db: null,
       appId: typeof __app_id !== 'undefined' ? __app_id : 'mtle-review-portal-app'
     };
+
+    // Debounce timers for instant keystroke auto-save
+    const debounceTimers = {};
+    function debounceAutoSave(key, fn, delay = 350) {
+      showSyncStatus('Auto-saving...', true);
+      if (debounceTimers[key]) clearTimeout(debounceTimers[key]);
+      debounceTimers[key] = setTimeout(async () => {
+        await fn();
+        showSyncStatus('All Changes Saved (2-Way Synced)', false);
+      }, delay);
+    }
+
+    function showSyncStatus(text, saving = false) {
+      const pill = document.getElementById('syncStatusPill');
+      const dot = document.getElementById('syncStatusDot');
+      const txt = document.getElementById('syncStatusText');
+      if (!pill || !dot || !txt) return;
+      txt.textContent = text;
+      if (saving) {
+        pill.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-semibold transition-all';
+        dot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-ping';
+      } else {
+        pill.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold transition-all';
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+      }
+    }
+
+    // Listen for cross-tab LocalStorage changes so two open tabs (e.g. Admin & Student) sync 2-way instantly
+    window.addEventListener('storage', (event) => {
+      if (event.key === STORAGE_KEYS.STUDENTS || event.key === STORAGE_KEYS.EXAMS || event.key === STORAGE_KEYS.SCORES) {
+        state.students = loadCachedArray(STORAGE_KEYS.STUDENTS, state.students);
+        state.exams = loadCachedArray(STORAGE_KEYS.EXAMS, state.exams);
+        state.scores = loadCachedArray(STORAGE_KEYS.SCORES, state.scores);
+        renderAll(true);
+        showSyncStatus('Synced from other portal tab', false);
+      }
+    });
 
     // Listen for postMessage from uploaded HTML exams inside the iframe
     window.addEventListener('message', async (event) => {
@@ -1454,7 +1565,7 @@
         const { score, total } = event.data;
         if (state.activeExamViewerId && state.currentStudentId) {
           await recordStudentExamScore(state.currentStudentId, state.activeExamViewerId, Number(score), Number(total));
-          showToast(`Exam Graded: ${score} / ${total} (${((score / total) * 100).toFixed(2)}%) saved to your Student Profile!`, 'success');
+          showToast(`Exam Auto-Saved: ${score} / ${total} (${((score / total) * 100).toFixed(2)}%) synced to Student Profile & Admin Ledger!`, 'success');
         } else if (state.activeExamViewerId && state.currentRole === 'admin') {
           showToast(`Admin Preview Graded: ${score} / ${total} (${((score / total) * 100).toFixed(2)}%).`, 'info');
         }
@@ -1462,143 +1573,175 @@
     });
 
     // -------------------------------------------------------------------------
-    // FIREBASE INITIALIZATION & REAL-TIME SYNC
+    // FIREBASE INITIALIZATION & REAL-TIME 2-WAY SYNC
     // -------------------------------------------------------------------------
     async function initDatabase() {
+      saveLocalCache();
+      renderAll();
+
       try {
         if (typeof __firebase_config === 'undefined' || !__firebase_config || __firebase_config.includes('YOUR_FIREBASE_API_KEY')) {
-          updateDbBadge('Local Session DB Active');
-          renderAll();
+          showSyncStatus('2-Way Local Auto-Save Active', false);
           return;
         }
 
         const firebaseConfig = JSON.parse(__firebase_config);
         const fbApp = initializeApp(firebaseConfig);
-        const auth = getAuth(fbApp);
         const db = getFirestore(fbApp);
         state.db = db;
 
-        updateDbBadge('Connecting to Firebase...');
+        showSyncStatus('Connecting to Firebase...', true);
 
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          await signInWithCustomToken(auth, __initial_auth_token);
-        } else {
-          await signInAnonymously(auth);
+        // Attempt optional Auth without blocking Firestore if Anonymous Auth is disabled in Console
+        try {
+          const auth = getAuth(fbApp);
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+        } catch (authWarn) {
+          console.warn('Proceeding with direct Firestore rules sync:', authWarn.message);
         }
 
-        onAuthStateChanged(auth, async (user) => {
-          state.firebaseUser = user;
-          if (!user) return;
+        const studentsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students');
+        const examsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams');
+        const scoresCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores');
 
-          updateDbBadge('Firebase Synced');
+        onSnapshot(studentsCol, async (snap) => {
           state.dbConnected = true;
-
-          const studentsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students');
-          const examsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams');
-          const scoresCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores');
-
-          onSnapshot(studentsCol, async (snap) => {
-            if (snap.empty) {
-              for (const stu of SEED_STUDENTS) {
-                await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', stu.id), stu);
-              }
-            } else {
-              state.students = snap.docs.map(d => d.data());
-              state.students.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
-              renderAll();
+          if (snap.empty) {
+            for (const stu of state.students) {
+              await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', stu.id), stu);
             }
-          }, (err) => console.error('Students snapshot error:', err));
+          } else {
+            state.students = snap.docs.map(d => d.data());
+            state.students.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
+            saveLocalCache();
+            renderAll(true);
+            showSyncStatus('Firebase 2-Way Auto-Save Active', false);
+          }
+        }, (err) => console.error('Students snapshot error:', err));
 
-          onSnapshot(examsCol, async (snap) => {
-            if (snap.empty) {
-              for (const ex of SEED_EXAMS) {
-                await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', ex.id), ex);
-              }
-            } else {
-              state.exams = snap.docs.map(d => d.data());
-              state.exams.sort((a, b) => (a.uploadedAt || '').localeCompare(b.uploadedAt || ''));
-              renderAll();
+        onSnapshot(examsCol, async (snap) => {
+          if (snap.empty) {
+            for (const ex of state.exams) {
+              await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', ex.id), ex);
             }
-          }, (err) => console.error('Exams snapshot error:', err));
+          } else {
+            state.exams = snap.docs.map(d => d.data());
+            state.exams.sort((a, b) => (a.uploadedAt || '').localeCompare(b.uploadedAt || ''));
+            saveLocalCache();
+            renderAll(true);
+          }
+        }, (err) => console.error('Exams snapshot error:', err));
 
-          onSnapshot(scoresCol, async (snap) => {
-            if (snap.empty) {
-              for (const sc of SEED_SCORES) {
-                await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', sc.id), sc);
-              }
-            } else {
-              state.scores = snap.docs.map(d => d.data());
-              renderAll();
+        onSnapshot(scoresCol, async (snap) => {
+          if (snap.empty) {
+            for (const sc of state.scores) {
+              await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', sc.id), sc);
             }
-          }, (err) => console.error('Scores snapshot error:', err));
-        });
+          } else {
+            state.scores = snap.docs.map(d => d.data());
+            saveLocalCache();
+            renderAll(true);
+          }
+        }, (err) => console.error('Scores snapshot error:', err));
+
       } catch (err) {
-        console.warn('Using local session state fallback:', err);
-        updateDbBadge('Session Database Ready');
-        renderAll();
+        console.warn('Using 2-Way LocalStorage Auto-Save Engine:', err);
+        showSyncStatus('2-Way Auto-Save Active', false);
       }
     }
 
-    function updateDbBadge(text) {
-      const el = document.getElementById('dbStatusText');
-      if (el) el.textContent = text;
-    }
-
     // -------------------------------------------------------------------------
-    // DATABASE PERSISTENCE HELPERS (FIRESTORE)
+    // DATABASE PERSISTENCE HELPERS (2-WAY FIRESTORE + LOCALSTORAGE)
     // -------------------------------------------------------------------------
-    async function saveStudentRecord(studentObj) {
+    async function saveStudentRecord(studentObj, preserveFocus = false) {
+      showSyncStatus('Saving student...', true);
       const idx = state.students.findIndex(s => s.id === studentObj.id);
       if (idx >= 0) state.students[idx] = studentObj;
       else state.students.push(studentObj);
       state.students.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
-      renderAll();
 
-      if (state.db && state.firebaseUser) {
-        await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', studentObj.id), studentObj);
+      saveLocalCache();
+      renderAll(preserveFocus);
+
+      if (state.db) {
+        try {
+          await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', studentObj.id), studentObj);
+        } catch (e) {
+          console.error('Firestore student write error:', e);
+        }
       }
+      showSyncStatus('All Changes Saved (2-Way Synced)', false);
     }
 
     async function removeStudentRecord(studentId) {
+      showSyncStatus('Removing student...', true);
       state.students = state.students.filter(s => s.id !== studentId);
       const relatedScores = state.scores.filter(sc => sc.studentId === studentId);
       state.scores = state.scores.filter(sc => sc.studentId !== studentId);
+
+      saveLocalCache();
       renderAll();
 
-      if (state.db && state.firebaseUser) {
-        await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', studentId));
-        for (const sc of relatedScores) {
-          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', sc.id));
+      if (state.db) {
+        try {
+          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', studentId));
+          for (const sc of relatedScores) {
+            await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', sc.id));
+          }
+        } catch (e) {
+          console.error('Firestore student delete error:', e);
         }
       }
+      showSyncStatus('All Changes Saved (2-Way Synced)', false);
     }
 
     async function saveExamRecord(examObj) {
+      showSyncStatus('Publishing exam...', true);
       const idx = state.exams.findIndex(e => e.id === examObj.id);
       if (idx >= 0) state.exams[idx] = examObj;
       else state.exams.push(examObj);
+
+      saveLocalCache();
       renderAll();
 
-      if (state.db && state.firebaseUser) {
-        await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', examObj.id), examObj);
+      if (state.db) {
+        try {
+          await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', examObj.id), examObj);
+        } catch (e) {
+          console.error('Firestore exam write error:', e);
+        }
       }
+      showSyncStatus('All Changes Saved (2-Way Synced)', false);
     }
 
     async function removeExamRecord(examId) {
+      showSyncStatus('Removing exam...', true);
       state.exams = state.exams.filter(e => e.id !== examId);
       const relatedScores = state.scores.filter(sc => sc.examId === examId);
       state.scores = state.scores.filter(sc => sc.examId !== examId);
+
+      saveLocalCache();
       renderAll();
 
-      if (state.db && state.firebaseUser) {
-        await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', examId));
-        for (const sc of relatedScores) {
-          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', sc.id));
+      if (state.db) {
+        try {
+          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', examId));
+          for (const sc of relatedScores) {
+            await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', sc.id));
+          }
+        } catch (e) {
+          console.error('Firestore exam delete error:', e);
         }
       }
+      showSyncStatus('All Changes Saved (2-Way Synced)', false);
     }
 
-    async function recordStudentExamScore(studentId, examId, rawScore, totalItems) {
+    async function recordStudentExamScore(studentId, examId, rawScore, totalItems, preserveFocus = false) {
+      showSyncStatus('Auto-saving score...', true);
       const nowStr = new Date().toISOString().slice(0, 16).replace('T', ' ');
       const scoreDoc = {
         id: `${studentId}__${examId}`,
@@ -1612,21 +1755,35 @@
       const idx = state.scores.findIndex(s => s.id === scoreDoc.id);
       if (idx >= 0) state.scores[idx] = scoreDoc;
       else state.scores.push(scoreDoc);
-      renderAll();
 
-      if (state.db && state.firebaseUser) {
-        await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', scoreDoc.id), scoreDoc);
+      saveLocalCache();
+      renderAll(preserveFocus);
+
+      if (state.db) {
+        try {
+          await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', scoreDoc.id), scoreDoc);
+        } catch (e) {
+          console.error('Firestore score write error:', e);
+        }
       }
+      showSyncStatus('Score Saved & Synced', false);
     }
 
-    async function deleteStudentExamScore(studentId, examId) {
+    async function deleteStudentExamScore(studentId, examId, preserveFocus = false) {
       const scoreId = `${studentId}__${examId}`;
       state.scores = state.scores.filter(s => s.id !== scoreId);
-      renderAll();
 
-      if (state.db && state.firebaseUser) {
-        await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', scoreId));
+      saveLocalCache();
+      renderAll(preserveFocus);
+
+      if (state.db) {
+        try {
+          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', scoreId));
+        } catch (e) {
+          console.error('Firestore score delete error:', e);
+        }
       }
+      showSyncStatus('Score Cleared & Synced', false);
     }
 
     // -------------------------------------------------------------------------
@@ -1703,7 +1860,7 @@
     // -------------------------------------------------------------------------
     // UI RENDERING ENGINE
     // -------------------------------------------------------------------------
-    function renderAll() {
+    function renderAll(preserveInlineFocus = false) {
       updateBatchFilterOptions();
 
       const loginView = document.getElementById('loginView');
@@ -1726,14 +1883,18 @@
         document.getElementById('headerUserName').textContent = 'MTLE Review Director';
         document.getElementById('headerUserSub').textContent = '@admin';
 
+        this.switchAdminTab?.(state.activeAdminTab, true);
         renderAdminKPIs();
         renderAdminLedger();
-        renderStudentDatabaseTable();
+        if (!preserveInlineFocus) {
+          renderStudentDatabaseTable();
+        }
         renderAdminExamsList();
       } else if (state.currentRole === 'student') {
         const student = state.students.find(s => s.id === state.currentStudentId);
         if (!student) {
           state.currentRole = 'login';
+          saveSessionRole();
           renderAll();
           return;
         }
@@ -1745,7 +1906,7 @@
         document.getElementById('headerUserName').textContent = student.fullName;
         document.getElementById('headerUserSub').textContent = `@${student.username}`;
 
-        renderStudentPortal(student);
+        renderStudentPortal(student, preserveInlineFocus);
       }
     }
 
@@ -1930,43 +2091,17 @@
       }
 
       tbody.innerHTML = filtered.map(stu => {
-        const showPass = !!state.visiblePasswords[stu.id];
         const hasCredentials = Boolean(stu.username && stu.password);
-
-        const credentialsCell = hasCredentials
-          ? `
-            <div class="space-y-1">
-              <div>
-                <span class="px-2 py-0.5 rounded bg-teal-50 border border-teal-200 text-teal-800 font-mono text-xs font-bold">
-                  ${escapeHtml(stu.username)}
-                </span>
-              </div>
-              <div class="inline-flex items-center gap-1.5 font-mono text-[11px] bg-slate-100 px-2 py-0.5 rounded text-slate-700">
-                <span>${showPass ? escapeHtml(stu.password) : '••••••••'}</span>
-                <button onclick="app.toggleStudentPasswordVis('${stu.id}')" class="text-slate-400 hover:text-slate-700" title="Show/Hide Password">
-                  <i class="fa-regular ${showPass ? 'fa-eye-slash' : 'fa-eye'}"></i>
-                </button>
-              </div>
-            </div>
-          `
-          : `
-            <div class="space-y-1">
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold">
-                <i class="fa-solid fa-key"></i> Needs Assignment
-              </span>
-              <div>
-                <button onclick="app.editStudent('${stu.id}')" class="text-[11px] font-bold text-teal-600 hover:underline">
-                  Assign User & Pass →
-                </button>
-              </div>
-            </div>
-          `;
 
         return `
           <tr class="hover:bg-slate-50 transition">
             <td class="py-3.5 px-4">
               <div class="font-bold text-slate-900">${escapeHtml(stu.fullName)}</div>
               <div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div>
+              <span id="credStatusBadge_${stu.id}" class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${hasCredentials ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                <i class="fa-solid ${hasCredentials ? 'fa-circle-check' : 'fa-clock'}"></i>
+                <span>${hasCredentials ? 'Active Login' : 'Pending Assignment'}</span>
+              </span>
             </td>
             <td class="py-3.5 px-3">
               <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold">
@@ -1978,17 +2113,34 @@
               <div><span class="text-slate-400">Contact:</span> <span class="font-mono">${escapeHtml(stu.contactNumber || '—')}</span></div>
             </td>
             <td class="py-3.5 px-3">
-              ${credentialsCell}
+              <!-- Direct Inline Auto-Save Inputs for Username & Password -->
+              <div class="space-y-1.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] font-bold uppercase text-slate-400 w-10">User:</span>
+                  <input type="text" id="inlineUser_${stu.id}" value="${escapeHtml(stu.username || '')}"
+                    placeholder="Assign username"
+                    oninput="app.handleInlineCredentialInput('${stu.id}')"
+                    class="flex-1 px-2.5 py-1 rounded-lg border border-slate-300 focus:border-teal-600 text-xs font-mono font-bold text-teal-900 bg-white outline-none" />
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] font-bold uppercase text-slate-400 w-10">Pass:</span>
+                  <input type="text" id="inlinePass_${stu.id}" value="${escapeHtml(stu.password || '')}"
+                    placeholder="Assign password"
+                    oninput="app.handleInlineCredentialInput('${stu.id}')"
+                    class="flex-1 px-2.5 py-1 rounded-lg border border-slate-300 focus:border-teal-600 text-xs font-mono text-slate-800 bg-white outline-none" />
+                </div>
+              </div>
             </td>
             <td class="py-3.5 px-4 text-right">
               <div class="inline-flex items-center gap-1.5">
-                ${hasCredentials ? `
-                  <button onclick="app.copyCredentials('${escapeHtml(stu.username)}', '${escapeHtml(stu.password)}')" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs transition" title="Copy Username & Password">
-                    <i class="fa-regular fa-copy"></i>
-                  </button>
-                ` : ''}
-                <button onclick="app.editStudent('${stu.id}')" class="px-2.5 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 text-xs font-semibold transition" title="Assign Credentials / Edit Student">
-                  <i class="fa-solid fa-user-pen mr-1"></i>${hasCredentials ? 'Edit' : 'Assign'}
+                <button onclick="app.quickGenerateInlineCredentials('${stu.id}')" class="px-2.5 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 text-xs font-semibold transition" title="Auto-Generate & Auto-Save Credentials">
+                  <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Auto-Assign
+                </button>
+                <button onclick="app.copyInlineCredentials('${stu.id}')" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs transition" title="Copy Username & Password">
+                  <i class="fa-regular fa-copy"></i>
+                </button>
+                <button onclick="app.editStudent('${stu.id}')" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs transition" title="Edit Full Student Info">
+                  <i class="fa-solid fa-pen"></i>
                 </button>
                 <button onclick="app.confirmDeleteStudent('${stu.id}')" class="p-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs transition" title="Remove Student from Database">
                   <i class="fa-solid fa-trash"></i>
@@ -2048,7 +2200,7 @@
     // -------------------------------------------------------------------------
     // STUDENT PORTAL RENDERERS
     // -------------------------------------------------------------------------
-    function renderStudentPortal(student) {
+    function renderStudentPortal(student, preserveSelfEditFocus = false) {
       const m = computeStudentMetrics(student.id);
 
       const initials = ((student.givenName?.[0] || '') + (student.lastName?.[0] || '')).toUpperCase() || 'RM';
@@ -2057,6 +2209,19 @@
       document.getElementById('stuProfileUsername').textContent = student.username;
       document.getElementById('stuProfileSchool').textContent = student.school;
       document.getElementById('stuProfileBatch').textContent = `Target Cycle: ${student.batch}`;
+
+      if (!preserveSelfEditFocus) {
+        const batchParts = (student.batch || 'March 2027').split(' ');
+        document.getElementById('selfEditLastName').value = student.lastName || '';
+        document.getElementById('selfEditGivenName').value = student.givenName || '';
+        document.getElementById('selfEditMiddleInitial').value = student.middleInitial || '';
+        document.getElementById('selfEditSchool').value = student.school || '';
+        document.getElementById('selfEditCycleMonth').value = batchParts[0] === 'August' ? 'August' : 'March';
+        document.getElementById('selfEditCycleYear').value = parseInt(batchParts[1], 10) || 2027;
+        document.getElementById('selfEditContact').value = student.contactNumber || '';
+        document.getElementById('selfEditUsername').value = student.username || '';
+        document.getElementById('selfEditPassword').value = student.password || '';
+      }
 
       document.getElementById('stuBannerOverallRating').textContent = `${m.overallPercentage.toFixed(2)}%`;
       document.getElementById('stuBannerOverallScore').textContent = `Overall Score: ${m.earnedPoints} / ${m.possiblePoints} pts`;
@@ -2240,7 +2405,7 @@
       setTimeout(() => {
         toast.style.opacity = '0';
         setTimeout(() => toast.remove(), 300);
-      }, 3800);
+      }, 3600);
     }
 
     // -------------------------------------------------------------------------
@@ -2343,10 +2508,10 @@
 
         const banner = document.getElementById('enrollSuccessBanner');
         const text = document.getElementById('enrollSuccessText');
-        text.textContent = `Enrollment record for ${fullName} (${batch}) has been saved to Firebase. The Admin will now assign your username and password.`;
+        text.textContent = `Enrollment for ${fullName} (${batch}) is automatically saved to the Admin Database. Once the Admin assigns your username & password, you can log in immediately.`;
         banner.classList.remove('hidden');
 
-        showToast(`Enrollment submitted for ${fullName}!`, 'success');
+        showToast(`Enrollment auto-saved for ${fullName}!`, 'success');
       },
 
       togglePasswordField(fieldId) {
@@ -2364,9 +2529,13 @@
 
         errBox.classList.add('hidden');
 
+        // Refresh latest state from LocalStorage cache before checking credentials
+        state.students = loadCachedArray(STORAGE_KEYS.STUDENTS, state.students);
+
         if (state.loginModeTab === 'admin') {
           if (u.toLowerCase() === 'admin' && p === 'admin123') {
             state.currentRole = 'admin';
+            saveSessionRole();
             document.getElementById('loginForm').reset();
             renderAll();
             showToast('Signed in to MTLE Admin Portal!', 'success');
@@ -2378,7 +2547,6 @@
           }
         }
 
-        // Student Login verification against Firebase-synced student records
         const matchedStudent = state.students.find(
           s => s.username && s.username.toLowerCase() === u.toLowerCase() && s.password === p
         );
@@ -2386,6 +2554,7 @@
         if (matchedStudent) {
           state.currentRole = 'student';
           state.currentStudentId = matchedStudent.id;
+          saveSessionRole();
           document.getElementById('loginForm').reset();
           renderAll();
           showToast(`Welcome, ${matchedStudent.fullName}!`, 'success');
@@ -2399,15 +2568,18 @@
       logout() {
         state.currentRole = 'login';
         state.currentStudentId = null;
+        saveSessionRole();
         renderAll();
         showToast('Signed out of MTLE Portal', 'info');
       },
 
-      switchAdminTab(tabName) {
+      switchAdminTab(tabName, skipSave = false) {
         state.activeAdminTab = tabName;
+        if (!skipSave) saveSessionRole();
         ['ledger', 'students', 'exams'].forEach(t => {
           const sec = document.getElementById(`adminSection_${t}`);
           const btn = document.getElementById(`adminTabBtn_${t}`);
+          if (!sec || !btn) return;
           if (t === tabName) {
             sec.classList.remove('hidden');
             btn.className = 'flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 bg-teal-600 text-white shadow-sm';
@@ -2418,7 +2590,79 @@
         });
       },
 
-      // --- STUDENT DATABASE MANAGEMENT (ADMIN) ---
+      // --- 2-WAY INLINE AUTO-SAVE FOR STUDENT CREDENTIALS IN ADMIN TABLE ---
+      handleInlineCredentialInput(studentId) {
+        const stu = state.students.find(s => s.id === studentId);
+        if (!stu) return;
+        const newU = (document.getElementById(`inlineUser_${studentId}`)?.value || '').trim();
+        const newP = (document.getElementById(`inlinePass_${studentId}`)?.value || '').trim();
+
+        const duplicate = state.students.find(
+          s => s.id !== studentId && s.username && newU && s.username.toLowerCase() === newU.toLowerCase()
+        );
+        if (duplicate) {
+          showToast(`Username "${newU}" is already used by ${duplicate.fullName}.`, 'error');
+          return;
+        }
+
+        const updatedStudent = {
+          ...stu,
+          username: newU,
+          password: newP,
+          accountStatus: (newU && newP) ? 'ACTIVE' : 'PENDING_CREDENTIALS'
+        };
+
+        // Update badge status in row immediately
+        const badge = document.getElementById(`credStatusBadge_${studentId}`);
+        if (badge) {
+          const active = Boolean(newU && newP);
+          badge.className = `inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${active ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`;
+          badge.innerHTML = `<i class="fa-solid ${active ? 'fa-circle-check' : 'fa-clock'}"></i><span>${active ? 'Active Login' : 'Pending Assignment'}</span>`;
+        }
+
+        debounceAutoSave(`inline_cred_${studentId}`, async () => {
+          await saveStudentRecord(updatedStudent, true);
+        });
+      },
+
+      async quickGenerateInlineCredentials(studentId) {
+        const stu = state.students.find(s => s.id === studentId);
+        if (!stu) return;
+
+        const ln = (stu.lastName || 'user').toLowerCase().replace(/[^a-z]/g, '');
+        const gn = (stu.givenName || 's').toLowerCase().replace(/[^a-z]/g, '');
+        let baseUser = `rmt_${gn[0] || ''}${ln}`;
+        if (state.students.some(s => s.id !== studentId && (s.username || '').toLowerCase() === baseUser)) {
+          baseUser += Math.floor(10 + Math.random() * 89);
+        }
+
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+        let genPass = 'mtle_';
+        for (let i = 0; i < 4; i++) genPass += chars[Math.floor(Math.random() * chars.length)];
+
+        const updatedStudent = {
+          ...stu,
+          username: stu.username || baseUser,
+          password: stu.password || genPass,
+          accountStatus: 'ACTIVE'
+        };
+
+        await saveStudentRecord(updatedStudent, false);
+        showToast(`Assigned & Auto-Saved: @${updatedStudent.username} / ${updatedStudent.password}`, 'success');
+      },
+
+      copyInlineCredentials(studentId) {
+        const stu = state.students.find(s => s.id === studentId);
+        if (!stu || !stu.username || !stu.password) {
+          showToast('Please assign both a username and password first.', 'error');
+          return;
+        }
+        const text = `MTLE Portal Login — Username: ${stu.username} | Password: ${stu.password}`;
+        navigator.clipboard?.writeText(text);
+        showToast(`Copied credentials for @${stu.username} to clipboard!`, 'info');
+      },
+
+      // --- ADMIN STUDENT FORM & REAL-TIME AUTO-SAVE WHEN EDITING ---
       suggestUsername() {
         const editId = document.getElementById('studentEditId').value;
         const currentUsername = document.getElementById('stuUsername').value.trim();
@@ -2433,6 +2677,7 @@
       generateRandomUsername() {
         const rand = Math.floor(100 + Math.random() * 900);
         document.getElementById('stuUsername').value = `rmt_examinee${rand}`;
+        this.handleAdminStudentFormAutoSave();
       },
 
       generateRandomPassword() {
@@ -2440,6 +2685,53 @@
         let pass = 'mtle_';
         for (let i = 0; i < 5; i++) pass += chars[Math.floor(Math.random() * chars.length)];
         document.getElementById('stuPassword').value = pass;
+        this.handleAdminStudentFormAutoSave();
+      },
+
+      handleAdminStudentFormAutoSave() {
+        const editId = document.getElementById('studentEditId').value;
+        if (!editId) return; // Only auto-save on keystroke when editing an existing student
+        const existing = state.students.find(s => s.id === editId);
+        if (!existing) return;
+
+        const lastName = document.getElementById('stuLastName').value.trim();
+        const givenName = document.getElementById('stuGivenName').value.trim();
+        const middleInitial = document.getElementById('stuMiddleInitial').value.trim().replace(/\.$/, '');
+        const school = document.getElementById('stuSchool').value.trim();
+        const cycleMonth = document.getElementById('stuCycleMonth').value;
+        const cycleYear = document.getElementById('stuCycleYear').value.trim();
+        const birthday = document.getElementById('stuBirthday').value;
+        const age = Number(document.getElementById('stuAge').value) || existing.age || 22;
+        const contactNumber = document.getElementById('stuContact').value.trim();
+        const username = document.getElementById('stuUsername').value.trim();
+        const password = document.getElementById('stuPassword').value.trim();
+
+        if (!lastName || !givenName || !school) return;
+
+        const duplicate = state.students.find(
+          s => s.id !== editId && s.username && username && s.username.toLowerCase() === username.toLowerCase()
+        );
+        if (duplicate) return;
+
+        const updatedObj = {
+          ...existing,
+          lastName,
+          givenName,
+          middleInitial,
+          fullName: formatFullName(lastName, givenName, middleInitial),
+          school,
+          batch: `${cycleMonth} ${cycleYear}`,
+          age,
+          birthday,
+          contactNumber,
+          username,
+          password,
+          accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS'
+        };
+
+        debounceAutoSave(`admin_form_${editId}`, async () => {
+          await saveStudentRecord(updatedObj, false);
+        });
       },
 
       async handleSaveStudent(e) {
@@ -2461,7 +2753,7 @@
           s => s.username && s.username.toLowerCase() === username.toLowerCase() && s.id !== editId
         );
         if (duplicate) {
-          showToast(`Username "${username}" is already assigned to ${duplicate.fullName}. Please choose a unique username.`, 'error');
+          showToast(`Username "${username}" is already assigned to ${duplicate.fullName}.`, 'error');
           return;
         }
 
@@ -2481,13 +2773,13 @@
           contactNumber,
           username,
           password,
-          accountStatus: 'ACTIVE',
+          accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS',
           createdAt: new Date().toISOString().slice(0, 10)
         };
 
         await saveStudentRecord(studentObj);
         this.resetStudentForm();
-        showToast(editId ? `Synced credentials & profile for ${fullName} to Firebase!` : `Added ${fullName} (@${username}) to Firebase!`, 'success');
+        showToast(editId ? `Saved & Synced ${fullName}!` : `Added & Synced ${fullName} (@${username})!`, 'success');
       },
 
       editStudent(studentId) {
@@ -2512,16 +2804,15 @@
         document.getElementById('stuUsername').value = stu.username || '';
         document.getElementById('stuPassword').value = stu.password || '';
 
-        if (!stu.username) {
-          this.suggestUsername();
-        }
-        if (!stu.password) {
-          this.generateRandomPassword();
-        }
+        if (!stu.username) this.suggestUsername();
+        if (!stu.password) this.generateRandomPassword();
 
-        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-pen text-amber-600"></i> Assign Credentials / Edit Student`;
-        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-check"></i><span>Update & Assign in Firebase</span>`;
+        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-bolt text-amber-500"></i> Live Editing: ${escapeHtml(stu.givenName)}`;
+        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-check"></i><span>Done Editing (Auto-Saved)</span>`;
         document.getElementById('cancelEditStudentBtn').classList.remove('hidden');
+
+        // Trigger immediate auto-save if credentials were auto-populated
+        this.handleAdminStudentFormAutoSave();
       },
 
       resetStudentForm() {
@@ -2529,25 +2820,9 @@
         document.getElementById('studentForm').reset();
         document.getElementById('stuCycleMonth').value = 'March';
         document.getElementById('stuCycleYear').value = '2027';
-        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-plus text-teal-600"></i> Add / Manage Student`;
-        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i><span>Save & Sync Student to Firebase</span>`;
+        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-plus text-teal-600"></i> Add / Edit Student`;
+        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i><span>Add Student to Database</span>`;
         document.getElementById('cancelEditStudentBtn').classList.add('hidden');
-      },
-
-      toggleStudentPasswordVis(studentId) {
-        state.visiblePasswords[studentId] = !state.visiblePasswords[studentId];
-        renderStudentDatabaseTable();
-      },
-
-      copyCredentials(username, password) {
-        const text = `MTLE Portal Login — Username: ${username} | Password: ${password}`;
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
-        showToast(`Copied credentials for @${username} to clipboard!`, 'info');
       },
 
       confirmDeleteStudent(studentId) {
@@ -2555,7 +2830,7 @@
         if (!stu) return;
         this.openConfirmModal(
           `Remove ${stu.fullName}?`,
-          `This will permanently remove ${stu.fullName} and their recorded exam scores from Firebase.`,
+          `This will permanently remove ${stu.fullName} and their recorded exam scores from Firebase and the Ledger.`,
           async () => {
             await removeStudentRecord(studentId);
             showToast(`Removed ${stu.fullName} from the database.`, 'info');
@@ -2563,7 +2838,46 @@
         );
       },
 
-      // --- ADMIN MANUAL SCORE INPUT MODAL ---
+      // --- 2-WAY STUDENT SELF-PROFILE & PASSWORD AUTO-SAVE ---
+      toggleStudentProfileEditor() {
+        const sec = document.getElementById('studentSelfEditSection');
+        sec.classList.toggle('hidden');
+      },
+
+      handleStudentSelfProfileAutoSave() {
+        if (!state.currentStudentId) return;
+        const stu = state.students.find(s => s.id === state.currentStudentId);
+        if (!stu) return;
+
+        const lastName = document.getElementById('selfEditLastName').value.trim();
+        const givenName = document.getElementById('selfEditGivenName').value.trim();
+        const middleInitial = document.getElementById('selfEditMiddleInitial').value.trim().replace(/\.$/, '');
+        const school = document.getElementById('selfEditSchool').value.trim();
+        const cycleMonth = document.getElementById('selfEditCycleMonth').value;
+        const cycleYear = document.getElementById('selfEditCycleYear').value.trim();
+        const contactNumber = document.getElementById('selfEditContact').value.trim();
+        const password = document.getElementById('selfEditPassword').value.trim();
+
+        if (!lastName || !givenName || !school || !password) return;
+
+        const updatedStudent = {
+          ...stu,
+          lastName,
+          givenName,
+          middleInitial,
+          fullName: formatFullName(lastName, givenName, middleInitial),
+          school,
+          batch: `${cycleMonth} ${cycleYear}`,
+          contactNumber,
+          password
+        };
+
+        debounceAutoSave(`stu_self_${stu.id}`, async () => {
+          await saveStudentRecord(updatedStudent, true);
+        });
+      },
+
+      // --- ADMIN MANUAL SCORE INPUT MODAL (WITH INSTANT AUTO-SAVE) ---
       openAdminScoreModal(studentId) {
         const stu = state.students.find(s => s.id === studentId);
         if (!stu) return;
@@ -2585,6 +2899,7 @@
                   id="modalScoreInput_${ex.id}"
                   value="${currentVal}"
                   placeholder="Not taken"
+                  oninput="app.handleAdminModalScoreAutoSave('${stu.id}', '${ex.id}', ${ex.totalItems})"
                   class="w-28 px-3 py-2 rounded-xl border border-slate-300 text-sm font-mono font-bold text-center focus:border-teal-600 outline-none bg-white" />
                 <span class="text-xs font-mono text-slate-500">/ ${ex.totalItems} pts</span>
               </div>
@@ -2595,29 +2910,38 @@
         document.getElementById('adminScoreModal').classList.remove('hidden');
       },
 
+      handleAdminModalScoreAutoSave(studentId, examId, totalItems) {
+        const inputEl = document.getElementById(`modalScoreInput_${examId}`);
+        if (!inputEl) return;
+        const badge = document.getElementById('modalScoreAutoSaveBadge');
+        if (badge) {
+          badge.className = 'text-[11px] font-bold text-amber-600';
+          badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Auto-saving...';
+        }
+
+        const rawVal = inputEl.value.trim();
+        debounceAutoSave(`modal_score_${studentId}_${examId}`, async () => {
+          if (rawVal === '') {
+            await deleteStudentExamScore(studentId, examId, true);
+          } else {
+            const clamped = Math.min(Math.max(0, Number(rawVal)), Number(totalItems));
+            await recordStudentExamScore(studentId, examId, clamped, totalItems, true);
+          }
+          if (badge) {
+            badge.className = 'text-[11px] font-bold text-emerald-600';
+            badge.innerHTML = '<i class="fa-solid fa-check-double mr-1"></i>Auto-Saved & Synced';
+          }
+        }, 250);
+      },
+
       closeAdminScoreModal() {
         document.getElementById('adminScoreModal').classList.add('hidden');
       },
 
       async handleSaveAdminScores(e) {
         e.preventDefault();
-        const studentId = document.getElementById('scoreModalStudentId').value;
-        if (!studentId) return;
-
-        for (const ex of state.exams) {
-          const inputEl = document.getElementById(`modalScoreInput_${ex.id}`);
-          if (!inputEl) continue;
-          const rawVal = inputEl.value.trim();
-          if (rawVal === '') {
-            await deleteStudentExamScore(studentId, ex.id);
-          } else {
-            const clamped = Math.min(Math.max(0, Number(rawVal)), Number(ex.totalItems));
-            await recordStudentExamScore(studentId, ex.id, clamped, ex.totalItems);
-          }
-        }
-
         this.closeAdminScoreModal();
-        showToast('Student ledger scores and overall MTLE ratings updated!', 'success');
+        showToast('All student scores are saved and synced!', 'success');
       },
 
       // --- HTML EXAMINATION UPLOAD & MANAGEMENT ---
@@ -2786,7 +3110,7 @@
         document.getElementById('examHtmlFileInput').value = '';
         document.getElementById('uploadedFileNameDisplay').textContent = 'Click to browse and upload an .HTML file';
 
-        showToast(`Published HTML Examination "${title}" to all Student Profiles!`, 'success');
+        showToast(`Published & Synced "${title}" to all Student Profiles!`, 'success');
       },
 
       previewDraftHtmlExam() {
@@ -2865,6 +3189,20 @@
         document.getElementById('drawerRatingPreview').textContent = `${pct.toFixed(2)}%`;
       },
 
+      handleDrawerScoreAutoSave() {
+        this.updateDrawerPreview();
+        if (!state.activeExamViewerId) return;
+        const ex = state.exams.find(e => e.id === state.activeExamViewerId);
+        if (!ex) return;
+        const targetStudentId = state.currentStudentId || (state.students[0] && state.students[0].id);
+        if (!targetStudentId) return;
+
+        const score = Math.min(Math.max(0, Number(document.getElementById('drawerScoreInput').value)), ex.totalItems);
+        debounceAutoSave(`drawer_score_${targetStudentId}_${ex.id}`, async () => {
+          await recordStudentExamScore(targetStudentId, ex.id, score, ex.totalItems, true);
+        });
+      },
+
       async submitManualDrawerScore() {
         if (!state.activeExamViewerId) return;
         const ex = state.exams.find(e => e.id === state.activeExamViewerId);
@@ -2875,7 +3213,8 @@
 
         const score = Math.min(Math.max(0, Number(document.getElementById('drawerScoreInput').value)), ex.totalItems);
         await recordStudentExamScore(targetStudentId, ex.id, score, ex.totalItems);
-        showToast(`Recorded ${score} / ${ex.totalItems} for ${ex.title}!`, 'success');
+        showToast(`Auto-saved ${score} / ${ex.totalItems} for ${ex.title}!`, 'success');
+        this.closeExamViewerModal();
       },
 
       // --- EXPORT LEDGER CSV ---
