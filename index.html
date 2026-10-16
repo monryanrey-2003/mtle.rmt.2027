@@ -46,7 +46,7 @@
             <span id="headerRoleBadge" class="px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-teal-100 text-teal-800">Admin</span>
             <span id="syncStatusPill" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold">
               <span id="syncStatusDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span id="syncStatusText">2-Way Auto-Save Active</span>
+              <span id="syncStatusText">Live Website Mode Active</span>
             </span>
           </div>
         </div>
@@ -56,7 +56,7 @@
           <div id="headerUserName" class="text-sm font-semibold text-slate-900">Administrator</div>
           <div id="headerUserSub" class="text-xs text-slate-500 font-mono">admin</div>
         </div>
-        <button onclick="app.logout()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition">
+        <button onclick="window.app.logout()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition">
           <i class="fa-solid fa-power-off"></i><span>Sign Out</span>
         </button>
       </div>
@@ -75,20 +75,20 @@
             MTLE Online Examination & Student Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Real-time 2-way synchronized platform for student enrollment, mock board exams, and PRC rating computation.
+            Live web-hosted platform for student enrollment, mock board exams, and PRC rating computation.
           </p>
         </div>
       </div>
 
       <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center bg-white">
         <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
-          <button type="button" id="loginTabStudent" onclick="app.setLoginTab('student')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
+          <button type="button" id="loginTabStudent" onclick="window.app.setLoginTab('student')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
             <i class="fa-solid fa-user-graduate mr-1"></i>Student Login
           </button>
-          <button type="button" id="loginTabAdmin" onclick="app.setLoginTab('admin')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
+          <button type="button" id="loginTabAdmin" onclick="window.app.setLoginTab('admin')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
             <i class="fa-solid fa-user-shield mr-1"></i>Admin Login
           </button>
-          <button type="button" id="loginTabEnroll" onclick="app.setLoginTab('enroll')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
+          <button type="button" id="loginTabEnroll" onclick="window.app.setLoginTab('enroll')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
             <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now
           </button>
         </div>
@@ -98,7 +98,7 @@
             <h3 id="signInHeading" class="text-2xl font-bold text-slate-900">Student Portal Sign In</h3>
             <p class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password.</p>
           </div>
-          <form id="loginForm" onsubmit="app.handleLoginSubmit(event)" class="space-y-4">
+          <form id="loginForm" onsubmit="window.app.handleLoginSubmit(event)" class="space-y-4">
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5" id="loginUsernameLabel">Student Username</label>
               <input type="text" id="loginUsername" required placeholder="Enter username" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
@@ -121,7 +121,7 @@
             <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment</h3>
             <p class="text-xs text-slate-500 mt-0.5">Complete your details below to submit your enrollment.</p>
           </div>
-          <form id="selfEnrollForm" onsubmit="app.handleSelfEnrollmentSubmit(event)" class="space-y-3.5">
+          <form id="selfEnrollForm" onsubmit="window.app.handleSelfEnrollmentSubmit(event)" class="space-y-3.5">
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div class="sm:col-span-5">
                 <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Last Name *</label>
@@ -145,7 +145,7 @@
               <input type="number" id="enrollCycleYear" value="2027" class="px-3 py-2 rounded-xl border text-sm font-mono" />
             </div>
             <div class="grid grid-cols-12 gap-3">
-              <div class="col-span-5"><input type="date" id="enrollBirthday" required onchange="app.autoComputeAge('enrollBirthday', 'enrollAge')" class="w-full px-2 py-2 rounded-xl border text-xs" /></div>
+              <div class="col-span-5"><input type="date" id="enrollBirthday" required onchange="window.app.autoComputeAge('enrollBirthday', 'enrollAge')" class="w-full px-2 py-2 rounded-xl border text-xs" /></div>
               <div class="col-span-2"><input type="number" id="enrollAge" required placeholder="Age" class="w-full px-2 py-2 rounded-xl border text-xs text-center font-mono" /></div>
               <div class="col-span-5"><input type="tel" id="enrollContact" required placeholder="Contact Number" class="w-full px-2 py-2 rounded-xl border text-xs font-mono" /></div>
             </div>
@@ -182,9 +182,9 @@
     </section>
 
     <div class="bg-white p-1.5 rounded-2xl border shadow-sm flex gap-2">
-      <button onclick="app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold bg-teal-600 text-white">1. Ledger</button>
-      <button onclick="app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-600">2. Students</button>
-      <button onclick="app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-600">3. Upload Exams</button>
+      <button onclick="window.app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold bg-teal-600 text-white">1. Ledger</button>
+      <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-600">2. Students</button>
+      <button onclick="window.app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-600">3. Upload Exams</button>
     </div>
 
     <section id="adminSection_ledger" class="space-y-4">
@@ -192,8 +192,8 @@
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg font-bold">Master Ledger</h2>
           <div class="flex gap-2">
-            <input type="text" id="ledgerSearchInput" oninput="app.renderAdminLedger()" placeholder="Search..." class="px-3 py-1.5 border rounded text-xs" />
-            <select id="ledgerBatchFilter" onchange="app.renderAdminLedger()" class="px-3 py-1.5 border rounded text-xs"><option value="ALL">All Cycles</option></select>
+            <input type="text" id="ledgerSearchInput" oninput="window.app.renderAdminLedger()" placeholder="Search..." class="px-3 py-1.5 border rounded text-xs" />
+            <select id="ledgerBatchFilter" onchange="window.app.renderAdminLedger()" class="px-3 py-1.5 border rounded text-xs"><option value="ALL">All Cycles</option></select>
           </div>
         </div>
         <div class="overflow-x-auto">
@@ -209,7 +209,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-4 bg-white rounded-2xl border p-5 h-fit">
           <h3 id="studentFormTitle" class="text-base font-bold mb-3">Add Student</h3>
-          <form id="studentForm" onsubmit="app.handleSaveStudent(event)" class="space-y-3">
+          <form id="studentForm" onsubmit="window.app.handleSaveStudent(event)" class="space-y-3">
             <input type="hidden" id="studentEditId" />
             <input type="text" id="stuLastName" required placeholder="Last Name" class="w-full px-3 py-2 border rounded text-sm" />
             <input type="text" id="stuGivenName" required placeholder="Given Name" class="w-full px-3 py-2 border rounded text-sm" />
@@ -226,11 +226,11 @@
             <input type="text" id="stuUsername" required placeholder="Username" class="w-full px-3 py-2 border rounded text-xs font-mono" />
             <input type="text" id="stuPassword" required placeholder="Password" class="w-full px-3 py-2 border rounded text-xs font-mono" />
             <button type="submit" id="studentFormSubmitBtn" class="w-full py-2.5 bg-teal-600 text-white rounded font-bold text-sm">Save Student</button>
-            <button type="button" id="cancelEditStudentBtn" onclick="app.resetStudentForm()" class="hidden w-full py-1 text-rose-600 text-xs font-semibold">Cancel Edit</button>
+            <button type="button" id="cancelEditStudentBtn" onclick="window.app.resetStudentForm()" class="hidden w-full py-1 text-rose-600 text-xs font-semibold">Cancel Edit</button>
           </form>
         </div>
         <div class="lg:col-span-8 bg-white rounded-2xl border overflow-hidden">
-          <div class="p-4 border-b flex justify-between"><h3 class="font-bold">Student Database</h3><input type="text" id="studentDbSearch" oninput="app.renderStudentDatabaseTable()" placeholder="Search..." class="px-3 py-1 border rounded text-xs" /></div>
+          <div class="p-4 border-b flex justify-between"><h3 class="font-bold">Student Database</h3><input type="text" id="studentDbSearch" oninput="window.app.renderStudentDatabaseTable()" placeholder="Search..." class="px-3 py-1 border rounded text-xs" /></div>
           <table class="w-full text-left">
             <thead><tr class="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase"><th class="p-3">Name & School</th><th class="p-3">Cycle</th><th class="p-3">Info</th><th class="p-3">Credentials</th><th class="p-3 text-right">Actions</th></tr></thead>
             <tbody id="studentDatabaseBody" class="divide-y text-sm"></tbody>
@@ -243,14 +243,14 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 bg-white rounded-2xl border p-5">
           <h3 class="font-bold mb-3">Upload HTML Exam</h3>
-          <form onsubmit="app.handleUploadExamSubmit(event)" class="space-y-3">
+          <form onsubmit="window.app.handleUploadExamSubmit(event)" class="space-y-3">
             <input type="text" id="examTitle" required placeholder="Exam Title" class="w-full px-3 py-2 border rounded text-sm" />
             <select id="examCategory" class="w-full px-3 py-2 border rounded text-sm"><option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option><option value="Hematology (20%)">Hematology (20%)</option></select>
             <input type="number" id="examTotalItems" value="5" class="w-full px-3 py-2 border rounded text-sm font-mono" />
-            <input type="file" id="examHtmlFileInput" accept=".html" onchange="app.handleHtmlFileSelected(event)" class="w-full text-xs" />
+            <input type="file" id="examHtmlFileInput" accept=".html" onchange="window.app.handleHtmlFileSelected(event)" class="w-full text-xs" />
             <textarea id="examHtmlContent" rows="5" placeholder="HTML Code" class="w-full p-2 border rounded text-xs font-mono bg-slate-900 text-teal-300"></textarea>
             <div class="flex gap-2">
-              <button type="button" onclick="app.loadStarterHtmlIntoEditor()" class="px-3 py-2 bg-slate-100 rounded text-xs font-bold">Load Sample</button>
+              <button type="button" onclick="window.app.loadStarterHtmlIntoEditor()" class="px-3 py-2 bg-slate-100 rounded text-xs font-bold">Load Sample</button>
               <button type="submit" class="flex-1 py-2 bg-teal-600 text-white rounded text-xs font-bold">Publish Exam</button>
             </div>
           </form>
@@ -270,16 +270,16 @@
           <p class="text-xs text-teal-200">Username: <strong id="stuProfileUsername" class="text-white"></strong> | School: <strong id="stuProfileSchool" class="text-white"></strong></p>
         </div>
       </div>
-      <button onclick="app.toggleStudentProfileEditor()" class="px-3 py-1.5 bg-teal-500/30 rounded text-xs font-bold">Edit Profile & Password</button>
+      <button onclick="window.app.toggleStudentProfileEditor()" class="px-3 py-1.5 bg-teal-500/30 rounded text-xs font-bold">Edit Profile & Password</button>
     </section>
 
     <section id="studentSelfEditSection" class="hidden bg-white rounded-2xl border p-5 space-y-3">
       <h3 class="font-bold text-sm">Edit My Profile & Password</h3>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <input type="text" id="selfEditLastName" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="Last Name" class="p-2 border rounded" />
-        <input type="text" id="selfEditGivenName" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="Given Name" class="p-2 border rounded" />
-        <input type="text" id="selfEditSchool" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="School" class="p-2 border rounded" />
-        <input type="text" id="selfEditPassword" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="New Password" class="p-2 border rounded font-mono" />
+        <input type="text" id="selfEditLastName" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="Last Name" class="p-2 border rounded" />
+        <input type="text" id="selfEditGivenName" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="Given Name" class="p-2 border rounded" />
+        <input type="text" id="selfEditSchool" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="School" class="p-2 border rounded" />
+        <input type="text" id="selfEditPassword" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="New Password" class="p-2 border rounded font-mono" />
       </div>
     </section>
 
@@ -305,7 +305,7 @@
     <div class="bg-white w-full max-w-7xl mx-auto flex-1 rounded-2xl overflow-hidden flex flex-col">
       <div class="bg-slate-900 text-white px-6 py-3 flex justify-between items-center">
         <div><h3 id="viewerExamTitle" class="font-bold">Exam</h3><span id="viewerExamCategoryBadge" class="text-xs text-teal-300">Category</span></div>
-        <button onclick="app.closeExamViewerModal()" class="px-3 py-1 bg-rose-600 rounded text-xs font-bold">Close</button>
+        <button onclick="window.app.closeExamViewerModal()" class="px-3 py-1 bg-rose-600 rounded text-xs font-bold">Close</button>
       </div>
       <iframe id="examHtmlIframe" class="flex-1 w-full border-0"></iframe>
     </div>
@@ -313,7 +313,7 @@
 
   <div id="adminScoreModal" class="fixed inset-0 z-50 bg-slate-950/75 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-2xl p-6 space-y-4">
-      <div class="flex justify-between items-center"><h3 class="font-bold">Record Scores</h3><button onclick="app.closeAdminScoreModal()" class="text-xl">&times;</button></div>
+      <div class="flex justify-between items-center"><h3 class="font-bold">Record Scores</h3><button onclick="window.app.closeAdminScoreModal()" class="text-xl">&times;</button></div>
       <div id="scoreModalExamsContainer" class="space-y-3 max-h-60 overflow-y-auto"></div>
     </div>
   </div>
@@ -322,7 +322,7 @@
     <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
       <h4 id="confirmModalTitle" class="font-bold">Confirm</h4>
       <p id="confirmModalMessage" class="text-xs text-slate-600"></p>
-      <div class="flex justify-end gap-2"><button onclick="app.closeConfirmModal()" class="px-3 py-1.5 bg-slate-100 rounded text-xs">Cancel</button><button id="confirmModalActionBtn" class="px-3 py-1.5 bg-rose-600 text-white rounded text-xs font-bold">Delete</button></div>
+      <div class="flex justify-end gap-2"><button onclick="window.app.closeConfirmModal()" class="px-3 py-1.5 bg-slate-100 rounded text-xs">Cancel</button><button id="confirmModalActionBtn" class="px-3 py-1.5 bg-rose-600 text-white rounded text-xs font-bold">Delete</button></div>
     </div>
   </div>
 
@@ -568,7 +568,7 @@
       body.innerHTML = state.students.map(stu => {
         const m = computeStudentMetrics(stu.id);
         const examCells = m.examBreakdowns.map(bd => bd.taken ? `<td class="py-3 px-3 text-center font-mono">${bd.score}/${bd.total}</td>` : `<td class="py-3 px-3 text-center text-slate-400">—</td>`).join('');
-        return `<tr><td class="py-3 px-4 font-bold">${escapeHtml(stu.fullName)}<div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div></td><td class="py-3 px-3 text-xs">${escapeHtml(stu.batch)}</td>${examCells}<td class="py-3 px-4 text-center font-mono">${m.earnedPoints}/${m.possiblePoints}</td><td class="py-3 px-4 text-center font-mono font-bold text-teal-700">${m.overallPercentage.toFixed(2)}%</td><td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${m.status === 'PASSED' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${m.status}</span></td><td class="py-3 px-4 text-right"><button onclick="app.openAdminScoreModal('${stu.id}')" class="px-2.5 py-1 bg-teal-50 text-teal-700 rounded text-xs font-semibold">Scores</button></td></tr>`;
+        return `<tr><td class="py-3 px-4 font-bold">${escapeHtml(stu.fullName)}<div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div></td><td class="py-3 px-3 text-xs">${escapeHtml(stu.batch)}</td>${examCells}<td class="py-3 px-4 text-center font-mono">${m.earnedPoints}/${m.possiblePoints}</td><td class="py-3 px-4 text-center font-mono font-bold text-teal-700">${m.overallPercentage.toFixed(2)}%</td><td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${m.status === 'PASSED' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${m.status}</span></td><td class="py-3 px-4 text-right"><button onclick="window.app.openAdminScoreModal('${stu.id}')" class="px-2.5 py-1 bg-teal-50 text-teal-700 rounded text-xs font-semibold">Scores</button></td></tr>`;
       }).join('');
     }
 
@@ -581,12 +581,12 @@
           <td class="p-3 text-xs">${escapeHtml(stu.batch)}</td>
           <td class="p-3 text-xs">Age: ${stu.age}<br/><span class="font-mono">${escapeHtml(stu.contactNumber)}</span></td>
           <td class="p-3 space-y-1">
-            <input type="text" id="inlineUser_${stu.id}" value="${escapeHtml(stu.username)}" placeholder="Username" oninput="app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2 py-1 border rounded text-xs font-mono font-bold" />
-            <input type="text" id="inlinePass_${stu.id}" value="${escapeHtml(stu.password)}" placeholder="Password" oninput="app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2 py-1 border rounded text-xs font-mono" />
+            <input type="text" id="inlineUser_${stu.id}" value="${escapeHtml(stu.username)}" placeholder="Username" oninput="window.app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2 py-1 border rounded text-xs font-mono font-bold" />
+            <input type="text" id="inlinePass_${stu.id}" value="${escapeHtml(stu.password)}" placeholder="Password" oninput="window.app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2 py-1 border rounded text-xs font-mono" />
           </td>
           <td class="p-3 text-right">
-            <button onclick="app.editStudent('${stu.id}')" class="p-1.5 bg-slate-100 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
-            <button onclick="app.confirmDeleteStudent('${stu.id}')" class="p-1.5 bg-rose-50 text-rose-600 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="window.app.editStudent('${stu.id}')" class="p-1.5 bg-slate-100 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="window.app.confirmDeleteStudent('${stu.id}')" class="p-1.5 bg-rose-50 text-rose-600 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
       `).join('');
@@ -595,7 +595,7 @@
     function renderAdminExamsList() {
       const container = document.getElementById('adminExamsList');
       if (!container) return;
-      container.innerHTML = state.exams.map(ex => `<div class="p-3 border rounded bg-slate-50 flex justify-between items-center"><div><div class="font-bold text-sm">${escapeHtml(ex.title)}</div><div class="text-xs text-slate-500">${ex.totalItems} Items</div></div><button onclick="app.openExamViewerModal('${ex.id}')" class="px-3 py-1 bg-teal-600 text-white rounded text-xs">Open</button></div>`).join('');
+      container.innerHTML = state.exams.map(ex => `<div class="p-3 border rounded bg-slate-50 flex justify-between items-center"><div><div class="font-bold text-sm">${escapeHtml(ex.title)}</div><div class="text-xs text-slate-500">${ex.totalItems} Items</div></div><button onclick="window.app.openExamViewerModal('${ex.id}')" class="px-3 py-1 bg-teal-600 text-white rounded text-xs">Open</button></div>`).join('');
     }
 
     function renderStudentPortal(student, preserve = false) {
@@ -608,7 +608,7 @@
       document.getElementById('stuCardOverallRating').textContent = `${m.overallPercentage.toFixed(2)}%`;
       document.getElementById('stuCardExamsCompleted').textContent = `${m.examsTakenCount} / ${m.totalExamsAvailable}`;
 
-      document.getElementById('studentExamsList').innerHTML = m.examBreakdowns.map(bd => `<div class="p-3 border rounded bg-slate-50"><div class="font-bold text-sm">${escapeHtml(bd.exam.title)}</div><button onclick="app.openExamViewerModal('${bd.exam.id}')" class="mt-2 w-full py-1.5 bg-teal-600 text-white rounded text-xs font-bold">Take Exam</button></div>`).join('');
+      document.getElementById('studentExamsList').innerHTML = m.examBreakdowns.map(bd => `<div class="p-3 border rounded bg-slate-50"><div class="font-bold text-sm">${escapeHtml(bd.exam.title)}</div><button onclick="window.app.openExamViewerModal('${bd.exam.id}')" class="mt-2 w-full py-1.5 bg-teal-600 text-white rounded text-xs font-bold">Take Exam</button></div>`).join('');
       document.getElementById('studentScoresTableBody').innerHTML = m.examBreakdowns.map(bd => `<tr><td class="py-2">${escapeHtml(bd.exam.title)}</td><td class="py-2 text-center font-mono">${bd.taken ? `${bd.score}/${bd.total}` : '—'}</td><td class="py-2 font-mono">${bd.taken ? `${bd.percentage.toFixed(2)}%` : 'Pending'}</td><td class="py-2 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${bd.passed ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${bd.taken ? (bd.passed ? 'PASSED' : 'REVIEW') : 'PENDING'}</span></td></tr>`).join('');
     }
 
@@ -779,7 +779,7 @@
         if (!stu) return;
         document.getElementById('scoreModalExamsContainer').innerHTML = state.exams.map(ex => {
           const rec = state.scores.find(s => s.studentId === stu.id && s.examId === ex.id);
-          return `<div class="p-3 bg-slate-50 rounded flex justify-between items-center"><span class="font-bold text-xs">${escapeHtml(ex.title)}</span><input type="number" min="0" max="${ex.totalItems}" value="${rec ? rec.score : ''}" oninput="app.recordStudentExamScore('${stu.id}', '${ex.id}', this.value, ${ex.totalItems})" class="w-20 px-2 py-1 border rounded text-center font-mono font-bold text-xs" /></div>`;
+          return `<div class="p-3 bg-slate-50 rounded flex justify-between items-center"><span class="font-bold text-xs">${escapeHtml(ex.title)}</span><input type="number" min="0" max="${ex.totalItems}" value="${rec ? rec.score : ''}" oninput="window.app.recordStudentExamScore('${stu.id}', '${ex.id}', this.value, ${ex.totalItems})" class="w-20 px-2 py-1 border rounded text-center font-mono font-bold text-xs" /></div>`;
         }).join('');
         document.getElementById('adminScoreModal').classList.remove('hidden');
       },

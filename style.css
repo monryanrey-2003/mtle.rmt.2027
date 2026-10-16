@@ -23,6 +23,9 @@
   --slate-900: #0f172a;
 }
 
+/* --------------------------------------------------------------------------
+   1. Base Reset & Typography
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -51,7 +54,9 @@ pre,
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom Scrollbar */
+/* --------------------------------------------------------------------------
+   2. Custom Scrollbar Styling
+   -------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -71,7 +76,9 @@ pre,
   background: #94a3b8;
 }
 
-/* View & Modal Animations */
+/* --------------------------------------------------------------------------
+   3. View & Modal Animations
+   -------------------------------------------------------------------------- */
 @keyframes fadeSlideUp {
   from {
     opacity: 0;
@@ -95,6 +102,9 @@ pre,
   animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* --------------------------------------------------------------------------
+   4. Form Controls & Interactive States
+   -------------------------------------------------------------------------- */
 input,
 select,
 textarea {
@@ -114,6 +124,10 @@ textarea::placeholder {
   color: #94a3b8;
 }
 
+input[type="number"] {
+  font-variant-numeric: tabular-nums;
+}
+
 button {
   cursor: pointer;
   user-select: none;
@@ -124,6 +138,14 @@ button:active:not(:disabled) {
   transform: translateY(1px);
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   5. Ledger & Student Database Tables
+   -------------------------------------------------------------------------- */
 table {
   border-collapse: collapse;
   width: 100%;
@@ -138,6 +160,9 @@ td {
   vertical-align: middle;
 }
 
+/* --------------------------------------------------------------------------
+   6. Uploaded HTML Exam Iframe Container
+   -------------------------------------------------------------------------- */
 #examHtmlIframe {
   width: 100%;
   height: 100%;
@@ -145,7 +170,9 @@ td {
   background-color: #ffffff;
 }
 
-/* Print Stylesheet */
+/* --------------------------------------------------------------------------
+   7. Official Print Stylesheet
+   -------------------------------------------------------------------------- */
 @media print {
   @page {
     size: landscape;
