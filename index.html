@@ -333,7 +333,15 @@
     import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    const STORAGE_KEYS = { STUDENTS: 'pulsermt_v4_students', EXAMS: 'pulsermt_v4_exams', SCORES: 'pulsermt_v4_scores', SESSION: 'pulsermt_v4_session' };
+    const STORAGE_KEYS = { STUDENTS: 'pulsermt_v5_students', EXAMS: 'pulsermt_v5_exams', SCORES: 'pulsermt_v5_scores', SESSION: 'pulsermt_v5_session' };
+
+    const SEED_EXAMS = [
+      { id: 'exam_clinchem_01', title: 'Clinical Chemistry: Carbohydrates, Lipids & Enzymes', category: 'Clinical Chemistry (20%)', totalItems: 5, htmlContent: '<h1>Clinical Chemistry Exam</h1>' }
+    ];
+
+    const SEED_STUDENTS = [
+      { id: 'stu_01', lastName: 'Santos', givenName: 'Maria Clara', middleInitial: 'D', fullName: 'Santos, Maria Clara D.', school: 'UST', batch: 'March 2027', age: 22, birthday: '2004-05-14', contactNumber: '09171234501', username: 'rmt_msantos', password: 'mtle2026', accountStatus: 'ACTIVE', createdAt: '2026-09-15' }
+    ];
 
     function formatFullName(ln, gn, mi) {
       const l = (ln || '').trim(), g = (gn || '').trim(), m = (mi || '').trim().replace(/\.$/, '');
@@ -366,7 +374,7 @@
         const raw = localStorage.getItem(key);
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed)) return parsed.map(normalizeStudent);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed.map(normalizeStudent);
         }
       } catch (e) {}
       return fallback.map(normalizeStudent);
@@ -389,8 +397,8 @@
     const cachedSession = (() => { try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.SESSION)); } catch(e) { return null; } })();
 
     const state = {
-      students: loadCachedArray(STORAGE_KEYS.STUDENTS, []),
-      exams: loadCachedArray(STORAGE_KEYS.EXAMS, SEED_EXAMS = [{ id: 'ex1', title: 'Clinical Chemistry', category: 'Clinical Chemistry (20%)', totalItems: 5, htmlContent: '' }]),
+      students: loadCachedArray(STORAGE_KEYS.STUDENTS, SEED_STUDENTS),
+      exams: loadCachedArray(STORAGE_KEYS.EXAMS, SEED_EXAMS),
       scores: loadCachedArray(STORAGE_KEYS.SCORES, []),
       currentRole: cachedSession?.currentRole || 'login',
       currentStudentId: cachedSession?.currentStudentId || null,
@@ -408,7 +416,7 @@
     }
 
     window.addEventListener('storage', (event) => {
-      if (event.key?.startsWith('pulsermt_v4')) {
+      if (event.key?.startsWith('pulsermt_v5')) {
         state.students = loadCachedArray(STORAGE_KEYS.STUDENTS, state.students);
         state.exams = loadCachedArray(STORAGE_KEYS.EXAMS, state.exams);
         state.scores = loadCachedArray(STORAGE_KEYS.SCORES, state.scores);
@@ -419,7 +427,7 @@
     window.addEventListener('message', async (event) => {
       if (event.data?.type === 'MTLE_EXAM_SUBMIT' && state.activeExamViewerId && state.currentStudentId) {
         await recordStudentExamScore(state.currentStudentId, state.activeExamViewerId, Number(event.data.score), Number(event.data.total));
-        showToast('Exam score auto-saved!', 'success');
+        showToast('Exam score auto-saved!');
       }
     });
 
