@@ -1,8 +1,2 @@
-# mtle.rmt.2027
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/my-simple-website.git
-git push -u origin main
-
+# MTLE Review & Examination Portal (PulseRMT)
+Centralized reviewee platform for managing student accounts, interactive mock board examinations, and automated PRC MTLE subject ratings with real-time 2-way sync.
