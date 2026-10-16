@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Link Master Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 
   <script>
     tailwind.config = {
@@ -62,10 +64,6 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
-    .glass-header {
-      background: rgba(15, 23, 42, 0.94);
-      backdrop-filter: blur(12px);
-    }
     @media print {
       .no-print {
         display: none !important;
@@ -73,8 +71,8 @@
       body {
         background: white !important;
       }
-<!-- Link Master Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+    }
+  </style>
 
   <!-- Inject Firebase Configuration for PulseRMT Portal -->
   <script>
@@ -89,40 +87,7 @@
     });
   </script>
 </head>
-    }
-  </style>
-</head>
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-teal-600 selection:text-white">
-
-  <!-- TOP DEMO ROLE SWITCHER BAR (For instant evaluation of Admin & Student views) -->
-  <div class="no-print glass-header text-white text-xs border-b border-slate-800 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 font-semibold">
-          <i class="fa-solid fa-microscope"></i> MTLE Portal Quick Switcher
-        </span>
-        <span id="dbStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-[11px]">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="dbStatusText">Database Ready</span>
-        </span>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-1.5">
-        <span class="text-slate-400 mr-1 hidden sm:inline">Instant View:</span>
-        <button onclick="app.switchViewRole('login')" id="quickBtnLogin" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-medium">
-          <i class="fa-solid fa-right-to-bracket mr-1 text-teal-400"></i>Login Screen
-        </button>
-        <button onclick="app.quickLoginAdmin()" id="quickBtnAdmin" class="px-2.5 py-1 rounded-lg bg-teal-600 hover:bg-teal-500 text-white transition font-semibold shadow-sm">
-          <i class="fa-solid fa-user-shield mr-1"></i>Admin Portal
-        </button>
-        <div class="h-4 w-px bg-slate-700 mx-1 hidden sm:block"></div>
-        <span class="text-slate-400 text-[11px] hidden md:inline">Sample Students:</span>
-        <div id="quickStudentButtons" class="flex flex-wrap items-center gap-1">
-          <!-- Populated dynamically with student quick-switch buttons -->
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- MAIN NAVIGATION HEADER (Shown when logged in as Admin or Student) -->
   <header id="mainHeader" class="no-print bg-white border-b border-slate-200 shadow-sm hidden">
@@ -135,6 +100,10 @@
           <div class="flex items-center gap-2">
             <h1 class="font-bold text-slate-900 text-base sm:text-lg tracking-tight">PulseRMT Review Center</h1>
             <span id="headerRoleBadge" class="px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-teal-100 text-teal-800">Admin</span>
+            <span id="dbStatusBadge" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-[11px]">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span id="dbStatusText">Database Ready</span>
+            </span>
           </div>
           <p class="text-xs text-slate-500 hidden sm:block">Medical Technologist Licensure Examination (MTLE) Assessment & Ledger System</p>
         </div>
@@ -154,13 +123,13 @@
   </header>
 
   <!-- ===================================================================== -->
-  <!-- VIEW 1: LOGIN PORTAL (ADMIN & STUDENT AUTHENTICATION)                 -->
+  <!-- VIEW 1: LOGIN & ENROLLMENT PORTAL                                     -->
   <!-- ===================================================================== -->
   <main id="loginView" class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-10 bg-gradient-to-b from-slate-900 via-slate-900 to-teal-950">
     <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200/20">
       
       <!-- Left Column: Branding & MTLE Subject Weight Reference -->
-      <div class="lg:col-span-6 bg-gradient-to-br from-teal-800 via-teal-900 to-slate-900 text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
+      <div class="lg:col-span-5 bg-gradient-to-br from-teal-800 via-teal-900 to-slate-900 text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
         <div class="relative z-10">
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-200 text-xs font-semibold mb-6">
             <i class="fa-solid fa-award"></i> PRC Board of Medical Technology Aligned
@@ -169,7 +138,7 @@
             MTLE Online Examination & Student Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Centralized platform for managing reviewee accounts, uploading interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and computing official MTLE subject ratings.
+            Official reviewee portal for taking interactive mock board examinations and tracking PRC MTLE subject ratings.
           </p>
 
           <!-- Official MTLE Subject Weights Box -->
@@ -178,13 +147,13 @@
               <span><i class="fa-solid fa-scale-balanced mr-1.5"></i>PRC MTLE Subject Weights</span>
               <span>Passing: 75.00%</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div class="grid grid-cols-1 gap-2 text-xs">
               <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
                 <span class="text-slate-200">Clinical Chemistry</span>
                 <span class="font-mono font-bold text-teal-300">20%</span>
               </div>
               <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Microbiology & Para</span>
+                <span class="text-slate-200">Microbiology & Parasitology</span>
                 <span class="font-mono font-bold text-teal-300">20%</span>
               </div>
               <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
@@ -192,7 +161,7 @@
                 <span class="font-mono font-bold text-teal-300">20%</span>
               </div>
               <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Blood Banking & Sero</span>
+                <span class="text-slate-200">Blood Banking & Serology</span>
                 <span class="font-mono font-bold text-teal-300">20%</span>
               </div>
               <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
@@ -200,105 +169,188 @@
                 <span class="font-mono font-bold text-teal-300">10%</span>
               </div>
               <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Histopath & MT Laws</span>
+                <span class="text-slate-200">Histopathologic Tech & MT Laws</span>
                 <span class="font-mono font-bold text-teal-300">10%</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Quick Demo Login Cards -->
+        <!-- Portal Notice -->
         <div class="relative z-10 mt-8 pt-6 border-t border-white/10">
-          <p class="text-xs font-semibold uppercase tracking-wider text-teal-300 mb-2.5">
-            <i class="fa-solid fa-bolt mr-1"></i> One-Click Demo Credentials
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <button type="button" onclick="app.fillLogin('admin', 'admin123', 'admin')" class="text-left p-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 transition group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-white">Admin Director</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-teal-500 text-slate-950 font-bold">ADMIN</span>
-              </div>
-              <div class="text-[11px] font-mono text-teal-200 mt-1">admin / admin123</div>
-            </button>
-            <button type="button" onclick="app.fillLogin('rmt_msantos', 'mtle2026', 'student')" class="text-left p-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 transition group">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-white">Maria Clara Santos</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-400 text-slate-950 font-bold">STUDENT</span>
-              </div>
-              <div class="text-[11px] font-mono text-teal-200 mt-1">rmt_msantos / mtle2026</div>
-            </button>
+          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-teal-100/90 space-y-1">
+            <div class="font-bold text-teal-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-shield-halved"></i> Account & Enrollment Notice
+            </div>
+            <p class="leading-relaxed text-teal-100/80">
+              New reviewees may register through the <strong>Enroll Now</strong> tab. Your unique username and password will be assigned by the Review Center Administrator.
+            </p>
           </div>
         </div>
       </div>
 
-      <!-- Right Column: Login Form -->
-      <div class="lg:col-span-6 p-8 sm:p-10 flex flex-col justify-center bg-white">
-        <div class="mb-6">
-          <h3 class="text-2xl font-bold text-slate-900">Sign In to Portal</h3>
-          <p class="text-sm text-slate-500 mt-1">Select your portal role or use your Admin-assigned student username.</p>
+      <!-- Right Column: Login & Enroll Now Forms -->
+      <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center bg-white">
+        
+        <!-- 3-Way Navigation Tabs: Student Login | Admin Portal | Enroll Now -->
+        <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
+          <button type="button" id="loginTabStudent" onclick="app.setLoginTab('student')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
+            <i class="fa-solid fa-user-graduate mr-1"></i>Student Login
+          </button>
+          <button type="button" id="loginTabAdmin" onclick="app.setLoginTab('admin')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
+            <i class="fa-solid fa-user-shield mr-1"></i>Admin Login
+          </button>
+          <button type="button" id="loginTabEnroll" onclick="app.setLoginTab('enroll')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
+            <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now
+          </button>
         </div>
 
-        <!-- Role Toggle Tabs -->
-        <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl mb-6">
-          <button type="button" id="loginTabStudent" onclick="app.setLoginTab('student')" class="py-2.5 px-4 rounded-lg text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
-            <i class="fa-solid fa-user-graduate mr-1.5"></i>Student Profile
-          </button>
-          <button type="button" id="loginTabAdmin" onclick="app.setLoginTab('admin')" class="py-2.5 px-4 rounded-lg text-sm font-semibold transition text-slate-600 hover:text-slate-900">
-            <i class="fa-solid fa-user-shield mr-1.5"></i>Admin Portal
-          </button>
-        </div>
+        <!-- SIGN IN PANEL (For Student & Admin Login) -->
+        <div id="signInPanel">
+          <div class="mb-6">
+            <h3 id="signInHeading" class="text-2xl font-bold text-slate-900">Student Portal Sign In</h3>
+            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password to access your profile.</p>
+          </div>
 
-        <form id="loginForm" onsubmit="app.handleLoginSubmit(event)" class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5" id="loginUsernameLabel">
-              Student Unique Username
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                <i class="fa-solid fa-id-badge"></i>
-              </span>
-              <input type="text" id="loginUsername" required placeholder="e.g. rmt_msantos or admin"
-                class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition" />
+          <form id="loginForm" onsubmit="app.handleLoginSubmit(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5" id="loginUsernameLabel">
+                Student Username
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                  <i class="fa-solid fa-id-badge"></i>
+                </span>
+                <input type="text" id="loginUsername" required autocomplete="off" placeholder="Enter your assigned username"
+                  class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition" />
+              </div>
             </div>
-          </div>
 
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-              Password
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                <i class="fa-solid fa-lock"></i>
-              </span>
-              <input type="password" id="loginPassword" required placeholder="Enter your password"
-                class="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition" />
-              <button type="button" onclick="app.togglePasswordField('loginPassword')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
-                <i class="fa-regular fa-eye"></i>
-              </button>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                Password
+              </label>
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                  <i class="fa-solid fa-lock"></i>
+                </span>
+                <input type="password" id="loginPassword" required autocomplete="off" placeholder="Enter your password"
+                  class="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition" />
+                <button type="button" onclick="app.togglePasswordField('loginPassword')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div id="loginErrorBox" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
-            <i class="fa-solid fa-circle-exclamation text-rose-500"></i>
-            <span id="loginErrorText">Invalid username or password.</span>
-          </div>
+            <div id="loginErrorBox" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
+              <i class="fa-solid fa-circle-exclamation text-rose-500"></i>
+              <span id="loginErrorText">Invalid username or password.</span>
+            </div>
 
-          <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
-            <span>Access MTLE Portal</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </form>
+            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
+              <span>Access MTLE Portal</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </form>
 
-        <!-- Available Student Accounts Helper Box -->
-        <div class="mt-6 pt-6 border-t border-slate-100">
-          <div class="text-xs font-semibold text-slate-500 mb-2 flex items-center justify-between">
-            <span>Enrolled Student Accounts (Click to Autofill):</span>
-            <span class="text-[11px] text-teal-600 font-mono">Pass: mtle2026</span>
-          </div>
-          <div id="loginStudentChips" class="flex flex-wrap gap-1.5">
-            <!-- Dynamically populated student chips -->
+          <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Not yet registered as a reviewee?</span>
+            <button type="button" onclick="app.setLoginTab('enroll')" class="font-bold text-teal-600 hover:text-teal-700 hover:underline">
+              Click here to Enroll Now <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
           </div>
         </div>
+
+        <!-- ENROLL NOW PANEL (For Student Self-Enrollment) -->
+        <div id="enrollNowPanel" class="hidden">
+          <div class="mb-4">
+            <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment</h3>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Complete your student profile information below. Once submitted, the Admin will assign your official login credentials via Firebase.
+            </p>
+          </div>
+
+          <form id="selfEnrollForm" onsubmit="app.handleSelfEnrollmentSubmit(event)" class="space-y-3.5">
+            <!-- Name Row: Last Name, Given Name, Middle Initial (Optional) -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *</label>
+                <input type="text" id="enrollLastName" required placeholder="e.g. Santos"
+                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *</label>
+                <input type="text" id="enrollGivenName" required placeholder="e.g. Maria Clara"
+                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Middle Initial (Optional)">M.I. <span class="text-[9px] font-normal text-slate-400">(Opt)</span></label>
+                <input type="text" id="enrollMiddleInitial" maxlength="3" placeholder="D."
+                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm text-center focus:border-teal-600 outline-none" />
+              </div>
+            </div>
+
+            <!-- School / University -->
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *</label>
+              <input type="text" id="enrollSchool" required placeholder="e.g. University of Santo Tomas (UST)"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+            </div>
+
+            <!-- Target Examination Cycle (March <Year> or August <Year>) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Cycle Month *</label>
+                <select id="enrollCycleMonth" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-teal-600 outline-none">
+                  <option value="March">March</option>
+                  <option value="August">August</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Year *</label>
+                <input type="number" id="enrollCycleYear" required min="2026" max="2035" value="2027" placeholder="e.g. 2027"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
+              </div>
+            </div>
+
+            <!-- Birthday, Age & Contact Number -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *</label>
+                <input type="date" id="enrollBirthday" required onchange="app.autoComputeAge('enrollBirthday', 'enrollAge')"
+                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
+                <input type="number" id="enrollAge" required min="16" max="99" placeholder="22"
+                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono text-center focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  Contact Number * <span class="text-[10px] font-normal text-slate-400">(Records Only)</span>
+                </label>
+                <input type="tel" id="enrollContact" required placeholder="e.g. 09171234567"
+                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
+              </div>
+            </div>
+
+            <div id="enrollSuccessBanner" class="hidden p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs space-y-1">
+              <div class="font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                <span>Enrollment Submitted to Firebase!</span>
+              </div>
+              <p id="enrollSuccessText" class="text-emerald-700 leading-relaxed">
+                Your student record has been saved. Please contact your Admin to receive your assigned username and password.
+              </p>
+            </div>
+
+            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Submit Enrollment Application</span>
+            </button>
+          </form>
+        </div>
+
       </div>
 
     </div>
@@ -315,7 +367,7 @@
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Enrolled Students</p>
           <p id="adminKpiStudents" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</p>
-          <p class="text-xs text-teal-600 font-medium mt-1"><i class="fa-solid fa-user-check mr-1"></i>Active MTLE Reviewees</p>
+          <p id="adminKpiPendingSub" class="text-xs text-teal-600 font-medium mt-1"><i class="fa-solid fa-user-check mr-1"></i>Active MTLE Reviewees</p>
         </div>
         <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl">
           <i class="fa-solid fa-users"></i>
@@ -363,8 +415,8 @@
         <span>1. Ledger of Students & Scores</span>
       </button>
       <button onclick="app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
-        <i class="fa-solid fa-user-plus"></i>
-        <span>2. Database of Students (Enroll)</span>
+        <i class="fa-solid fa-users-gear"></i>
+        <span>2. Admin Student Management (Add / Assign / Remove)</span>
       </button>
       <button onclick="app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-file-arrow-up"></i>
@@ -397,9 +449,9 @@
                 class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-52" />
             </div>
 
-            <!-- Batch Filter -->
+            <!-- Cycle Filter -->
             <select id="ledgerBatchFilter" onchange="app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
-              <option value="ALL">All Review Batches</option>
+              <option value="ALL">All Examination Cycles</option>
             </select>
 
             <!-- Status Filter -->
@@ -440,85 +492,121 @@
             <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> <strong>BELOW CUTOFF:</strong> Overall Rating &lt; 75.00%</span>
           </div>
           <div>
-            Tip: Click <strong>"Record / Edit Scores"</strong> on any row to manually input or adjust a student's examination scores.
+            Tip: Click <strong>"Record Scores"</strong> on any row to manually input or adjust a student's examination scores.
           </div>
         </div>
       </div>
     </section>
 
     <!-- =============================================================== -->
-    <!-- ADMIN TAB 2: DATABASE OF STUDENTS (INPUTTED BY ADMIN)           -->
+    <!-- ADMIN TAB 2: DATABASE OF STUDENTS (ADD, REMOVE, ASSIGN CREDENTIALS) -->
     <!-- =============================================================== -->
     <section id="adminSection_students" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        <!-- Left 4 Cols: Admin Form to Input/Register Student -->
+        <!-- Left 4 Cols: Admin Form to Add Student or Assign Firebase Credentials -->
         <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-fit">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
               <h3 id="studentFormTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-user-plus text-teal-600"></i>
-                Enroll New Student
+                Add / Manage Student
               </h3>
-              <p class="text-xs text-slate-500">Assign a unique username & password for student login.</p>
+              <p class="text-xs text-slate-500">Add a student or assign Firebase login credentials.</p>
             </div>
             <button type="button" id="cancelEditStudentBtn" onclick="app.resetStudentForm()" class="hidden text-xs text-rose-600 hover:underline font-semibold">
               Cancel Edit
             </button>
           </div>
 
-          <form id="studentForm" onsubmit="app.handleSaveStudent(event)" class="space-y-3.5">
+          <form id="studentForm" onsubmit="app.handleSaveStudent(event)" class="space-y-3">
             <input type="hidden" id="studentEditId" value="" />
 
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Student Full Name *</label>
-              <input type="text" id="stuFullName" required oninput="app.suggestUsername()" placeholder="e.g. Maria Clara Santos"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+            <!-- Name Fields: Last Name, Given Name, Middle Initial -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *</label>
+                <input type="text" id="stuLastName" required oninput="app.suggestUsername()" placeholder="Santos"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *</label>
+                <input type="text" id="stuGivenName" required oninput="app.suggestUsername()" placeholder="Maria Clara"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Optional">M.I.</label>
+                <input type="text" id="stuMiddleInitial" maxlength="3" placeholder="D."
+                  class="w-full px-2 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm text-center focus:border-teal-600 outline-none" />
+              </div>
             </div>
 
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *</label>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *</label>
               <input type="text" id="stuSchool" required placeholder="e.g. University of Santo Tomas (UST)"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
             </div>
 
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">MTLE Review Batch *</label>
-              <select id="stuBatch" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-teal-600 outline-none">
-                <option value="March 2027 - Batch A">March 2027 - Batch A</option>
-                <option value="March 2027 - Batch B">March 2027 - Batch B</option>
-                <option value="August 2026 - Intensive">August 2026 - Intensive</option>
-                <option value="Weekend Refresher Batch">Weekend Refresher Batch</option>
-              </select>
+            <!-- Target Examination Cycle: March <Year> or August <Year> -->
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Month *</label>
+                <select id="stuCycleMonth" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white focus:border-teal-600 outline-none">
+                  <option value="March">March</option>
+                  <option value="August">August</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Year *</label>
+                <input type="number" id="stuCycleYear" required min="2026" max="2035" value="2027"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono focus:border-teal-600 outline-none" />
+              </div>
             </div>
 
-            <div class="pt-2 border-t border-slate-100">
-              <div class="flex items-center justify-between mb-1">
-                <label class="block text-xs font-bold uppercase tracking-wider text-teal-700">Unique Username (Admin-Assigned) *</label>
+            <!-- Birthday, Age & Contact Number (For records only) -->
+            <div class="grid grid-cols-12 gap-2.5">
+              <div class="col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *</label>
+                <input type="date" id="stuBirthday" required onchange="app.autoComputeAge('stuBirthday', 'stuAge')"
+                  class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none" />
+              </div>
+              <div class="col-span-3">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
+                <input type="number" id="stuAge" required min="16" max="99" placeholder="22"
+                  class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono text-center focus:border-teal-600 outline-none" />
+              </div>
+              <div class="col-span-4">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="For records only">Contact # *</label>
+                <input type="tel" id="stuContact" required placeholder="0917..."
+                  class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:border-teal-600 outline-none" />
+              </div>
+            </div>
+            <p class="text-[10px] text-slate-400 -mt-1"><i class="fa-solid fa-lock mr-1"></i>Birthday, age, and contact number are stored for administrative records only.</p>
+
+            <!-- Firebase Credentials Assignment Box -->
+            <div class="pt-3 border-t border-slate-100 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Firebase Assigned Username *</label>
                 <button type="button" onclick="app.generateRandomUsername()" class="text-[11px] text-teal-600 hover:underline font-semibold">
                   Auto-Generate
                 </button>
               </div>
               <input type="text" id="stuUsername" required placeholder="e.g. rmt_msantos"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
-            </div>
+                class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
 
-            <div>
-              <div class="flex items-center justify-between mb-1">
-                <label class="block text-xs font-bold uppercase tracking-wider text-teal-700">Assigned Password *</label>
+              <div class="flex items-center justify-between">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Firebase Assigned Password *</label>
                 <button type="button" onclick="app.generateRandomPassword()" class="text-[11px] text-teal-600 hover:underline font-semibold">
                   Generate Password
                 </button>
               </div>
-              <div class="relative">
-                <input type="text" id="stuPassword" required value="mtle2026"
-                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
-              </div>
+              <input type="text" id="stuPassword" required placeholder="Assign student password"
+                class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
             </div>
 
-            <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
+            <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-floppy-disk"></i>
-              <span>Save Student to Database</span>
+              <span>Save & Sync Student to Firebase</span>
             </button>
           </form>
         </div>
@@ -529,9 +617,9 @@
             <div>
               <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-database text-teal-600"></i>
-                Database of Enrolled Students
+                Firebase Student Database & Credential Assignment
               </h3>
-              <p class="text-xs text-slate-500">Manage student credentials, test student profiles, or update enrollment records.</p>
+              <p class="text-xs text-slate-500">Assign usernames and passwords to newly enrolled students, edit info, or remove students.</p>
             </div>
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -545,9 +633,9 @@
               <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   <th class="py-3 px-4">Student Name & School</th>
-                  <th class="py-3 px-4">Review Batch</th>
-                  <th class="py-3 px-4">Unique Username</th>
-                  <th class="py-3 px-4">Assigned Password</th>
+                  <th class="py-3 px-3">Target Cycle</th>
+                  <th class="py-3 px-3">Personal Records</th>
+                  <th class="py-3 px-3">Assigned Credentials</th>
                   <th class="py-3 px-4 text-right">Admin Actions</th>
                 </tr>
               </thead>
@@ -574,7 +662,7 @@
           </div>
           <h3 class="text-lg font-bold">Upload Any <code class="font-mono text-teal-300">.html</code> Examination File</h3>
           <p class="text-xs text-teal-100/80 max-w-2xl leading-relaxed">
-            Upload self-contained <code class="font-mono">.html</code> examination files created by your faculty. Students can open and take the uploaded HTML exam directly inside their portal. Need a sample <code class="font-mono">.html</code> exam file on your computer to test uploading right now?
+            Upload self-contained <code class="font-mono">.html</code> examination files created by your faculty. Students can open and take the uploaded HTML exam directly inside their portal.
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -699,10 +787,10 @@
                 MTLE Reviewee Profile
               </span>
               <span id="stuProfileBatch" class="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-200 text-xs font-medium">
-                March 2027 - Batch A
+                March 2027
               </span>
             </div>
-            <h2 id="stuProfileName" class="text-2xl sm:text-3xl font-extrabold mt-1">Maria Clara Santos</h2>
+            <h2 id="stuProfileName" class="text-2xl sm:text-3xl font-extrabold mt-1">Santos, Maria Clara D.</h2>
             <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-teal-200/90 mt-1">
               <span><i class="fa-solid fa-id-card mr-1.5 text-teal-400"></i>Username: <strong id="stuProfileUsername" class="font-mono text-white">rmt_msantos</strong></span>
               <span><i class="fa-solid fa-building-columns mr-1.5 text-teal-400"></i>School: <strong id="stuProfileSchool" class="text-white">University of Santo Tomas</strong></span>
@@ -858,7 +946,7 @@
           <iframe id="examHtmlIframe" title="Uploaded HTML Examination" class="w-full h-full border-0" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
         </div>
 
-        <!-- Side Panel: Universal Score Recorder (for any arbitrary static HTML exam uploaded by Admin) -->
+        <!-- Side Panel: Universal Score Recorder -->
         <div id="universalGraderDrawer" class="w-full lg:w-80 bg-slate-50 border-t lg:border-t-0 lg:border-l border-slate-200 p-5 flex flex-col justify-between overflow-y-auto hidden">
           <div class="space-y-4">
             <div>
@@ -943,7 +1031,7 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 3: CONFIRMATION MODAL (NO NATIVE CONFIRM/ALERT USED)            -->
+  <!-- MODAL 3: CONFIRMATION MODAL                                           -->
   <!-- ===================================================================== -->
   <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-6 space-y-4">
@@ -978,8 +1066,17 @@
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+    // Helper to format student full name consistently: "Last Name, Given Name M.I."
+    function formatFullName(lastName, givenName, middleInitial) {
+      const ln = (lastName || '').trim();
+      const gn = (givenName || '').trim();
+      const mi = (middleInitial || '').trim().replace(/\.$/, '');
+      if (!ln && !gn) return 'Unnamed Student';
+      return `${ln}, ${gn}${mi ? ` ${mi}.` : ''}`;
+    }
+
     // -------------------------------------------------------------------------
-    // BUILT-IN INTERACTIVE HTML EXAM GENERATOR (Creates realistic .HTML exams)
+    // BUILT-IN INTERACTIVE HTML EXAM GENERATOR
     // -------------------------------------------------------------------------
     function buildInteractiveExamHtml({ title, category, questions }) {
       const questionsJson = JSON.stringify(questions);
@@ -1091,7 +1188,6 @@
       \`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // Notify parent MTLE Review Portal to automatically record the student's score
       window.parent.postMessage({
         type: 'MTLE_EXAM_SUBMIT',
         score: score,
@@ -1254,38 +1350,66 @@
     const SEED_STUDENTS = [
       {
         id: 'stu_01',
-        fullName: 'Maria Clara Santos',
+        lastName: 'Santos',
+        givenName: 'Maria Clara',
+        middleInitial: 'D',
+        fullName: 'Santos, Maria Clara D.',
         school: 'University of Santo Tomas (UST)',
-        batch: 'March 2027 - Batch A',
+        batch: 'March 2027',
+        age: 22,
+        birthday: '2004-05-14',
+        contactNumber: '09171234501',
         username: 'rmt_msantos',
         password: 'mtle2026',
+        accountStatus: 'ACTIVE',
         createdAt: '2026-09-15'
       },
       {
         id: 'stu_02',
-        fullName: 'Juan Dela Cruz',
+        lastName: 'Dela Cruz',
+        givenName: 'Juan',
+        middleInitial: 'P',
+        fullName: 'Dela Cruz, Juan P.',
         school: 'Far Eastern University (FEU)',
-        batch: 'March 2027 - Batch A',
+        batch: 'March 2027',
+        age: 23,
+        birthday: '2003-08-20',
+        contactNumber: '09182345602',
         username: 'rmt_jdelacruz',
         password: 'mtle2026',
+        accountStatus: 'ACTIVE',
         createdAt: '2026-09-16'
       },
       {
         id: 'stu_03',
-        fullName: 'Angela Mae Reyes',
+        lastName: 'Reyes',
+        givenName: 'Angela Mae',
+        middleInitial: 'S',
+        fullName: 'Reyes, Angela Mae S.',
         school: 'Bicol University (BU)',
-        batch: 'August 2026 - Intensive',
+        batch: 'August 2026',
+        age: 22,
+        birthday: '2004-02-11',
+        contactNumber: '09193456703',
         username: 'rmt_areyes',
         password: 'mtle2026',
+        accountStatus: 'ACTIVE',
         createdAt: '2026-09-18'
       },
       {
         id: 'stu_04',
-        fullName: 'Mark Anthony Villanueva',
+        lastName: 'Villanueva',
+        givenName: 'Mark Anthony',
+        middleInitial: '',
+        fullName: 'Villanueva, Mark Anthony',
         school: 'Saint Louis University (SLU)',
-        batch: 'March 2027 - Batch B',
+        batch: 'August 2027',
+        age: 22,
+        birthday: '2004-11-03',
+        contactNumber: '09204567804',
         username: 'rmt_mvillanueva',
         password: 'mtle2026',
+        accountStatus: 'ACTIVE',
         createdAt: '2026-09-20'
       }
     ];
@@ -1315,7 +1439,7 @@
       currentRole: 'login', // 'login' | 'admin' | 'student'
       currentStudentId: null,
       activeAdminTab: 'ledger',
-      loginModeTab: 'student',
+      loginModeTab: 'student', // 'student' | 'admin' | 'enroll'
       activeExamViewerId: null,
       visiblePasswords: {},
       dbConnected: false,
@@ -1338,12 +1462,12 @@
     });
 
     // -------------------------------------------------------------------------
-    // FIREBASE INITIALIZATION & REAL-TIME SYNC (FOLLOWING MANDATORY RULES)
+    // FIREBASE INITIALIZATION & REAL-TIME SYNC
     // -------------------------------------------------------------------------
     async function initDatabase() {
       try {
-        if (typeof __firebase_config === 'undefined' || !__firebase_config) {
-          updateDbBadge('In-Memory Database Active', true);
+        if (typeof __firebase_config === 'undefined' || !__firebase_config || __firebase_config.includes('YOUR_FIREBASE_API_KEY')) {
+          updateDbBadge('Local Session DB Active');
           renderAll();
           return;
         }
@@ -1354,9 +1478,8 @@
         const db = getFirestore(fbApp);
         state.db = db;
 
-        updateDbBadge('Connecting to Cloud DB...', false);
+        updateDbBadge('Connecting to Firebase...');
 
-        // RULE 3: Auth Before Queries
         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
           await signInWithCustomToken(auth, __initial_auth_token);
         } else {
@@ -1367,29 +1490,25 @@
           state.firebaseUser = user;
           if (!user) return;
 
-          updateDbBadge('Cloud Database Synced', true);
+          updateDbBadge('Firebase Synced');
           state.dbConnected = true;
 
-          // RULE 1: Strict Paths (/artifacts/{appId}/public/data/{collectionName})
           const studentsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students');
           const examsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams');
           const scoresCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores');
 
-          // Listen to Students collection
           onSnapshot(studentsCol, async (snap) => {
             if (snap.empty) {
-              // Seed initial students so portal is populated on first run
               for (const stu of SEED_STUDENTS) {
                 await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', stu.id), stu);
               }
             } else {
               state.students = snap.docs.map(d => d.data());
-              state.students.sort((a, b) => a.fullName.localeCompare(b.fullName));
+              state.students.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
               renderAll();
             }
           }, (err) => console.error('Students snapshot error:', err));
 
-          // Listen to Uploaded HTML Exams collection
           onSnapshot(examsCol, async (snap) => {
             if (snap.empty) {
               for (const ex of SEED_EXAMS) {
@@ -1402,7 +1521,6 @@
             }
           }, (err) => console.error('Exams snapshot error:', err));
 
-          // Listen to Scores collection
           onSnapshot(scoresCol, async (snap) => {
             if (snap.empty) {
               for (const sc of SEED_SCORES) {
@@ -1416,23 +1534,24 @@
         });
       } catch (err) {
         console.warn('Using local session state fallback:', err);
-        updateDbBadge('Session Database Ready', true);
+        updateDbBadge('Session Database Ready');
         renderAll();
       }
     }
 
-    function updateDbBadge(text, ok) {
+    function updateDbBadge(text) {
       const el = document.getElementById('dbStatusText');
       if (el) el.textContent = text;
     }
 
     // -------------------------------------------------------------------------
-    // DATABASE PERSISTENCE HELPERS
+    // DATABASE PERSISTENCE HELPERS (FIRESTORE)
     // -------------------------------------------------------------------------
     async function saveStudentRecord(studentObj) {
       const idx = state.students.findIndex(s => s.id === studentObj.id);
       if (idx >= 0) state.students[idx] = studentObj;
       else state.students.push(studentObj);
+      state.students.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
       renderAll();
 
       if (state.db && state.firebaseUser) {
@@ -1585,8 +1704,6 @@
     // UI RENDERING ENGINE
     // -------------------------------------------------------------------------
     function renderAll() {
-      renderTopQuickSwitcher();
-      renderLoginStudentChips();
       updateBatchFilterOptions();
 
       const loginView = document.getElementById('loginView');
@@ -1614,13 +1731,12 @@
         renderStudentDatabaseTable();
         renderAdminExamsList();
       } else if (state.currentRole === 'student') {
-        const student = state.students.find(s => s.id === state.currentStudentId) || state.students[0];
+        const student = state.students.find(s => s.id === state.currentStudentId);
         if (!student) {
           state.currentRole = 'login';
           renderAll();
           return;
         }
-        state.currentStudentId = student.id;
         mainHeader.classList.remove('hidden');
         studentView.classList.remove('hidden');
 
@@ -1633,43 +1749,12 @@
       }
     }
 
-    function renderTopQuickSwitcher() {
-      const container = document.getElementById('quickStudentButtons');
-      if (!container) return;
-
-      container.innerHTML = state.students.slice(0, 4).map(stu => {
-        const isCurrent = state.currentRole === 'student' && state.currentStudentId === stu.id;
-        const firstName = stu.fullName.split(' ')[0];
-        return `
-          <button onclick="app.quickLoginStudent('${stu.id}')"
-            class="px-2.5 py-1 rounded-lg text-xs font-medium transition ${
-              isCurrent
-                ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-200'
-            }">
-            <i class="fa-solid fa-user-graduate mr-1 ${isCurrent ? 'text-slate-950' : 'text-emerald-400'}"></i>${escapeHtml(firstName)} (${escapeHtml(stu.username)})
-          </button>
-        `;
-      }).join('');
-    }
-
-    function renderLoginStudentChips() {
-      const container = document.getElementById('loginStudentChips');
-      if (!container) return;
-      container.innerHTML = state.students.map(stu => `
-        <button type="button" onclick="app.fillLogin('${escapeHtml(stu.username)}', '${escapeHtml(stu.password)}', 'student')"
-          class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-teal-50 hover:text-teal-700 border border-slate-200 text-slate-700 text-xs font-mono transition">
-          <i class="fa-solid fa-user text-[10px] mr-1 text-teal-600"></i>${escapeHtml(stu.username)}
-        </button>
-      `).join('');
-    }
-
     function updateBatchFilterOptions() {
       const select = document.getElementById('ledgerBatchFilter');
       if (!select) return;
       const currentVal = select.value;
-      const batches = Array.from(new Set(state.students.map(s => s.batch))).sort();
-      select.innerHTML = `<option value="ALL">All Review Batches</option>` +
+      const batches = Array.from(new Set(state.students.map(s => s.batch).filter(Boolean))).sort();
+      select.innerHTML = `<option value="ALL">All Examination Cycles</option>` +
         batches.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join('');
       if (batches.includes(currentVal)) select.value = currentVal;
     }
@@ -1680,6 +1765,16 @@
     function renderAdminKPIs() {
       document.getElementById('adminKpiStudents').textContent = state.students.length;
       document.getElementById('adminKpiExams').textContent = state.exams.length;
+
+      const pendingCount = state.students.filter(s => !s.username || !s.password).length;
+      const pendingSubEl = document.getElementById('adminKpiPendingSub');
+      if (pendingCount > 0) {
+        pendingSubEl.className = 'text-xs text-amber-600 font-bold mt-1';
+        pendingSubEl.innerHTML = `<i class="fa-solid fa-clock mr-1"></i>${pendingCount} Awaiting Credentials`;
+      } else {
+        pendingSubEl.className = 'text-xs text-teal-600 font-medium mt-1';
+        pendingSubEl.innerHTML = `<i class="fa-solid fa-user-check mr-1"></i>All Credentials Assigned`;
+      }
 
       let totalCohortRating = 0;
       let studentsWithExams = 0;
@@ -1707,10 +1802,9 @@
       const body = document.getElementById('ledgerTableBody');
       if (!headRow || !body) return;
 
-      // Build Dynamic Header with Each Uploaded Exam Column
       headRow.innerHTML = `
-        <th class="py-3.5 px-4">Student & Credentials</th>
-        <th class="py-3.5 px-3">Batch</th>
+        <th class="py-3.5 px-4">Student & School</th>
+        <th class="py-3.5 px-3">Target Cycle</th>
         ${state.exams.map((ex, i) => `
           <th class="py-3.5 px-3 text-center min-w-[130px]">
             <div class="text-teal-700 font-bold">Exam #${i + 1}</div>
@@ -1731,9 +1825,9 @@
       const filteredStudents = state.students.filter(stu => {
         const m = computeStudentMetrics(stu.id);
         const matchesSearch = !searchQ ||
-          stu.fullName.toLowerCase().includes(searchQ) ||
-          stu.username.toLowerCase().includes(searchQ) ||
-          stu.school.toLowerCase().includes(searchQ);
+          (stu.fullName || '').toLowerCase().includes(searchQ) ||
+          (stu.username || '').toLowerCase().includes(searchQ) ||
+          (stu.school || '').toLowerCase().includes(searchQ);
         const matchesBatch = batchFilter === 'ALL' || stu.batch === batchFilter;
         const matchesStatus = statusFilter === 'ALL' || m.status === statusFilter;
         return matchesSearch && matchesBatch && matchesStatus;
@@ -1781,16 +1875,18 @@
           standingBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300"><i class="fa-solid fa-triangle-exclamation mr-1"></i>BELOW 75%</span>`;
         }
 
+        const credentialTag = stu.username
+          ? `<span class="text-[11px] font-mono text-teal-700"><i class="fa-solid fa-user-tag mr-1"></i>${escapeHtml(stu.username)}</span>`
+          : `<span class="text-[11px] font-semibold text-amber-600"><i class="fa-solid fa-clock mr-1"></i>Unassigned Credentials</span>`;
+
         return `
           <tr class="hover:bg-slate-50/90 transition">
             <td class="py-3.5 px-4">
               <div class="font-bold text-slate-900">${escapeHtml(stu.fullName)}</div>
               <div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div>
-              <div class="text-[11px] font-mono text-teal-700 mt-0.5">
-                <i class="fa-solid fa-user-tag mr-1"></i>${escapeHtml(stu.username)}
-              </div>
+              <div class="mt-0.5">${credentialTag}</div>
             </td>
-            <td class="py-3.5 px-3 text-xs text-slate-600 font-medium">${escapeHtml(stu.batch)}</td>
+            <td class="py-3.5 px-3 text-xs text-slate-700 font-semibold">${escapeHtml(stu.batch)}</td>
             ${examCellsHtml}
             <td class="py-3.5 px-4 text-center bg-slate-50/70 font-mono font-bold text-slate-900">
               ${m.examsTakenCount > 0 ? `${m.earnedPoints} / ${m.possiblePoints}` : '—'}
@@ -1807,9 +1903,6 @@
                 <button onclick="app.openAdminScoreModal('${stu.id}')" class="px-2.5 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 text-xs font-semibold transition" title="Input or Adjust Student Scores">
                   <i class="fa-solid fa-pen-to-square mr-1"></i>Record Scores
                 </button>
-                <button onclick="app.quickLoginStudent('${stu.id}')" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition" title="Open Student Profile">
-                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                </button>
               </div>
             </td>
           </tr>
@@ -1824,51 +1917,80 @@
       const q = (document.getElementById('studentDbSearch')?.value || '').toLowerCase().trim();
       const filtered = state.students.filter(stu =>
         !q ||
-        stu.fullName.toLowerCase().includes(q) ||
-        stu.username.toLowerCase().includes(q) ||
-        stu.school.toLowerCase().includes(q) ||
-        stu.batch.toLowerCase().includes(q)
+        (stu.fullName || '').toLowerCase().includes(q) ||
+        (stu.username || '').toLowerCase().includes(q) ||
+        (stu.school || '').toLowerCase().includes(q) ||
+        (stu.batch || '').toLowerCase().includes(q) ||
+        (stu.contactNumber || '').toLowerCase().includes(q)
       );
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">No students found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">No students found in database.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = filtered.map(stu => {
         const showPass = !!state.visiblePasswords[stu.id];
+        const hasCredentials = Boolean(stu.username && stu.password);
+
+        const credentialsCell = hasCredentials
+          ? `
+            <div class="space-y-1">
+              <div>
+                <span class="px-2 py-0.5 rounded bg-teal-50 border border-teal-200 text-teal-800 font-mono text-xs font-bold">
+                  ${escapeHtml(stu.username)}
+                </span>
+              </div>
+              <div class="inline-flex items-center gap-1.5 font-mono text-[11px] bg-slate-100 px-2 py-0.5 rounded text-slate-700">
+                <span>${showPass ? escapeHtml(stu.password) : '••••••••'}</span>
+                <button onclick="app.toggleStudentPasswordVis('${stu.id}')" class="text-slate-400 hover:text-slate-700" title="Show/Hide Password">
+                  <i class="fa-regular ${showPass ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                </button>
+              </div>
+            </div>
+          `
+          : `
+            <div class="space-y-1">
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold">
+                <i class="fa-solid fa-key"></i> Needs Assignment
+              </span>
+              <div>
+                <button onclick="app.editStudent('${stu.id}')" class="text-[11px] font-bold text-teal-600 hover:underline">
+                  Assign User & Pass →
+                </button>
+              </div>
+            </div>
+          `;
+
         return `
           <tr class="hover:bg-slate-50 transition">
             <td class="py-3.5 px-4">
               <div class="font-bold text-slate-900">${escapeHtml(stu.fullName)}</div>
               <div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div>
             </td>
-            <td class="py-3.5 px-4 text-xs font-medium text-slate-600">${escapeHtml(stu.batch)}</td>
-            <td class="py-3.5 px-4">
-              <span class="px-2.5 py-1 rounded-lg bg-teal-50 border border-teal-200 text-teal-800 font-mono text-xs font-bold">
-                ${escapeHtml(stu.username)}
+            <td class="py-3.5 px-3">
+              <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold">
+                ${escapeHtml(stu.batch || '—')}
               </span>
             </td>
-            <td class="py-3.5 px-4">
-              <div class="inline-flex items-center gap-2 font-mono text-xs bg-slate-100 px-2.5 py-1 rounded-lg">
-                <span>${showPass ? escapeHtml(stu.password) : '••••••••'}</span>
-                <button onclick="app.toggleStudentPasswordVis('${stu.id}')" class="text-slate-400 hover:text-slate-700" title="Show/Hide Password">
-                  <i class="fa-regular ${showPass ? 'fa-eye-slash' : 'fa-eye'}"></i>
-                </button>
-              </div>
+            <td class="py-3.5 px-3 text-xs text-slate-600 space-y-0.5">
+              <div><span class="text-slate-400">Age/Bday:</span> <strong>${escapeHtml(stu.age || '—')}</strong> <span class="font-mono text-[11px]">(${escapeHtml(stu.birthday || '—')})</span></div>
+              <div><span class="text-slate-400">Contact:</span> <span class="font-mono">${escapeHtml(stu.contactNumber || '—')}</span></div>
+            </td>
+            <td class="py-3.5 px-3">
+              ${credentialsCell}
             </td>
             <td class="py-3.5 px-4 text-right">
               <div class="inline-flex items-center gap-1.5">
-                <button onclick="app.copyCredentials('${escapeHtml(stu.username)}', '${escapeHtml(stu.password)}')" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs transition" title="Copy Username & Password">
-                  <i class="fa-regular fa-copy"></i>
+                ${hasCredentials ? `
+                  <button onclick="app.copyCredentials('${escapeHtml(stu.username)}', '${escapeHtml(stu.password)}')" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs transition" title="Copy Username & Password">
+                    <i class="fa-regular fa-copy"></i>
+                  </button>
+                ` : ''}
+                <button onclick="app.editStudent('${stu.id}')" class="px-2.5 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 text-xs font-semibold transition" title="Assign Credentials / Edit Student">
+                  <i class="fa-solid fa-user-pen mr-1"></i>${hasCredentials ? 'Edit' : 'Assign'}
                 </button>
-                <button onclick="app.quickLoginStudent('${stu.id}')" class="px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-semibold transition" title="Login as this Student">
-                  <i class="fa-solid fa-user-check mr-1"></i>View Profile
-                </button>
-                <button onclick="app.editStudent('${stu.id}')" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs transition" title="Edit Student">
-                  <i class="fa-solid fa-pen"></i>
-                </button>
-                <button onclick="app.confirmDeleteStudent('${stu.id}')" class="p-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs transition" title="Delete Student">
+                <button onclick="app.confirmDeleteStudent('${stu.id}')" class="p-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs transition" title="Remove Student from Database">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -1929,20 +2051,13 @@
     function renderStudentPortal(student) {
       const m = computeStudentMetrics(student.id);
 
-      // Avatar Initials
-      const initials = student.fullName
-        .split(' ')
-        .filter(Boolean)
-        .slice(0, 2)
-        .map(n => n[0].toUpperCase())
-        .join('');
-      document.getElementById('stuProfileAvatar').textContent = initials || 'RM';
+      const initials = ((student.givenName?.[0] || '') + (student.lastName?.[0] || '')).toUpperCase() || 'RM';
+      document.getElementById('stuProfileAvatar').textContent = initials;
       document.getElementById('stuProfileName').textContent = student.fullName;
       document.getElementById('stuProfileUsername').textContent = student.username;
       document.getElementById('stuProfileSchool').textContent = student.school;
-      document.getElementById('stuProfileBatch').textContent = student.batch;
+      document.getElementById('stuProfileBatch').textContent = `Target Cycle: ${student.batch}`;
 
-      // Banner Metrics
       document.getElementById('stuBannerOverallRating').textContent = `${m.overallPercentage.toFixed(2)}%`;
       document.getElementById('stuBannerOverallScore').textContent = `Overall Score: ${m.earnedPoints} / ${m.possiblePoints} pts`;
 
@@ -1955,7 +2070,6 @@
         remarksEl.innerHTML = `<span class="px-3 py-1.5 rounded-full bg-amber-400 text-slate-950 text-xs font-extrabold shadow-sm inline-flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i>NEEDS REVIEW (&lt;75%)</span>`;
       }
 
-      // KPI Cards
       document.getElementById('stuCardTotalScore').textContent = `${m.earnedPoints} / ${m.possiblePoints}`;
       document.getElementById('stuCardOverallRating').textContent = `${m.overallPercentage.toFixed(2)}%`;
       document.getElementById('stuCardExamsCompleted').textContent = `${m.examsTakenCount} / ${m.totalExamsAvailable}`;
@@ -1970,9 +2084,8 @@
         document.getElementById('stuCardHighestVal').textContent = 'Launch an uploaded HTML exam below';
       }
 
-      // Left Column: Uploaded HTML Examinations Available to Student
       const examsListEl = document.getElementById('studentExamsList');
-      examsListEl.innerHTML = m.examBreakdowns.map((bd, idx) => {
+      examsListEl.innerHTML = m.examBreakdowns.map((bd) => {
         const ex = bd.exam;
         const statusBadge = bd.taken
           ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${bd.passed ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
@@ -2002,7 +2115,6 @@
         `;
       }).join('');
 
-      // Right Column: Student Scores & Ratings Breakdown Table
       const scoresBody = document.getElementById('studentScoresTableBody');
       scoresBody.innerHTML = m.examBreakdowns.map(bd => {
         const ex = bd.exam;
@@ -2062,7 +2174,6 @@
         `;
       }).join('');
 
-      // Footer Row: Overall Cumulative Score & Overall MTLE Rating
       const scoresFoot = document.getElementById('studentScoresTableFoot');
       scoresFoot.innerHTML = `
         <tr>
@@ -2098,7 +2209,7 @@
     }
 
     // -------------------------------------------------------------------------
-    // UTILITIES (Escape HTML, Toast Notifications, Copy to Clipboard)
+    // UTILITIES
     // -------------------------------------------------------------------------
     function escapeHtml(str) {
       return String(str ?? '')
@@ -2140,26 +2251,102 @@
         state.loginModeTab = mode;
         const tabStu = document.getElementById('loginTabStudent');
         const tabAdm = document.getElementById('loginTabAdmin');
+        const tabEnr = document.getElementById('loginTabEnroll');
+        const signInPanel = document.getElementById('signInPanel');
+        const enrollNowPanel = document.getElementById('enrollNowPanel');
         const lbl = document.getElementById('loginUsernameLabel');
+        const heading = document.getElementById('signInHeading');
+        const subheading = document.getElementById('signInSubheading');
 
-        if (mode === 'admin') {
-          tabAdm.className = 'py-2.5 px-4 rounded-lg text-sm font-semibold transition bg-white text-teal-700 shadow-sm';
-          tabStu.className = 'py-2.5 px-4 rounded-lg text-sm font-semibold transition text-slate-600 hover:text-slate-900';
-          lbl.textContent = 'Admin Username';
-          document.getElementById('loginUsername').placeholder = 'admin';
+        const activeClass = 'py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm';
+        const inactiveClass = 'py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900';
+
+        tabStu.className = mode === 'student' ? activeClass : inactiveClass;
+        tabAdm.className = mode === 'admin' ? activeClass : inactiveClass;
+        tabEnr.className = mode === 'enroll' ? activeClass : inactiveClass;
+
+        document.getElementById('loginErrorBox').classList.add('hidden');
+        document.getElementById('enrollSuccessBanner').classList.add('hidden');
+
+        if (mode === 'enroll') {
+          signInPanel.classList.add('hidden');
+          enrollNowPanel.classList.remove('hidden');
         } else {
-          tabStu.className = 'py-2.5 px-4 rounded-lg text-sm font-semibold transition bg-white text-teal-700 shadow-sm';
-          tabAdm.className = 'py-2.5 px-4 rounded-lg text-sm font-semibold transition text-slate-600 hover:text-slate-900';
-          lbl.textContent = 'Student Unique Username';
-          document.getElementById('loginUsername').placeholder = 'e.g. rmt_msantos';
+          enrollNowPanel.classList.add('hidden');
+          signInPanel.classList.remove('hidden');
+          if (mode === 'admin') {
+            heading.textContent = 'Admin Portal Sign In';
+            subheading.textContent = 'Authorized Review Center Administrator authentication.';
+            lbl.textContent = 'Admin Username';
+            document.getElementById('loginUsername').placeholder = 'Enter admin username';
+          } else {
+            heading.textContent = 'Student Portal Sign In';
+            subheading.textContent = 'Enter your Admin-assigned username and password to access your profile.';
+            lbl.textContent = 'Student Username';
+            document.getElementById('loginUsername').placeholder = 'Enter your assigned username';
+          }
         }
       },
 
-      fillLogin(username, password, roleMode) {
-        this.setLoginTab(roleMode);
-        document.getElementById('loginUsername').value = username;
-        document.getElementById('loginPassword').value = password;
-        document.getElementById('loginErrorBox').classList.add('hidden');
+      autoComputeAge(birthdayInputId, ageInputId) {
+        const bdayVal = document.getElementById(birthdayInputId)?.value;
+        const ageInput = document.getElementById(ageInputId);
+        if (!bdayVal || !ageInput) return;
+        const birthDate = new Date(bdayVal);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        if (age >= 15 && age <= 99) {
+          ageInput.value = age;
+        }
+      },
+
+      async handleSelfEnrollmentSubmit(e) {
+        e.preventDefault();
+        const lastName = document.getElementById('enrollLastName').value.trim();
+        const givenName = document.getElementById('enrollGivenName').value.trim();
+        const middleInitial = document.getElementById('enrollMiddleInitial').value.trim().replace(/\.$/, '');
+        const school = document.getElementById('enrollSchool').value.trim();
+        const cycleMonth = document.getElementById('enrollCycleMonth').value;
+        const cycleYear = document.getElementById('enrollCycleYear').value.trim();
+        const birthday = document.getElementById('enrollBirthday').value;
+        const age = Number(document.getElementById('enrollAge').value);
+        const contactNumber = document.getElementById('enrollContact').value.trim();
+
+        const fullName = formatFullName(lastName, givenName, middleInitial);
+        const batch = `${cycleMonth} ${cycleYear}`;
+
+        const newStudent = {
+          id: `stu_${Date.now()}`,
+          lastName,
+          givenName,
+          middleInitial,
+          fullName,
+          school,
+          batch,
+          age,
+          birthday,
+          contactNumber,
+          username: '',
+          password: '',
+          accountStatus: 'PENDING_CREDENTIALS',
+          createdAt: new Date().toISOString().slice(0, 10)
+        };
+
+        await saveStudentRecord(newStudent);
+
+        document.getElementById('selfEnrollForm').reset();
+        document.getElementById('enrollCycleYear').value = '2027';
+
+        const banner = document.getElementById('enrollSuccessBanner');
+        const text = document.getElementById('enrollSuccessText');
+        text.textContent = `Enrollment record for ${fullName} (${batch}) has been saved to Firebase. The Admin will now assign your username and password.`;
+        banner.classList.remove('hidden');
+
+        showToast(`Enrollment submitted for ${fullName}!`, 'success');
       },
 
       togglePasswordField(fieldId) {
@@ -2177,48 +2364,36 @@
 
         errBox.classList.add('hidden');
 
-        // Check Admin credentials
-        if (u.toLowerCase() === 'admin' && p === 'admin123') {
-          state.currentRole = 'admin';
-          renderAll();
-          showToast('Welcome to the MTLE Admin Portal!', 'success');
-          return;
+        if (state.loginModeTab === 'admin') {
+          if (u.toLowerCase() === 'admin' && p === 'admin123') {
+            state.currentRole = 'admin';
+            document.getElementById('loginForm').reset();
+            renderAll();
+            showToast('Signed in to MTLE Admin Portal!', 'success');
+            return;
+          } else {
+            errText.textContent = 'Invalid Administrator credentials.';
+            errBox.classList.remove('hidden');
+            return;
+          }
         }
 
-        // Check Student Database for matching unique username + password
+        // Student Login verification against Firebase-synced student records
         const matchedStudent = state.students.find(
-          s => s.username.toLowerCase() === u.toLowerCase() && s.password === p
+          s => s.username && s.username.toLowerCase() === u.toLowerCase() && s.password === p
         );
 
         if (matchedStudent) {
           state.currentRole = 'student';
           state.currentStudentId = matchedStudent.id;
+          document.getElementById('loginForm').reset();
           renderAll();
-          showToast(`Signed in as ${matchedStudent.fullName} (@${matchedStudent.username})`, 'success');
+          showToast(`Welcome, ${matchedStudent.fullName}!`, 'success');
           return;
         }
 
-        errText.textContent = 'Invalid credentials. Try clicking one of the demo accounts on the left or check your Admin-assigned username.';
+        errText.textContent = 'Invalid username or password. Please verify your Admin-assigned credentials.';
         errBox.classList.remove('hidden');
-      },
-
-      switchViewRole(role) {
-        state.currentRole = role;
-        renderAll();
-      },
-
-      quickLoginAdmin() {
-        state.currentRole = 'admin';
-        renderAll();
-        showToast('Switched to Admin Portal view', 'info');
-      },
-
-      quickLoginStudent(studentId) {
-        state.currentRole = 'student';
-        state.currentStudentId = studentId;
-        renderAll();
-        const stu = state.students.find(s => s.id === studentId);
-        if (stu) showToast(`Viewing Student Profile: ${stu.fullName}`, 'info');
       },
 
       logout() {
@@ -2246,13 +2421,12 @@
       // --- STUDENT DATABASE MANAGEMENT (ADMIN) ---
       suggestUsername() {
         const editId = document.getElementById('studentEditId').value;
-        if (editId) return; // Don't overwrite username while editing existing student
-        const fullName = document.getElementById('stuFullName').value.trim();
-        if (!fullName) return;
-        const parts = fullName.toLowerCase().replace(/[^a-z\s]/g, '').split(/\s+/).filter(Boolean);
-        if (parts.length === 0) return;
-        const firstInitial = parts[0][0] || '';
-        const lastName = parts[parts.length - 1];
+        const currentUsername = document.getElementById('stuUsername').value.trim();
+        if (editId && currentUsername) return;
+        const lastName = document.getElementById('stuLastName').value.trim().toLowerCase().replace(/[^a-z]/g, '');
+        const givenName = document.getElementById('stuGivenName').value.trim().toLowerCase().replace(/[^a-z]/g, '');
+        if (!lastName && !givenName) return;
+        const firstInitial = givenName[0] || '';
         document.getElementById('stuUsername').value = `rmt_${firstInitial}${lastName}`;
       },
 
@@ -2271,59 +2445,92 @@
       async handleSaveStudent(e) {
         e.preventDefault();
         const editId = document.getElementById('studentEditId').value;
-        const fullName = document.getElementById('stuFullName').value.trim();
+        const lastName = document.getElementById('stuLastName').value.trim();
+        const givenName = document.getElementById('stuGivenName').value.trim();
+        const middleInitial = document.getElementById('stuMiddleInitial').value.trim().replace(/\.$/, '');
         const school = document.getElementById('stuSchool').value.trim();
-        const batch = document.getElementById('stuBatch').value;
+        const cycleMonth = document.getElementById('stuCycleMonth').value;
+        const cycleYear = document.getElementById('stuCycleYear').value.trim();
+        const birthday = document.getElementById('stuBirthday').value;
+        const age = Number(document.getElementById('stuAge').value);
+        const contactNumber = document.getElementById('stuContact').value.trim();
         const username = document.getElementById('stuUsername').value.trim();
         const password = document.getElementById('stuPassword').value.trim();
 
-        // Check unique username constraint
         const duplicate = state.students.find(
-          s => s.username.toLowerCase() === username.toLowerCase() && s.id !== editId
+          s => s.username && s.username.toLowerCase() === username.toLowerCase() && s.id !== editId
         );
         if (duplicate) {
           showToast(`Username "${username}" is already assigned to ${duplicate.fullName}. Please choose a unique username.`, 'error');
           return;
         }
 
+        const fullName = formatFullName(lastName, givenName, middleInitial);
+        const batch = `${cycleMonth} ${cycleYear}`;
+
         const studentObj = {
           id: editId || `stu_${Date.now()}`,
+          lastName,
+          givenName,
+          middleInitial,
           fullName,
           school,
           batch,
+          age,
+          birthday,
+          contactNumber,
           username,
           password,
+          accountStatus: 'ACTIVE',
           createdAt: new Date().toISOString().slice(0, 10)
         };
 
         await saveStudentRecord(studentObj);
         this.resetStudentForm();
-        showToast(editId ? `Updated student record for ${fullName}` : `Enrolled ${fullName} (@${username}) into database!`, 'success');
+        showToast(editId ? `Synced credentials & profile for ${fullName} to Firebase!` : `Added ${fullName} (@${username}) to Firebase!`, 'success');
       },
 
       editStudent(studentId) {
         const stu = state.students.find(s => s.id === studentId);
         if (!stu) return;
-        document.getElementById('studentEditId').value = stu.id;
-        document.getElementById('stuFullName').value = stu.fullName;
-        document.getElementById('stuSchool').value = stu.school;
-        document.getElementById('stuBatch').value = stu.batch;
-        document.getElementById('stuUsername').value = stu.username;
-        document.getElementById('stuPassword').value = stu.password;
 
-        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-pen text-amber-600"></i> Edit Student Record`;
-        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-check"></i><span>Update Student Credentials</span>`;
+        document.getElementById('studentEditId').value = stu.id;
+        document.getElementById('stuLastName').value = stu.lastName || '';
+        document.getElementById('stuGivenName').value = stu.givenName || '';
+        document.getElementById('stuMiddleInitial').value = stu.middleInitial || '';
+        document.getElementById('stuSchool').value = stu.school || '';
+
+        const batchParts = (stu.batch || 'March 2027').split(' ');
+        const month = batchParts[0] === 'August' ? 'August' : 'March';
+        const year = parseInt(batchParts[1], 10) || 2027;
+        document.getElementById('stuCycleMonth').value = month;
+        document.getElementById('stuCycleYear').value = year;
+
+        document.getElementById('stuBirthday').value = stu.birthday || '';
+        document.getElementById('stuAge').value = stu.age || '';
+        document.getElementById('stuContact').value = stu.contactNumber || '';
+        document.getElementById('stuUsername').value = stu.username || '';
+        document.getElementById('stuPassword').value = stu.password || '';
+
+        if (!stu.username) {
+          this.suggestUsername();
+        }
+        if (!stu.password) {
+          this.generateRandomPassword();
+        }
+
+        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-pen text-amber-600"></i> Assign Credentials / Edit Student`;
+        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-check"></i><span>Update & Assign in Firebase</span>`;
         document.getElementById('cancelEditStudentBtn').classList.remove('hidden');
       },
 
       resetStudentForm() {
         document.getElementById('studentEditId').value = '';
-        document.getElementById('stuFullName').value = '';
-        document.getElementById('stuSchool').value = '';
-        document.getElementById('stuUsername').value = '';
-        document.getElementById('stuPassword').value = 'mtle2026';
-        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-plus text-teal-600"></i> Enroll New Student`;
-        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i><span>Save Student to Database</span>`;
+        document.getElementById('studentForm').reset();
+        document.getElementById('stuCycleMonth').value = 'March';
+        document.getElementById('stuCycleYear').value = '2027';
+        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-plus text-teal-600"></i> Add / Manage Student`;
+        document.getElementById('studentFormSubmitBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i><span>Save & Sync Student to Firebase</span>`;
         document.getElementById('cancelEditStudentBtn').classList.add('hidden');
       },
 
@@ -2348,7 +2555,7 @@
         if (!stu) return;
         this.openConfirmModal(
           `Remove ${stu.fullName}?`,
-          `This will permanently remove ${stu.fullName} (@${stu.username}) and their recorded exam scores from the database.`,
+          `This will permanently remove ${stu.fullName} and their recorded exam scores from Firebase.`,
           async () => {
             await removeStudentRecord(studentId);
             showToast(`Removed ${stu.fullName} from the database.`, 'info');
@@ -2361,7 +2568,7 @@
         const stu = state.students.find(s => s.id === studentId);
         if (!stu) return;
         document.getElementById('scoreModalStudentId').value = stu.id;
-        document.getElementById('scoreModalStudentSub').textContent = `${stu.fullName} (@${stu.username}) • ${stu.batch}`;
+        document.getElementById('scoreModalStudentSub').textContent = `${stu.fullName} (${stu.username ? '@' + stu.username : 'Unassigned'}) • ${stu.batch}`;
 
         const container = document.getElementById('scoreModalExamsContainer');
         container.innerHTML = state.exams.map(ex => {
@@ -2419,7 +2626,6 @@
         if (!file) return;
         document.getElementById('uploadedFileNameDisplay').textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
 
-        // Auto-populate title if empty
         const titleInput = document.getElementById('examTitle');
         if (!titleInput.value.trim()) {
           titleInput.value = file.name.replace(/\.html?$/i, '').replace(/[_-]+/g, ' ');
@@ -2532,7 +2738,7 @@
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
-        showToast('Downloaded "MTLE_Microbiology_Sample_Exam.html" — you can now test uploading it!', 'success');
+        showToast('Downloaded "MTLE_Microbiology_Sample_Exam.html"!', 'success');
       },
 
       downloadExamHtmlFile(examId) {
@@ -2629,11 +2835,9 @@
           document.getElementById('viewerExamineeSub').textContent = `Admin Examination Viewer • File: ${ex.fileName}`;
         }
 
-        // Render the uploaded HTML examination inside the sandboxed iframe
         const iframe = document.getElementById('examHtmlIframe');
         iframe.srcdoc = ex.htmlContent;
 
-        // Configure Universal Side Grader Drawer
         document.getElementById('drawerTotalItems').textContent = ex.totalItems;
         const existingRec = state.scores.find(s => s.studentId === state.currentStudentId && s.examId === ex.id);
         document.getElementById('drawerScoreInput').max = ex.totalItems;
@@ -2677,10 +2881,15 @@
       // --- EXPORT LEDGER CSV ---
       exportLedgerCSV() {
         const headers = [
-          'Student Full Name',
+          'Last Name',
+          'Given Name',
+          'Middle Initial',
           'Unique Username',
           'School / University',
-          'Review Batch',
+          'Target Examination Cycle',
+          'Age',
+          'Birthday',
+          'Contact Number (Records Only)',
           ...state.exams.map(e => `${e.title} (${e.totalItems} pts)`),
           'Overall Raw Score',
           'Overall MTLE Rating (%)',
@@ -2693,10 +2902,15 @@
             bd.taken ? `${bd.score}/${bd.total} (${bd.percentage.toFixed(1)}%)` : 'Not Taken'
           );
           return [
-            stu.fullName,
-            stu.username,
-            stu.school,
-            stu.batch,
+            stu.lastName || '',
+            stu.givenName || '',
+            stu.middleInitial || '',
+            stu.username || 'UNASSIGNED',
+            stu.school || '',
+            stu.batch || '',
+            stu.age || '',
+            stu.birthday || '',
+            stu.contactNumber || '',
             ...examCols,
             `${m.earnedPoints}/${m.possiblePoints}`,
             `${m.overallPercentage.toFixed(2)}%`,
@@ -2737,7 +2951,6 @@
       }
     };
 
-    // Start the application on window load
     window.onload = function () {
       initDatabase();
     };
