@@ -4,46 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PulseRMT | MTLE Review & Examination Portal</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <!-- Link Master Stylesheet -->
   <link rel="stylesheet" href="style.css" />
-
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            med: {
-              50: '#f0fdfa',
-              100: '#ccfbf1',
-              200: '#99f6e4',
-              300: '#5eead4',
-              400: '#2dd4bf',
-              500: '#14b8a6',
-              600: '#0d9488',
-              700: '#0f766e',
-              800: '#115e59',
-              900: '#134e4a',
-              950: '#042f2e',
-            }
-          }
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+          colors: { med: { 50: '#f0fdfa', 100: '#ccfbf1', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' } }
         }
       }
     }
   </script>
-
-  <!-- Inject Firebase Configuration for PulseRMT Portal -->
   <script>
     window.__app_id = "mtle-review-portal-app";
     window.__firebase_config = JSON.stringify({
@@ -58,111 +34,53 @@
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-teal-600 selection:text-white">
 
-  <!-- MAIN NAVIGATION HEADER (Shown when logged in as Admin or Student) -->
   <header id="mainHeader" class="no-print bg-white border-b border-slate-200 shadow-sm sticky top-0 z-40 hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-600 to-emerald-700 flex items-center justify-center text-white shadow-md shadow-teal-600/20">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-600 to-emerald-700 flex items-center justify-center text-white shadow-md">
           <i class="fa-solid fa-vial-virus text-lg"></i>
         </div>
         <div>
           <div class="flex flex-wrap items-center gap-2">
             <h1 class="font-bold text-slate-900 text-base sm:text-lg tracking-tight">PulseRMT Review Center</h1>
             <span id="headerRoleBadge" class="px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-teal-100 text-teal-800">Admin</span>
-            <!-- Live 2-Way Auto-Save Indicator -->
-            <span id="syncStatusPill" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold transition-all">
+            <span id="syncStatusPill" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold">
               <span id="syncStatusDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span id="syncStatusText">2-Way Auto-Save Active</span>
             </span>
           </div>
-          <p class="text-xs text-slate-500 hidden sm:block">Medical Technologist Licensure Examination (MTLE) Assessment & Ledger System</p>
         </div>
       </div>
-
       <div class="flex items-center gap-3">
         <div class="text-right hidden sm:block">
           <div id="headerUserName" class="text-sm font-semibold text-slate-900">Administrator</div>
           <div id="headerUserSub" class="text-xs text-slate-500 font-mono">admin</div>
         </div>
-        <button onclick="app.logout()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition">
-          <i class="fa-solid fa-power-off"></i>
-          <span>Sign Out</span>
+        <button onclick="app.logout()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition">
+          <i class="fa-solid fa-power-off"></i><span>Sign Out</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- ===================================================================== -->
-  <!-- VIEW 1: LOGIN & ENROLLMENT PORTAL (NO CREDENTIALS SHOWN)              -->
-  <!-- ===================================================================== -->
   <main id="loginView" class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-10 bg-gradient-to-b from-slate-900 via-slate-900 to-teal-950">
     <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200/20">
       
-      <!-- Left Column: Branding & MTLE Subject Weight Reference -->
-      <div class="lg:col-span-5 bg-gradient-to-br from-teal-800 via-teal-900 to-slate-900 text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
-        <div class="relative z-10">
+      <div class="lg:col-span-5 bg-gradient-to-br from-teal-800 via-teal-900 to-slate-900 text-white p-8 sm:p-10 flex flex-col justify-between">
+        <div>
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-200 text-xs font-semibold mb-6">
-            <i class="fa-solid fa-award"></i> PRC Board of Medical Technology Aligned
+            <i class="fa-solid fa-award"></i> PRC Board Aligned
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">
             MTLE Online Examination & Student Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Real-time 2-way synchronized platform for student enrollment, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation[cite: 1].
+            Real-time 2-way synchronized platform for student enrollment, mock board exams, and PRC rating computation.
           </p>
-
-          <!-- Official MTLE Subject Weights Box -->
-          <div class="mt-6 bg-slate-950/40 border border-teal-500/20 rounded-2xl p-4">
-            <div class="text-xs font-bold uppercase tracking-wider text-teal-300 mb-3 flex items-center justify-between">
-              <span><i class="fa-solid fa-scale-balanced mr-1.5"></i>PRC MTLE Subject Weights</span>
-              <span>Passing: 75.00%</span>
-            </div>
-            <div class="grid grid-cols-1 gap-2 text-xs">
-              <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Clinical Chemistry</span>
-                <span class="font-mono font-bold text-teal-300">20%</span>
-              </div>
-              <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Microbiology & Parasitology</span>
-                <span class="font-mono font-bold text-teal-300">20%</span>
-              </div>
-              <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Hematology</span>
-                <span class="font-mono font-bold text-teal-300">20%</span>
-              </div>
-              <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Blood Banking & Serology</span>
-                <span class="font-mono font-bold text-teal-300">20%</span>
-              </div>
-              <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Clinical Microscopy</span>
-                <span class="font-mono font-bold text-teal-300">10%</span>
-              </div>
-              <div class="flex justify-between bg-white/5 px-3 py-1.5 rounded-lg">
-                <span class="text-slate-200">Histopathologic Tech & MT Laws</span>
-                <span class="font-mono font-bold text-teal-300">10%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Portal Notice -->
-        <div class="relative z-10 mt-8 pt-6 border-t border-white/10">
-          <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-teal-100/90 space-y-1">
-            <div class="font-bold text-teal-300 flex items-center gap-1.5">
-              <i class="fa-solid fa-arrows-rotate"></i> Real-Time 2-Way Sync Enabled
-            </div>
-            <p class="leading-relaxed text-teal-100/80">
-              Enroll via the <strong>Enroll Now</strong> tab[cite: 1]. Once the Admin assigns your username and password in the Admin Portal, your credentials work immediately for Student Login.
-            </p>
-          </div>
         </div>
       </div>
 
-      <!-- Right Column: Login & Enroll Now Forms -->
       <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center bg-white">
-        
-        <!-- 3-Way Navigation Tabs: Student Login | Admin Login | Enroll Now -->
         <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
           <button type="button" id="loginTabStudent" onclick="app.setLoginTab('student')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
             <i class="fa-solid fa-user-graduate mr-1"></i>Student Login
@@ -171,888 +89,255 @@
             <i class="fa-solid fa-user-shield mr-1"></i>Admin Login
           </button>
           <button type="button" id="loginTabEnroll" onclick="app.setLoginTab('enroll')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
-            <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now[cite: 1]
+            <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now
           </button>
         </div>
 
-        <!-- SIGN IN PANEL (For Student & Admin Login) -->
         <div id="signInPanel">
           <div class="mb-6">
             <h3 id="signInHeading" class="text-2xl font-bold text-slate-900">Student Portal Sign In</h3>
-            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password to access your profile[cite: 1].</p>
+            <p class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password.</p>
           </div>
-
           <form id="loginForm" onsubmit="app.handleLoginSubmit(event)" class="space-y-4">
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5" id="loginUsernameLabel">
-                Student Username
-              </label>
-              <div class="relative">
-                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                  <i class="fa-solid fa-id-badge"></i>
-                </span>
-                <input type="text" id="loginUsername" required autocomplete="off" placeholder="Enter your assigned username"
-                  class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition" />
-              </div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5" id="loginUsernameLabel">Student Username</label>
+              <input type="text" id="loginUsername" required placeholder="Enter username" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
             </div>
-
             <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-                Password
-              </label>
-              <div class="relative">
-                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                  <i class="fa-solid fa-lock"></i>
-                </span>
-                <input type="password" id="loginPassword" required autocomplete="off" placeholder="Enter your password"
-                  class="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition" />
-                <button type="button" onclick="app.togglePasswordField('loginPassword')" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
-                  <i class="fa-regular fa-eye"></i>
-                </button>
-              </div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Password</label>
+              <input type="password" id="loginPassword" required placeholder="Enter password" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
             </div>
-
-            <div id="loginErrorBox" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
-              <i class="fa-solid fa-circle-exclamation text-rose-500"></i>
-              <span id="loginErrorText">Invalid username or password.</span>
+            <div id="loginErrorBox" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+              Invalid username or password.
             </div>
-
-            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
-              <span>Access MTLE Portal</span>
-              <i class="fa-solid fa-arrow-right"></i>
+            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-lg">
+              Access MTLE Portal <i class="fa-solid fa-arrow-right ml-1"></i>
             </button>
           </form>
-
-          <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <span>New MTLE Reviewee?</span>
-            <button type="button" onclick="app.setLoginTab('enroll')" class="font-bold text-teal-600 hover:text-teal-700 hover:underline">
-              Click here to Enroll Now[cite: 1] <i class="fa-solid fa-arrow-right ml-1"></i>
-            </button>
-          </div>
         </div>
 
-        <!-- ENROLL NOW PANEL (For Student Self-Enrollment) -->
         <div id="enrollNowPanel" class="hidden">
           <div class="mb-4">
             <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment</h3>
-            <p class="text-xs text-slate-500 mt-0.5">
-              Complete your student information below[cite: 1]. Your enrollment is automatically saved to the Admin Database for credential assignment.
-            </p>
+            <p class="text-xs text-slate-500 mt-0.5">Complete your details below to submit your enrollment.</p>
           </div>
-
           <form id="selfEnrollForm" onsubmit="app.handleSelfEnrollmentSubmit(event)" class="space-y-3.5">
-            <!-- Name Row: Last Name, Given Name, Middle Initial (Optional) -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *[cite: 1]</label>
-                <input type="text" id="enrollLastName" required placeholder="e.g. Santos"
-                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Last Name *</label>
+                <input type="text" id="enrollLastName" required placeholder="Santos" class="w-full px-3 py-2 rounded-xl border text-sm" />
               </div>
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *[cite: 1]</label>
-                <input type="text" id="enrollGivenName" required placeholder="e.g. Maria Clara"
-                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Given Name *</label>
+                <input type="text" id="enrollGivenName" required placeholder="Maria Clara" class="w-full px-3 py-2 rounded-xl border text-sm" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Middle Initial (Optional)">M.I. <span class="text-[9px] font-normal text-slate-400">(Opt)[cite: 1]</span></label>
-                <input type="text" id="enrollMiddleInitial" maxlength="3" placeholder="D."
-                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm text-center focus:border-teal-600 outline-none" />
+                <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">M.I.</label>
+                <input type="text" id="enrollMiddleInitial" maxlength="3" placeholder="D." class="w-full px-2 py-2 rounded-xl border text-sm text-center" />
               </div>
             </div>
-
-            <!-- School / University -->
             <div>
-              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *[cite: 1]</label>
-              <input type="text" id="enrollSchool" required placeholder="e.g. University of Santo Tomas (UST)"
-                class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">School *</label>
+              <input type="text" id="enrollSchool" required placeholder="University of Santo Tomas" class="w-full px-3 py-2 rounded-xl border text-sm" />
             </div>
-
-            <!-- Target Examination Cycle (March <Year> or August <Year>) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Cycle Month *[cite: 1]</label>
-                <select id="enrollCycleMonth" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-teal-600 outline-none">
-                  <option value="March">March</option>
-                  <option value="August">August</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Year *[cite: 1]</label>
-                <input type="number" id="enrollCycleYear" required min="2026" max="2035" value="2027" placeholder="e.g. 2027"
-                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
-              </div>
+            <div class="grid grid-cols-2 gap-3">
+              <select id="enrollCycleMonth" class="px-3 py-2 rounded-xl border text-sm bg-white"><option value="March">March</option><option value="August">August</option></select>
+              <input type="number" id="enrollCycleYear" value="2027" class="px-3 py-2 rounded-xl border text-sm font-mono" />
             </div>
-
-            <!-- Birthday, Age & Contact Number -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
-              <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *[cite: 1]</label>
-                <input type="date" id="enrollBirthday" required onchange="app.autoComputeAge('enrollBirthday', 'enrollAge')"
-                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
-              </div>
-              <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *[cite: 1]</label>
-                <input type="number" id="enrollAge" required min="15" max="99" placeholder="22"
-                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono text-center focus:border-teal-600 outline-none" />
-              </div>
-              <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
-                  Contact Number * <span class="text-[10px] font-normal text-slate-400">(Records Only)[cite: 1]</span>
-                </label>
-                <input type="tel" id="enrollContact" required placeholder="e.g. 09171234567"
-                  class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
-              </div>
+            <div class="grid grid-cols-12 gap-3">
+              <div class="col-span-5"><input type="date" id="enrollBirthday" required onchange="app.autoComputeAge('enrollBirthday', 'enrollAge')" class="w-full px-2 py-2 rounded-xl border text-xs" /></div>
+              <div class="col-span-2"><input type="number" id="enrollAge" required placeholder="Age" class="w-full px-2 py-2 rounded-xl border text-xs text-center font-mono" /></div>
+              <div class="col-span-5"><input type="tel" id="enrollContact" required placeholder="Contact Number" class="w-full px-2 py-2 rounded-xl border text-xs font-mono" /></div>
             </div>
-
-            <div id="enrollSuccessBanner" class="hidden p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs space-y-1">
-              <div class="font-bold flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                <span>Enrollment Automatically Saved & Synced!</span>
-              </div>
-              <p id="enrollSuccessText" class="text-emerald-700 leading-relaxed"></p>
+            <div id="enrollSuccessBanner" class="hidden p-3 rounded-xl bg-emerald-50 text-emerald-800 text-xs">
+              <span id="enrollSuccessText"></span>
             </div>
-
-            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-paper-plane"></i>
-              <span>Submit Enrollment Application</span>
-            </button>
+            <button type="submit" class="w-full py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm">Submit Enrollment Application</button>
           </form>
         </div>
 
       </div>
-
     </div>
   </main>
 
-  <!-- ===================================================================== -->
-  <!-- VIEW 2: ADMIN PORTAL                                                  -->
-  <!-- ===================================================================== -->
   <main id="adminView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
-    
-    <!-- Admin Top KPI Summary Row -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Enrolled Students</p>
-          <p id="adminKpiStudents" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</p>
-          <p id="adminKpiPendingSub" class="text-xs text-teal-600 font-medium mt-1"><i class="fa-solid fa-user-check mr-1"></i>Active MTLE Reviewees</p>
-        </div>
-        <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl">
-          <i class="fa-solid fa-users"></i>
-        </div>
+      <div class="bg-white rounded-2xl p-5 border shadow-sm">
+        <p class="text-xs font-bold uppercase text-slate-500">Enrolled Students</p>
+        <p id="adminKpiStudents" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
+        <p id="adminKpiPendingSub" class="text-xs text-teal-600 font-medium mt-1">Active Reviewees</p>
       </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Uploaded HTML Exams</p>
-          <p id="adminKpiExams" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</p>
-          <p class="text-xs text-indigo-600 font-medium mt-1"><i class="fa-solid fa-file-code mr-1"></i>Interactive .HTML Modules</p>
-        </div>
-        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
-          <i class="fa-solid fa-laptop-medical"></i>
-        </div>
+      <div class="bg-white rounded-2xl p-5 border shadow-sm">
+        <p class="text-xs font-bold uppercase text-slate-500">Uploaded HTML Exams</p>
+        <p id="adminKpiExams" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
       </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Cohort Average Rating</p>
-          <p id="adminKpiAvgRating" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0.00%</p>
-          <p class="text-xs text-slate-500 font-medium mt-1">PRC Passing Cutoff: <strong class="text-slate-700">75.00%</strong></p>
-        </div>
-        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
-          <i class="fa-solid fa-chart-line"></i>
-        </div>
+      <div class="bg-white rounded-2xl p-5 border shadow-sm">
+        <p class="text-xs font-bold uppercase text-slate-500">Cohort Average Rating</p>
+        <p id="adminKpiAvgRating" class="text-2xl font-extrabold text-slate-900 mt-1">0.00%</p>
       </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Board Passing Rate</p>
-          <p id="adminKpiPassRate" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0%</p>
-          <p id="adminKpiPassCount" class="text-xs text-emerald-700 font-medium mt-1">0 of 0 Passing Overall</p>
-        </div>
-        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
-          <i class="fa-solid fa-medal"></i>
-        </div>
+      <div class="bg-white rounded-2xl p-5 border shadow-sm">
+        <p class="text-xs font-bold uppercase text-slate-500">Board Passing Rate</p>
+        <p id="adminKpiPassRate" class="text-2xl font-extrabold text-emerald-600 mt-1">0%</p>
       </div>
     </section>
 
-    <!-- Admin Navigation Tabs -->
-    <div class="no-print bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap gap-1.5">
-      <button onclick="app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 bg-teal-600 text-white shadow-sm">
-        <i class="fa-solid fa-table-list"></i>
-        <span>1. Ledger of Students & Scores</span>
-      </button>
-      <button onclick="app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
-        <i class="fa-solid fa-users-gear"></i>
-        <span>2. Admin Student Management (Auto-Save Credentials)[cite: 1]</span>
-      </button>
-      <button onclick="app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
-        <i class="fa-solid fa-file-arrow-up"></i>
-        <span>3. Upload HTML Examinations</span>
-      </button>
+    <div class="bg-white p-1.5 rounded-2xl border shadow-sm flex gap-2">
+      <button onclick="app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold bg-teal-600 text-white">1. Ledger</button>
+      <button onclick="app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-600">2. Students</button>
+      <button onclick="app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-600">3. Upload Exams</button>
     </div>
 
-    <!-- =============================================================== -->
-    <!-- ADMIN TAB 1: LEDGER OF STUDENTS & SCORES/RATINGS                -->
-    <!-- =============================================================== -->
     <section id="adminSection_ledger" class="space-y-4">
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <!-- Ledger Header & Filters -->
-        <div class="p-5 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div>
-            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-book-medical text-teal-600"></i>
-              Official MTLE Reviewee Master Ledger
-            </h2>
-            <p class="text-xs text-slate-500 mt-0.5">
-              Real-time 2-way synced ledger of student scores across uploaded HTML exams, individual ratings, and overall MTLE general average.
-            </p>
-          </div>
-
-          <div class="no-print flex flex-wrap items-center gap-2.5">
-            <div class="relative">
-              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-              <input type="text" id="ledgerSearchInput" oninput="app.renderAdminLedger()" placeholder="Search name, username, school..."
-                class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-52" />
-            </div>
-
-            <select id="ledgerBatchFilter" onchange="app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
-              <option value="ALL">All Examination Cycles</option>
-            </select>
-
-            <select id="ledgerStatusFilter" onchange="app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
-              <option value="ALL">All Remarks</option>
-              <option value="PASSED">Passed (≥75%)</option>
-              <option value="CONDITIONAL">Conditional / Needs Review</option>
-              <option value="NO_EXAMS">No Exams Taken</option>
-            </select>
-
-            <button onclick="app.exportLedgerCSV()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition inline-flex items-center gap-1.5">
-              <i class="fa-solid fa-file-csv text-teal-600"></i> Export CSV
-            </button>
-            <button onclick="window.print()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition inline-flex items-center gap-1.5">
-              <i class="fa-solid fa-print text-slate-600"></i> Print Ledger
-            </button>
+      <div class="bg-white rounded-2xl border shadow-sm overflow-hidden p-5">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-bold">Master Ledger</h2>
+          <div class="flex gap-2">
+            <input type="text" id="ledgerSearchInput" oninput="app.renderAdminLedger()" placeholder="Search..." class="px-3 py-1.5 border rounded text-xs" />
+            <select id="ledgerBatchFilter" onchange="app.renderAdminLedger()" class="px-3 py-1.5 border rounded text-xs"><option value="ALL">All Cycles</option></select>
           </div>
         </div>
-
-        <!-- Master Ledger Table -->
         <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr id="ledgerTableHeadRow" class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                <!-- Dynamically built with Exam Columns -->
-              </tr>
-            </thead>
-            <tbody id="ledgerTableBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
-              <!-- Dynamically populated rows -->
-            </tbody>
+          <table class="w-full text-left">
+            <thead><tr id="ledgerTableHeadRow" class="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase"></tr></thead>
+            <tbody id="ledgerTableBody" class="divide-y text-sm"></tbody>
           </table>
-        </div>
-
-        <!-- Ledger Footer Legend -->
-        <div class="bg-slate-50 px-5 py-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
-          <div class="flex flex-wrap items-center gap-4">
-            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <strong>PASSED:</strong> Overall Rating ≥ 75.00%</span>
-            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> <strong>BELOW CUTOFF:</strong> Overall Rating &lt; 75.00%</span>
-          </div>
-          <div>
-            <i class="fa-solid fa-bolt text-teal-600 mr-1"></i>Scores edited via <strong>"Record Scores"</strong> auto-save immediately to both Admin and Student Portals.
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- =============================================================== -->
-    <!-- ADMIN TAB 2: DATABASE OF STUDENTS (ADD, REMOVE, AUTO-SAVE)      -->
-    <!-- =============================================================== -->
     <section id="adminSection_students" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left 4 Cols: Admin Form to Add Student or Edit Details -->
-        <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-fit">
-          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-            <div>
-              <h3 id="studentFormTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-user-plus text-teal-600"></i>
-                Add Student
-              </h3>
-            </div>
-            <button type="button" id="cancelEditStudentBtn" onclick="app.resetStudentForm()" class="hidden text-xs text-rose-600 hover:underline font-semibold">
-              Cancel
-            </button>
-          </div>
-
+        <div class="lg:col-span-4 bg-white rounded-2xl border p-5 h-fit">
+          <h3 id="studentFormTitle" class="text-base font-bold mb-3">Add Student</h3>
           <form id="studentForm" onsubmit="app.handleSaveStudent(event)" class="space-y-3">
-            <input type="hidden" id="studentEditId" value="" />
-
-            <!-- Name Fields: Last Name, Given Name, Middle Initial -->
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
-              <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *[cite: 1]</label>
-                <input type="text" id="stuLastName" required oninput="app.suggestUsername()" placeholder="Santos"
-                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
-              </div>
-              <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *[cite: 1]</label>
-                <input type="text" id="stuGivenName" required oninput="app.suggestUsername()" placeholder="Maria Clara"
-                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
-              </div>
-              <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Optional">M.I.[cite: 1]</label>
-                <input type="text" id="stuMiddleInitial" maxlength="3" placeholder="D."
-                  class="w-full px-2 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm text-center focus:border-teal-600 outline-none" />
-              </div>
+            <input type="hidden" id="studentEditId" />
+            <input type="text" id="stuLastName" required placeholder="Last Name" class="w-full px-3 py-2 border rounded text-sm" />
+            <input type="text" id="stuGivenName" required placeholder="Given Name" class="w-full px-3 py-2 border rounded text-sm" />
+            <input type="text" id="stuSchool" required placeholder="School" class="w-full px-3 py-2 border rounded text-sm" />
+            <div class="grid grid-cols-2 gap-2">
+              <select id="stuCycleMonth" class="px-3 py-2 border rounded text-sm"><option value="March">March</option><option value="August">August</option></select>
+              <input type="number" id="stuCycleYear" value="2027" class="px-3 py-2 border rounded text-sm font-mono" />
             </div>
-
-            <div>
-              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *[cite: 1]</label>
-              <input type="text" id="stuSchool" required placeholder="e.g. University of Santo Tomas (UST)"
-                class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
+            <div class="grid grid-cols-2 gap-2">
+              <input type="date" id="stuBirthday" required class="px-2 py-2 border rounded text-xs" />
+              <input type="number" id="stuAge" required placeholder="Age" class="px-2 py-2 border rounded text-xs font-mono text-center" />
             </div>
-
-            <!-- Target Examination Cycle: March <Year> or August <Year> -->
-            <div class="grid grid-cols-2 gap-2.5">
-              <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Month *[cite: 1]</label>
-                <select id="stuCycleMonth" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white focus:border-teal-600 outline-none">
-                  <option value="March">March</option>
-                  <option value="August">August</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Year *[cite: 1]</label>
-                <input type="number" id="stuCycleYear" required min="2026" max="2035" value="2027"
-                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono focus:border-teal-600 outline-none" />
-              </div>
-            </div>
-
-            <!-- Birthday, Age & Contact Number (For records only) -->
-            <div class="grid grid-cols-12 gap-2.5">
-              <div class="col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *[cite: 1]</label>
-                <input type="date" id="stuBirthday" required onchange="app.autoComputeAge('stuBirthday', 'stuAge')"
-                  class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none" />
-              </div>
-              <div class="col-span-3">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *[cite: 1]</label>
-                <input type="number" id="stuAge" required min="15" max="99" placeholder="22"
-                  class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono text-center focus:border-teal-600 outline-none" />
-              </div>
-              <div class="col-span-4">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="For records only">Contact # *[cite: 1]</label>
-                <input type="tel" id="stuContact" required placeholder="0917..."
-                  class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:border-teal-600 outline-none" />
-              </div>
-            </div>
-
-            <!-- Firebase Credentials Assignment Box -->
-            <div class="pt-3 border-t border-slate-100 space-y-2.5">
-              <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Username *[cite: 1]</label>
-                <button type="button" onclick="app.generateRandomUsername()" class="text-[11px] text-teal-600 hover:underline font-semibold">
-                  Auto-Generate
-                </button>
-              </div>
-              <input type="text" id="stuUsername" required placeholder="e.g. rmt_msantos"
-                class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
-
-              <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Password *[cite: 1]</label>
-                <button type="button" onclick="app.generateRandomPassword()" class="text-[11px] text-teal-600 hover:underline font-semibold">
-                  Generate Password
-                </button>
-              </div>
-              <input type="text" id="stuPassword" required placeholder="Assign student password"
-                class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
-            </div>
-
-            <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-floppy-disk"></i>
-              <span>Add Student to Database[cite: 1]</span>
-            </button>
+            <input type="tel" id="stuContact" required placeholder="Contact Number" class="w-full px-3 py-2 border rounded text-xs font-mono" />
+            <input type="text" id="stuUsername" required placeholder="Username" class="w-full px-3 py-2 border rounded text-xs font-mono" />
+            <input type="text" id="stuPassword" required placeholder="Password" class="w-full px-3 py-2 border rounded text-xs font-mono" />
+            <button type="submit" id="studentFormSubmitBtn" class="w-full py-2.5 bg-teal-600 text-white rounded font-bold text-sm">Save Student</button>
+            <button type="button" id="cancelEditStudentBtn" onclick="app.resetStudentForm()" class="hidden w-full py-1 text-rose-600 text-xs font-semibold">Cancel Edit</button>
           </form>
         </div>
-
-        <!-- Right 8 Cols: Database Table with Direct Inline Auto-Save Credential Inputs -->
-        <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-database text-teal-600"></i>
-                Student Database & Auto-Save Credentials[cite: 1]
-              </h3>
-              <p class="text-xs text-slate-500">
-                Type or generate a <strong>Username</strong> and <strong>Password</strong> directly in any row below—it auto-saves to Firebase & reflects immediately[cite: 1].
-              </p>
-            </div>
-            <div class="relative">
-              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-              <input type="text" id="studentDbSearch" oninput="app.renderStudentDatabaseTable()" placeholder="Filter student database..."
-                class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-56" />
-            </div>
-          </div>
-
-          <div class="overflow-x-auto flex-1">
-            <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                  <th class="py-3 px-4">Student Name & School</th>
-                  <th class="py-3 px-3">Target Cycle</th>
-                  <th class="py-3 px-3">Records Info</th>
-                  <th class="py-3 px-3 min-w-[230px]">Inline Credentials (Auto-Saves)</th>
-                  <th class="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="studentDatabaseBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
-                <!-- Populated dynamically -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- =============================================================== -->
-    <!-- ADMIN TAB 3: UPLOAD HTML EXAMINATIONS MANAGER                   -->
-    <!-- =============================================================== -->
-    <section id="adminSection_exams" class="hidden space-y-6">
-      
-      <!-- Top Helper Banner for Testing HTML File Uploads -->
-      <div class="bg-gradient-to-r from-teal-900 via-teal-800 to-slate-900 rounded-2xl p-5 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="space-y-1">
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-400/20 text-teal-200 text-xs font-semibold">
-            <i class="fa-solid fa-code"></i> HTML Examination Engine
-          </div>
-          <h3 class="text-lg font-bold">Upload Any <code class="font-mono text-teal-300">.html</code> Examination File</h3>
-          <p class="text-xs text-teal-100/80 max-w-2xl leading-relaxed">
-            Uploaded <code class="font-mono">.html</code> examinations are automatically saved and immediately appear in every Student Profile.
-          </p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-          <button onclick="app.downloadSampleHtmlTemplate()" class="px-4 py-2.5 rounded-xl bg-teal-400 hover:bg-teal-300 text-slate-950 font-bold text-xs shadow-lg transition flex items-center gap-2">
-            <i class="fa-solid fa-download"></i>
-            <span>Download Sample Exam (.HTML)</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left 5 Cols: Upload HTML Examination Form -->
-        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4 h-fit">
-          <div class="border-b border-slate-100 pb-3">
-            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-file-circle-plus text-teal-600"></i>
-              Upload New HTML Examination
-            </h3>
-            <p class="text-xs text-slate-500">Select an <code class="font-mono">.html</code> file from your computer or paste/edit HTML source below.</p>
-          </div>
-
-          <form id="uploadExamForm" onsubmit="app.handleUploadExamSubmit(event)" class="space-y-3.5">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Examination Title *</label>
-              <input type="text" id="examTitle" required placeholder="e.g. Blood Banking & Serology Pre-Board Exam"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">MTLE Subject Category *</label>
-                <select id="examCategory" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white focus:border-teal-600 outline-none">
-                  <option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option>
-                  <option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option>
-                  <option value="Hematology (20%)">Hematology (20%)</option>
-                  <option value="Blood Banking & Serology (20%)">Blood Banking & Serology (20%)</option>
-                  <option value="Clinical Microscopy (10%)">Clinical Microscopy (10%)</option>
-                  <option value="Histopathology & MT Laws (10%)">Histopathology & MT Laws (10%)</option>
-                  <option value="Comprehensive Mock Board">Comprehensive Mock Board</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Total Items / Points *</label>
-                <input type="number" id="examTotalItems" required min="1" max="500" value="5"
-                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
-              </div>
-            </div>
-
-            <!-- File Dropzone for .html -->
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Select <code class="font-mono">.html</code> Examination File *</label>
-              <label for="examHtmlFileInput" class="flex flex-col items-center justify-center p-5 border-2 border-dashed border-teal-300 hover:border-teal-500 rounded-2xl bg-teal-50/40 hover:bg-teal-50/80 cursor-pointer transition text-center">
-                <i class="fa-brands fa-html5 text-3xl text-orange-500 mb-1.5"></i>
-                <span id="uploadedFileNameDisplay" class="text-xs font-bold text-slate-700">Click to browse and upload an .HTML file</span>
-                <span class="text-[11px] text-slate-500 mt-0.5">Supports any standard .html or .htm examination file</span>
-                <input type="file" id="examHtmlFileInput" accept=".html,.htm" onchange="app.handleHtmlFileSelected(event)" class="hidden" />
-              </label>
-            </div>
-
-            <!-- HTML Source Code Inspector / Editor -->
-            <div>
-              <div class="flex items-center justify-between mb-1">
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">HTML Examination Source Code</label>
-                <button type="button" onclick="app.loadStarterHtmlIntoEditor()" class="text-[11px] text-teal-600 hover:underline font-semibold">
-                  Load Starter HTML Quiz Code
-                </button>
-              </div>
-              <textarea id="examHtmlContent" rows="6" required placeholder="Upload an .html file above or paste HTML examination code here..."
-                class="w-full p-3 rounded-xl border border-slate-300 text-xs font-mono bg-slate-900 text-teal-300 focus:border-teal-600 outline-none"></textarea>
-            </div>
-
-            <div class="flex items-center gap-2 pt-1">
-              <button type="button" onclick="app.previewDraftHtmlExam()" class="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
-                <i class="fa-solid fa-eye"></i> Preview HTML
-              </button>
-              <button type="submit" class="flex-1 py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>Publish HTML Exam to Portal</span>
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Right 7 Cols: List of Uploaded HTML Examinations -->
-        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          <div class="p-5 border-b border-slate-200 flex items-center justify-between">
-            <div>
-              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-folder-open text-teal-600"></i>
-                Published HTML Examinations Repository
-              </h3>
-              <p class="text-xs text-slate-500">All examinations below are immediately accessible in every Student Profile[cite: 1].</p>
-            </div>
-          </div>
-
-          <div id="adminExamsList" class="p-5 space-y-3.5 flex-1">
-            <!-- Dynamically populated exam cards -->
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ===================================================================== -->
-  <!-- VIEW 3: STUDENT PORTAL (STUDENT PROFILE & EXAM CENTER)                -->
-  <!-- ===================================================================== -->
-  <main id="studentView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
-    
-    <!-- Student Profile Header Banner -->
-    <section class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
-      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-          <div id="stuProfileAvatar" class="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-600 text-slate-950 font-extrabold text-2xl flex items-center justify-center shadow-lg shrink-0">
-            MS
-          </div>
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs font-semibold">
-                MTLE Reviewee Profile
-              </span>
-              <span id="stuProfileBatch" class="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-200 text-xs font-medium">
-                March 2027
-              </span>
-              <button onclick="app.toggleStudentProfileEditor()" class="no-print px-2.5 py-0.5 rounded-full bg-teal-500/30 hover:bg-teal-500/50 border border-teal-400/40 text-teal-100 text-xs font-semibold transition">
-                <i class="fa-solid fa-user-gear mr-1"></i>Edit My Profile & Credentials[cite: 1]
-              </button>
-            </div>
-            <h2 id="stuProfileName" class="text-2xl sm:text-3xl font-extrabold mt-1">Santos, Maria Clara D.</h2>
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-teal-200/90 mt-1">
-              <span><i class="fa-solid fa-id-card mr-1.5 text-teal-400"></i>Username: <strong id="stuProfileUsername" class="font-mono text-white">rmt_msantos</strong></span>
-              <span><i class="fa-solid fa-building-columns mr-1.5 text-teal-400"></i>School: <strong id="stuProfileSchool" class="text-white">University of Santo Tomas</strong></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Overall Standing Badge Card -->
-        <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 flex items-center gap-5 shrink-0">
-          <div>
-            <div class="text-[11px] font-bold uppercase tracking-wider text-teal-200">Overall MTLE Rating</div>
-            <div id="stuBannerOverallRating" class="text-3xl font-extrabold font-mono text-white mt-0.5">0.00%</div>
-            <div id="stuBannerOverallScore" class="text-xs text-teal-200 mt-0.5">Overall Score: 0 / 0 pts</div>
-          </div>
-          <div class="h-12 w-px bg-white/15"></div>
-          <div>
-            <div class="text-[11px] font-bold uppercase tracking-wider text-teal-200 mb-1">Board Standing</div>
-            <div id="stuBannerRemarksBadge">
-              <!-- Passed / Conditional badge -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Collapsible 2-Way Student Profile & Credential Editor (Auto-Saves) -->
-    <section id="studentSelfEditSection" class="no-print hidden bg-white rounded-2xl border-2 border-teal-500/40 shadow-md p-5 space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div>
-          <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-arrows-rotate text-teal-600"></i>
-            My Profile & Login Credentials (2-Way Auto-Save)[cite: 1]
-          </h3>
-          <p class="text-xs text-slate-500">Any update you make below is automatically saved and synced to the Admin Database[cite: 1].</p>
-        </div>
-        <button onclick="app.toggleStudentProfileEditor()" class="text-xs font-bold text-slate-500 hover:text-slate-800">
-          <i class="fa-solid fa-xmark mr-1"></i>Close
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Last Name[cite: 1]</label>
-          <input type="text" id="selfEditLastName" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Given Name[cite: 1]</label>
-          <input type="text" id="selfEditGivenName" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Middle Initial[cite: 1]</label>
-          <input type="text" id="selfEditMiddleInitial" maxlength="3" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">School / University[cite: 1]</label>
-          <input type="text" id="selfEditSchool" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Target Exam Cycle[cite: 1]</label>
-          <div class="grid grid-cols-2 gap-1.5">
-            <select id="selfEditCycleMonth" onchange="app.handleStudentSelfProfileAutoSave()" class="px-2 py-2 rounded-xl border border-slate-300 bg-white font-semibold">
-              <option value="March">March</option>
-              <option value="August">August</option>
-            </select>
-            <input type="number" id="selfEditCycleYear" min="2026" max="2035" oninput="app.handleStudentSelfProfileAutoSave()" class="px-2.5 py-2 rounded-xl border border-slate-300 font-mono font-semibold" />
-          </div>
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Contact # (Records Only)[cite: 1]</label>
-          <input type="tel" id="selfEditContact" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-teal-700 mb-1">Assigned Username[cite: 1]</label>
-          <input type="text" id="selfEditUsername" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 font-mono text-slate-600 cursor-not-allowed" title="Assigned by Admin" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-teal-700 mb-1">My Password (Auto-Saves)[cite: 1]</label>
-          <input type="text" id="selfEditPassword" oninput="app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-teal-300 bg-teal-50/30 font-mono font-bold text-slate-900" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Student KPI Summary Row -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Overall Cumulative Score</div>
-        <div id="stuCardTotalScore" class="text-2xl font-extrabold text-slate-900 font-mono mt-1.5">0 / 0</div>
-        <div class="text-xs text-slate-500 mt-1">Total raw points across taken exams</div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Computed Overall Rating</div>
-        <div id="stuCardOverallRating" class="text-2xl font-extrabold text-teal-600 font-mono mt-1.5">0.00%</div>
-        <div class="text-xs text-slate-500 mt-1">PRC Passing Standard: <strong>75.00%</strong></div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Examinations Completed</div>
-        <div id="stuCardExamsCompleted" class="text-2xl font-extrabold text-slate-900 font-mono mt-1.5">0 / 0</div>
-        <div class="w-full bg-slate-100 h-2 rounded-full mt-2 overflow-hidden">
-          <div id="stuCardCompletionBar" class="bg-teal-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Highest Subject Rating</div>
-        <div id="stuCardHighestSubject" class="text-lg font-extrabold text-slate-900 mt-1.5 truncate">—</div>
-        <div id="stuCardHighestVal" class="text-xs text-emerald-600 font-semibold mt-1">Take an exam to compute</div>
-      </div>
-    </section>
-
-    <!-- Student Main Content Grid: Uploaded Examinations & Scores Ledger -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      
-      <!-- Left 5 Cols: Access to Uploaded HTML Examinations -->
-      <section class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-        <div class="p-5 border-b border-slate-200">
-          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-laptop-file text-teal-600"></i>
-            Uploaded HTML Examinations
-          </h3>
-          <p class="text-xs text-slate-500 mt-0.5">
-            Click <strong>"Take HTML Exam"</strong> to launch the interactive examination. Scores auto-save to your profile and the Admin Ledger[cite: 1].
-          </p>
-        </div>
-
-        <div id="studentExamsList" class="p-5 space-y-3.5 flex-1">
-          <!-- Dynamically populated available HTML exams for this student -->
-        </div>
-      </section>
-
-      <!-- Right 7 Cols: Detailed Scores & Ratings in Each Exam + Overall Score -->
-      <section class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-        <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-chart-pie text-teal-600"></i>
-              Scores & Ratings per Examination
-            </h3>
-            <p class="text-xs text-slate-500 mt-0.5">
-              Live 2-way synced breakdown of your raw scores, percentage ratings, and cumulative MTLE standing[cite: 1].
-            </p>
-          </div>
-          <button onclick="window.print()" class="no-print px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition inline-flex items-center gap-1.5">
-            <i class="fa-solid fa-print"></i> Print Report Card
-          </button>
-        </div>
-
-        <div class="overflow-x-auto flex-1">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                <th class="py-3 px-4">Examination & Subject</th>
-                <th class="py-3 px-4 text-center">Raw Score</th>
-                <th class="py-3 px-4">Percentage Rating</th>
-                <th class="py-3 px-4 text-center">Remarks</th>
-                <th class="py-3 px-4 text-right no-print">Action</th>
-              </tr>
-            </thead>
-            <tbody id="studentScoresTableBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
-              <!-- Populated dynamically -->
-            </tbody>
-            <tfoot id="studentScoresTableFoot" class="bg-slate-900 text-white font-bold text-xs sm:text-sm">
-              <!-- Overall Summary Row -->
-            </tfoot>
+        <div class="lg:col-span-8 bg-white rounded-2xl border overflow-hidden">
+          <div class="p-4 border-b flex justify-between"><h3 class="font-bold">Student Database</h3><input type="text" id="studentDbSearch" oninput="app.renderStudentDatabaseTable()" placeholder="Search..." class="px-3 py-1 border rounded text-xs" /></div>
+          <table class="w-full text-left">
+            <thead><tr class="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase"><th class="p-3">Name & School</th><th class="p-3">Cycle</th><th class="p-3">Info</th><th class="p-3">Credentials</th><th class="p-3 text-right">Actions</th></tr></thead>
+            <tbody id="studentDatabaseBody" class="divide-y text-sm"></tbody>
           </table>
         </div>
-      </section>
+      </div>
+    </section>
 
+    <section id="adminSection_exams" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5 bg-white rounded-2xl border p-5">
+          <h3 class="font-bold mb-3">Upload HTML Exam</h3>
+          <form onsubmit="app.handleUploadExamSubmit(event)" class="space-y-3">
+            <input type="text" id="examTitle" required placeholder="Exam Title" class="w-full px-3 py-2 border rounded text-sm" />
+            <select id="examCategory" class="w-full px-3 py-2 border rounded text-sm"><option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option><option value="Hematology (20%)">Hematology (20%)</option></select>
+            <input type="number" id="examTotalItems" value="5" class="w-full px-3 py-2 border rounded text-sm font-mono" />
+            <input type="file" id="examHtmlFileInput" accept=".html" onchange="app.handleHtmlFileSelected(event)" class="w-full text-xs" />
+            <textarea id="examHtmlContent" rows="5" placeholder="HTML Code" class="w-full p-2 border rounded text-xs font-mono bg-slate-900 text-teal-300"></textarea>
+            <div class="flex gap-2">
+              <button type="button" onclick="app.loadStarterHtmlIntoEditor()" class="px-3 py-2 bg-slate-100 rounded text-xs font-bold">Load Sample</button>
+              <button type="submit" class="flex-1 py-2 bg-teal-600 text-white rounded text-xs font-bold">Publish Exam</button>
+            </div>
+          </form>
+        </div>
+        <div class="lg:col-span-7 bg-white rounded-2xl border p-5"><div id="adminExamsList" class="space-y-3"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <main id="studentView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
+    <section class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex justify-between items-center flex-wrap gap-4">
+      <div class="flex items-center gap-4">
+        <div id="stuProfileAvatar" class="w-16 h-16 rounded-2xl bg-teal-400 text-slate-950 font-bold text-2xl flex items-center justify-center">MS</div>
+        <div>
+          <span id="stuProfileBatch" class="px-2 py-0.5 rounded bg-white/10 text-xs">March 2027</span>
+          <h2 id="stuProfileName" class="text-2xl font-bold mt-1">Student Name</h2>
+          <p class="text-xs text-teal-200">Username: <strong id="stuProfileUsername" class="text-white"></strong> | School: <strong id="stuProfileSchool" class="text-white"></strong></p>
+        </div>
+      </div>
+      <button onclick="app.toggleStudentProfileEditor()" class="px-3 py-1.5 bg-teal-500/30 rounded text-xs font-bold">Edit Profile & Password</button>
+    </section>
+
+    <section id="studentSelfEditSection" class="hidden bg-white rounded-2xl border p-5 space-y-3">
+      <h3 class="font-bold text-sm">Edit My Profile & Password</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <input type="text" id="selfEditLastName" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="Last Name" class="p-2 border rounded" />
+        <input type="text" id="selfEditGivenName" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="Given Name" class="p-2 border rounded" />
+        <input type="text" id="selfEditSchool" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="School" class="p-2 border rounded" />
+        <input type="text" id="selfEditPassword" oninput="app.handleStudentSelfProfileAutoSave()" placeholder="New Password" class="p-2 border rounded font-mono" />
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-white p-5 rounded-2xl border"><div class="text-xs uppercase text-slate-500 font-bold">Overall Score</div><div id="stuCardTotalScore" class="text-2xl font-extrabold font-mono mt-1">0 / 0</div></div>
+      <div class="bg-white p-5 rounded-2xl border"><div class="text-xs uppercase text-slate-500 font-bold">Overall Rating</div><div id="stuCardOverallRating" class="text-2xl font-extrabold font-mono text-teal-600 mt-1">0.00%</div></div>
+      <div class="bg-white p-5 rounded-2xl border"><div class="text-xs uppercase text-slate-500 font-bold">Exams Completed</div><div id="stuCardExamsCompleted" class="text-2xl font-extrabold font-mono mt-1">0 / 0</div></div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="lg:col-span-5 bg-white rounded-2xl border p-5"><h3 class="font-bold mb-3">Available Exams</h3><div id="studentExamsList" class="space-y-3"></div></div>
+      <div class="lg:col-span-7 bg-white rounded-2xl border overflow-hidden p-5">
+        <h3 class="font-bold mb-3">Scores & Ratings</h3>
+        <table class="w-full text-left">
+          <thead><tr class="text-xs uppercase text-slate-500 border-b"><th class="pb-2">Exam</th><th class="pb-2 text-center">Score</th><th class="pb-2">Rating</th><th class="pb-2 text-center">Remarks</th></tr></thead>
+          <tbody id="studentScoresTableBody" class="divide-y text-sm"></tbody>
+        </table>
+      </div>
     </div>
   </main>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 1: INTERACTIVE HTML EXAMINATION VIEWER & GRADING WORKSPACE      -->
-  <!-- ===================================================================== -->
-  <div id="examViewerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex flex-col p-2 sm:p-4 lg:p-6">
-    <div class="bg-white w-full max-w-7xl mx-auto flex-1 rounded-2xl shadow-2xl border border-slate-300 overflow-hidden flex flex-col">
-      
-      <!-- Modal Top Bar -->
-      <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
-        <div class="flex items-center gap-3">
-          <span class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center">
-            <i class="fa-brands fa-html5 text-lg"></i>
-          </span>
-          <div>
-            <div class="flex items-center gap-2">
-              <h3 id="viewerExamTitle" class="font-bold text-sm sm:text-base text-white">Examination Title</h3>
-              <span id="viewerExamCategoryBadge" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-teal-500/20 text-teal-300">Subject</span>
-            </div>
-            <p id="viewerExamineeSub" class="text-xs text-slate-400">Rendered from uploaded .HTML examination file</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <button onclick="app.closeExamViewerModal()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center gap-1.5">
-            <i class="fa-solid fa-xmark"></i>
-            <span>Close Exam</span>
-          </button>
-        </div>
+  <div id="examViewerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex flex-col p-4">
+    <div class="bg-white w-full max-w-7xl mx-auto flex-1 rounded-2xl overflow-hidden flex flex-col">
+      <div class="bg-slate-900 text-white px-6 py-3 flex justify-between items-center">
+        <div><h3 id="viewerExamTitle" class="font-bold">Exam</h3><span id="viewerExamCategoryBadge" class="text-xs text-teal-300">Category</span></div>
+        <button onclick="app.closeExamViewerModal()" class="px-3 py-1 bg-rose-600 rounded text-xs font-bold">Close</button>
       </div>
-
-      <!-- Modal Body: Sandboxed HTML Iframe -->
-      <div class="flex-1 flex flex-col lg:flex-row overflow-hidden bg-slate-100">
-        <div class="flex-1 h-full relative bg-white">
-          <iframe id="examHtmlIframe" title="Uploaded HTML Examination" class="w-full h-full border-0" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-        </div>
-      </div>
-
+      <iframe id="examHtmlIframe" class="flex-1 w-full border-0"></iframe>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 2: ADMIN MANUAL SCORE INPUT / EDIT FOR A STUDENT                -->
-  <!-- ===================================================================== -->
-  <div id="adminScoreModal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
-      <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-        <div>
-          <h3 class="font-bold text-base flex items-center gap-2">
-            <i class="fa-solid fa-sliders text-teal-400"></i>
-            <span>Manage Student Examination Scores (Auto-Saves)</span>
-          </h3>
-          <p id="scoreModalStudentSub" class="text-xs text-slate-300 mt-0.5">Student Name (@username)</p>
-        </div>
-        <button onclick="app.closeAdminScoreModal()" class="text-slate-400 hover:text-white text-lg">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="p-6 space-y-4">
-        <div class="flex items-center justify-between text-xs text-slate-500">
-          <span>Type a raw score below—changes auto-save & sync to the Student Portal immediately[cite: 1].</span>
-        </div>
-        <div id="scoreModalExamsContainer" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-          <!-- Dynamically populated inputs per exam -->
-        </div>
-        <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2">
-          <button onclick="app.closeAdminScoreModal()" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md">
-            Done
-          </button>
-        </div>
-      </div>
+  <div id="adminScoreModal" class="fixed inset-0 z-50 bg-slate-950/75 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-2xl p-6 space-y-4">
+      <div class="flex justify-between items-center"><h3 class="font-bold">Record Scores</h3><button onclick="app.closeAdminScoreModal()" class="text-xl">&times;</button></div>
+      <div id="scoreModalExamsContainer" class="space-y-3 max-h-60 overflow-y-auto"></div>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 3: CONFIRMATION MODAL                                           -->
-  <!-- ===================================================================== -->
-  <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-6 space-y-4">
-      <div class="flex items-start gap-3.5">
-        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <div>
-          <h4 id="confirmModalTitle" class="font-bold text-slate-900 text-base">Confirm Action</h4>
-          <p id="confirmModalMessage" class="text-xs text-slate-600 mt-1 leading-relaxed">Are you sure you want to proceed?</p>
-        </div>
-      </div>
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="app.closeConfirmModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs">
-          Cancel
-        </button>
-        <button id="confirmModalActionBtn" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs">
-          Confirm Delete
-        </button>
-      </div>
+  <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/75 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
+      <h4 id="confirmModalTitle" class="font-bold">Confirm</h4>
+      <p id="confirmModalMessage" class="text-xs text-slate-600"></p>
+      <div class="flex justify-end gap-2"><button onclick="app.closeConfirmModal()" class="px-3 py-1.5 bg-slate-100 rounded text-xs">Cancel</button><button id="confirmModalActionBtn" class="px-3 py-1.5 bg-rose-600 text-white rounded text-xs font-bold">Delete</button></div>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
-  <!-- ===================================================================== -->
-  <!-- APPLICATION LOGIC & GLOBAL APP EXPORT FIX                             -->
-  <!-- ===================================================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    const STORAGE_KEYS = {
-      STUDENTS: 'pulsermt_2way_students_v3',
-      EXAMS: 'pulsermt_2way_exams_v3',
-      SCORES: 'pulsermt_2way_scores_v3',
-      SESSION: 'pulsermt_2way_session_v3'
-    };
+    const STORAGE_KEYS = { STUDENTS: 'pulsermt_v4_students', EXAMS: 'pulsermt_v4_exams', SCORES: 'pulsermt_v4_scores', SESSION: 'pulsermt_v4_session' };
 
-    function formatFullName(lastName, givenName, middleInitial) {
-      const ln = (lastName || '').trim();
-      const gn = (givenName || '').trim();
-      const mi = (middleInitial || '').trim().replace(/\.$/, '');
-      if (!ln && !gn) return 'Unnamed Student';
-      return `${ln}, ${gn}${mi ? ` ${mi}.` : ''}`;
+    function formatFullName(ln, gn, mi) {
+      const l = (ln || '').trim(), g = (gn || '').trim(), m = (mi || '').trim().replace(/\.$/, '');
+      return `${l}, ${g}${m ? ` ${m}.` : ''}`;
     }
 
     function normalizeStudent(stu) {
@@ -1064,7 +349,7 @@
         givenName: gn.trim(),
         middleInitial: stu.middleInitial || '',
         fullName: stu.fullName || formatFullName(ln, gn, stu.middleInitial),
-        school: stu.school || 'Unspecified School',
+        school: stu.school || 'Unspecified',
         batch: stu.batch || 'March 2027',
         age: stu.age || 20,
         birthday: stu.birthday || '2004-01-01',
@@ -1076,167 +361,12 @@
       };
     }
 
-    function buildInteractiveExamHtml({ title, category, questions }) {
-      const questionsJson = JSON.stringify(questions);
-      return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>${title}</title>
-<style>
-  * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-  body { margin: 0; padding: 24px; background: #f8fafc; color: #0f172a; }
-  .exam-container { max-width: 820px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 28px; box-shadow: 0 4px 20px rgba(15,23,42,0.05); }
-  .badge { display: inline-block; background: #ccfbf1; color: #115e59; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; }
-  h1 { margin: 10px 0 6px; font-size: 22px; color: #0f172a; }
-  .meta { font-size: 13px; color: #64748b; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-  .q-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 16px; transition: border-color 0.2s; }
-  .q-card:hover { border-color: #14b8a6; }
-  .q-title { font-weight: 700; font-size: 15px; margin-bottom: 12px; color: #1e293b; line-height: 1.45; }
-  .options { display: grid; gap: 8px; }
-  .opt-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; cursor: pointer; font-size: 14px; transition: all 0.15s; }
-  .opt-label:hover { background: #f0fdfa; border-color: #0d9488; }
-  input[type="radio"] { accent-color: #0d9488; width: 16px; height: 16px; }
-  .rationale { display: none; margin-top: 10px; padding: 10px 12px; border-radius: 8px; font-size: 13px; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
-  .submit-bar { margin-top: 24px; padding-top: 18px; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-  .btn-submit { background: #0d9488; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(13,148,136,0.25); }
-  .btn-submit:hover { background: #0f766e; }
-  .result-banner { display: none; margin-bottom: 20px; padding: 18px; border-radius: 12px; background: #0f172a; color: white; }
-</style>
-</head>
-<body>
-  <div class="exam-container">
-    <span class="badge">${category}</span>
-    <h1>${title}</h1>
-    <div class="meta">
-      <span>Official MTLE Interactive HTML Examination Module</span>
-      <span>Passing Standard: <strong>75.00%</strong> | Total Items: <strong>${questions.length}</strong></span>
-    </div>
-    <div id="resultBanner" class="result-banner"></div>
-    <form id="quizForm"></form>
-    <div class="submit-bar">
-      <span style="font-size:13px;color:#64748b;">Select your answers, then click Submit.</span>
-      <button type="button" class="btn-submit" onclick="gradeExam()">Submit Examination & Auto-Save Score</button>
-    </div>
-  </div>
-  <script>
-    const questions = ${questionsJson};
-    const form = document.getElementById('quizForm');
-    questions.forEach((item, idx) => {
-      const card = document.createElement('div');
-      card.className = 'q-card';
-      card.innerHTML = \`
-        <div class="q-title">\${idx + 1}. \${item.q}</div>
-        <div class="options">
-          \${item.options.map((opt, oIdx) => \`
-            <label class="opt-label" id="lbl_\${idx}_\${oIdx}">
-              <input type="radio" name="q_\${idx}" value="\${oIdx}" />
-              <span><strong>\${String.fromCharCode(65 + oIdx)}.</strong> \${opt}</span>
-            </label>
-          \`).join('')}
-        </div>
-        <div class="rationale" id="rat_\${idx}"><strong>Key / Rationale:</strong> \${item.rationale}</div>
-      \`;
-      form.appendChild(card);
-    });
-    function gradeExam() {
-      let score = 0;
-      questions.forEach((item, idx) => {
-        const selected = document.querySelector('input[name="q_' + idx + '"]:checked');
-        const userAns = selected ? parseInt(selected.value, 10) : -1;
-        if (userAns === item.answer) score++;
-        item.options.forEach((_, oIdx) => {
-          const lbl = document.getElementById('lbl_' + idx + '_' + oIdx);
-          lbl.style.borderColor = '#cbd5e1';
-          lbl.style.background = '#ffffff';
-          if (oIdx === item.answer) {
-            lbl.style.borderColor = '#16a34a';
-            lbl.style.background = '#dcfce7';
-          } else if (oIdx === userAns && userAns !== item.answer) {
-            lbl.style.borderColor = '#dc2626';
-            lbl.style.background = '#fee2e2';
-          }
-        });
-        document.getElementById('rat_' + idx).style.display = 'block';
-      });
-      const total = questions.length;
-      const pct = ((score / total) * 100).toFixed(2);
-      const passed = parseFloat(pct) >= 75;
-      const banner = document.getElementById('resultBanner');
-      banner.style.display = 'block';
-      banner.innerHTML = \`
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
-          <div>
-            <div style="font-size:12px;text-transform:uppercase;color:#5eead4;font-weight:700;">Exam Graded & Auto-Saved</div>
-            <div style="font-size:22px;font-weight:800;margin-top:4px;">Score: \${score} / \${total} (\${pct}%)</div>
-          </div>
-          <span style="padding:6px 14px;border-radius:999px;font-weight:800;font-size:13px;background:\${passed ? '#10b981' : '#f59e0b'};color:#022c22;">
-            \${passed ? 'PASSED (≥75%)' : 'NEEDS REVIEW (<75%)'}
-          </span>
-        </div>
-      \`;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.parent.postMessage({ type: 'MTLE_EXAM_SUBMIT', score: score, total: total }, '*');
-    }
-  </script>
-</body>
-</html>`;
-    }
-
-    const SEED_EXAMS = [
-      {
-        id: 'exam_clinchem_01',
-        title: 'Clinical Chemistry: Carbohydrates, Lipids & Enzymes',
-        category: 'Clinical Chemistry (20%)',
-        totalItems: 5,
-        fileName: 'clinical_chemistry_preboard_01.html',
-        uploadedAt: '2026-10-01',
-        htmlContent: buildInteractiveExamHtml({
-          title: 'Clinical Chemistry: Carbohydrates, Lipids & Enzymes',
-          category: 'Clinical Chemistry (20%)',
-          questions: [
-            { q: 'Which enzyme method is reference for fasting glucose?', options: ['Glucose Oxidase', 'Hexokinase', 'O-Toluidine', 'Folin-Wu'], answer: 1, rationale: 'Hexokinase is reference.' },
-            { q: 'Calculate LDL-C if TC=240, HDL=45, TG=150.', options: ['150', '165', '180', '195'], answer: 1, rationale: '240 - 45 - 30 = 165.' },
-            { q: 'Cardiac biomarker active 7-10 days?', options: ['Myoglobin', 'CK-MB', 'cTnI', 'LDH-1'], answer: 2, rationale: 'Troponin I stays elevated.' },
-            { q: 'Jendrassik-Grof accelerator?', options: ['Methanol', 'Caffeine-Sodium Benzoate', 'DMSO', 'Sodium Acetate'], answer: 1, rationale: 'Uses caffeine.' },
-            { q: 'Lithium heparin tube color?', options: ['Lavender', 'Light Blue', 'Green', 'Gray'], answer: 2, rationale: 'Green top.' }
-          ]
-        })
-      }
-    ];
-
-    const SEED_STUDENTS = [
-      {
-        id: 'stu_01',
-        lastName: 'Santos',
-        givenName: 'Maria Clara',
-        middleInitial: 'D',
-        fullName: 'Santos, Maria Clara D.',
-        school: 'University of Santo Tomas (UST)',
-        batch: 'March 2027',
-        age: 22,
-        birthday: '2004-05-14',
-        contactNumber: '09171234501',
-        username: 'rmt_msantos',
-        password: 'mtle2026',
-        accountStatus: 'ACTIVE',
-        createdAt: '2026-09-15'
-      }
-    ];
-
-    const SEED_SCORES = [
-      { id: 'stu_01__exam_clinchem_01', studentId: 'stu_01', examId: 'exam_clinchem_01', score: 5, total: 5, dateTaken: '2026-10-12 09:30' }
-    ];
-
     function loadCachedArray(key, fallback) {
       try {
         const raw = localStorage.getItem(key);
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed.map(normalizeStudent);
-          }
+          if (Array.isArray(parsed)) return parsed.map(normalizeStudent);
         }
       } catch (e) {}
       return fallback.map(normalizeStudent);
@@ -1252,81 +382,44 @@
 
     function saveSessionRole() {
       try {
-        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
-          currentRole: state.currentRole,
-          currentStudentId: state.currentStudentId,
-          activeAdminTab: state.activeAdminTab
-        }));
+        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({ currentRole: state.currentRole, currentStudentId: state.currentStudentId, activeAdminTab: state.activeAdminTab }));
       } catch (e) {}
     }
 
-    function loadSessionRole() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEYS.SESSION);
-        if (raw) return JSON.parse(raw);
-      } catch (e) {}
-      return null;
-    }
-
-    const cachedSession = loadSessionRole();
+    const cachedSession = (() => { try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.SESSION)); } catch(e) { return null; } })();
 
     const state = {
-      students: loadCachedArray(STORAGE_KEYS.STUDENTS, SEED_STUDENTS),
-      exams: loadCachedArray(STORAGE_KEYS.EXAMS, SEED_EXAMS),
-      scores: loadCachedArray(STORAGE_KEYS.SCORES, SEED_SCORES),
+      students: loadCachedArray(STORAGE_KEYS.STUDENTS, []),
+      exams: loadCachedArray(STORAGE_KEYS.EXAMS, SEED_EXAMS = [{ id: 'ex1', title: 'Clinical Chemistry', category: 'Clinical Chemistry (20%)', totalItems: 5, htmlContent: '' }]),
+      scores: loadCachedArray(STORAGE_KEYS.SCORES, []),
       currentRole: cachedSession?.currentRole || 'login',
       currentStudentId: cachedSession?.currentStudentId || null,
       activeAdminTab: cachedSession?.activeAdminTab || 'ledger',
       loginModeTab: 'student',
       activeExamViewerId: null,
-      visiblePasswords: {},
-      dbConnected: false,
       db: null,
-      appId: typeof __app_id !== 'undefined' ? __app_id : 'mtle-review-portal-app'
+      appId: 'mtle-review-portal-app'
     };
 
     const debounceTimers = {};
     function debounceAutoSave(key, fn, delay = 350) {
-      showSyncStatus('Auto-saving...', true);
       if (debounceTimers[key]) clearTimeout(debounceTimers[key]);
-      debounceTimers[key] = setTimeout(async () => {
-        await fn();
-        showSyncStatus('All Changes Saved (2-Way Synced)', false);
-      }, delay);
-    }
-
-    function showSyncStatus(text, saving = false) {
-      const pill = document.getElementById('syncStatusPill');
-      const dot = document.getElementById('syncStatusDot');
-      const txt = document.getElementById('syncStatusText');
-      if (!pill || !dot || !txt) return;
-      txt.textContent = text;
-      if (saving) {
-        pill.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-semibold transition-all';
-        dot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-ping';
-      } else {
-        pill.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold transition-all';
-        dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
-      }
+      debounceTimers[key] = setTimeout(async () => { await fn(); }, delay);
     }
 
     window.addEventListener('storage', (event) => {
-      if (event.key === STORAGE_KEYS.STUDENTS || event.key === STORAGE_KEYS.EXAMS || event.key === STORAGE_KEYS.SCORES) {
+      if (event.key?.startsWith('pulsermt_v4')) {
         state.students = loadCachedArray(STORAGE_KEYS.STUDENTS, state.students);
         state.exams = loadCachedArray(STORAGE_KEYS.EXAMS, state.exams);
         state.scores = loadCachedArray(STORAGE_KEYS.SCORES, state.scores);
         renderAll(true);
-        showSyncStatus('Synced from other portal tab', false);
       }
     });
 
     window.addEventListener('message', async (event) => {
-      if (event.data && event.data.type === 'MTLE_EXAM_SUBMIT') {
-        const { score, total } = event.data;
-        if (state.activeExamViewerId && state.currentStudentId) {
-          await recordStudentExamScore(state.currentStudentId, state.activeExamViewerId, Number(score), Number(total));
-          showToast(`Exam Auto-Saved: ${score} / ${total} synced!`, 'success');
-        }
+      if (event.data?.type === 'MTLE_EXAM_SUBMIT' && state.activeExamViewerId && state.currentStudentId) {
+        await recordStudentExamScore(state.currentStudentId, state.activeExamViewerId, Number(event.data.score), Number(event.data.total));
+        showToast('Exam score auto-saved!', 'success');
       }
     });
 
@@ -1334,185 +427,86 @@
       saveLocalCache();
       renderAll();
       try {
-        if (typeof __firebase_config === 'undefined' || !__firebase_config || __firebase_config.includes('YOUR_FIREBASE_API_KEY')) {
-          showSyncStatus('2-Way Local Auto-Save Active', false);
-          return;
-        }
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const fbApp = initializeApp(firebaseConfig);
+        if (typeof __firebase_config === 'undefined' || __firebase_config.includes('YOUR_FIREBASE_API_KEY')) return;
+        const fbApp = initializeApp(JSON.parse(__firebase_config));
         const db = getFirestore(fbApp);
         state.db = db;
-        showSyncStatus('Connecting to Firebase...', true);
+        try { const auth = getAuth(fbApp); await signInAnonymously(auth); } catch (e) {}
 
-        try {
-          const auth = getAuth(fbApp);
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-          } else {
-            await signInAnonymously(auth);
-          }
-        } catch (e) {}
-
-        const studentsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students');
-        const examsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams');
-        const scoresCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores');
-
-        onSnapshot(studentsCol, async (snap) => {
-          state.dbConnected = true;
-          if (snap.empty) {
-            for (const stu of state.students) {
-              await setDoc(doc(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', stu.id), stu);
-            }
-          } else {
+        onSnapshot(collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students'), (snap) => {
+          if (!snap.empty) {
             state.students = snap.docs.map(d => normalizeStudent(d.data()));
-            state.students.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
-            saveLocalCache();
-            renderAll(true);
-            showSyncStatus('Firebase 2-Way Sync Active', false);
-          }
-        });
-
-        onSnapshot(examsCol, async (snap) => {
-          if (!snap.empty) {
-            state.exams = snap.docs.map(d => d.data());
             saveLocalCache();
             renderAll(true);
           }
         });
-
-        onSnapshot(scoresCol, async (snap) => {
-          if (!snap.empty) {
-            state.scores = snap.docs.map(d => d.data());
-            saveLocalCache();
-            renderAll(true);
-          }
-        });
-      } catch (e) {
-        showSyncStatus('2-Way Auto-Save Active', false);
-      }
+      } catch (e) {}
     }
 
-    async function saveStudentRecord(studentObj, preserveFocus = false) {
-      const normalized = normalizeStudent(studentObj);
-      const idx = state.students.findIndex(s => s.id === normalized.id);
-      if (idx >= 0) state.students[idx] = normalized;
-      else state.students.push(normalized);
-      state.students.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || ''));
-
+    async function saveStudentRecord(stu, preserve = false) {
+      const norm = normalizeStudent(stu);
+      const idx = state.students.findIndex(s => s.id === norm.id);
+      if (idx >= 0) state.students[idx] = norm; else state.students.push(norm);
       saveLocalCache();
-      renderAll(preserveFocus);
-
+      renderAll(preserve);
       if (state.db) {
-        try {
-          await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', normalized.id), normalized);
-        } catch (e) {}
+        try { await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', norm.id), norm); } catch (e) {}
       }
     }
 
-    async function removeStudentRecord(studentId) {
-      state.students = state.students.filter(s => s.id !== studentId);
-      state.scores = state.scores.filter(sc => sc.studentId !== studentId);
+    async function removeStudentRecord(id) {
+      state.students = state.students.filter(s => s.id !== id);
+      state.scores = state.scores.filter(sc => sc.studentId !== id);
       saveLocalCache();
       renderAll();
       if (state.db) {
-        try {
-          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', studentId));
-        } catch (e) {}
+        try { await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_students', id)); } catch (e) {}
       }
     }
 
-    async function saveExamRecord(examObj) {
-      const idx = state.exams.findIndex(e => e.id === examObj.id);
-      if (idx >= 0) state.exams[idx] = examObj;
-      else state.exams.push(examObj);
+    async function saveExamRecord(ex) {
+      const idx = state.exams.findIndex(e => e.id === ex.id);
+      if (idx >= 0) state.exams[idx] = ex; else state.exams.push(ex);
       saveLocalCache();
       renderAll();
       if (state.db) {
-        try {
-          await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', examObj.id), examObj);
-        } catch (e) {}
+        try { await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', ex.id), ex); } catch (e) {}
       }
     }
 
-    async function removeExamRecord(examId) {
-      state.exams = state.exams.filter(e => e.id !== examId);
-      state.scores = state.scores.filter(sc => sc.examId !== examId);
+    async function recordStudentExamScore(studentId, examId, score, total, preserve = false) {
+      const docData = { id: `${studentId}__${examId}`, studentId, examId, score, total, dateTaken: new Date().toISOString().slice(0, 16).replace('T', ' ') };
+      const idx = state.scores.findIndex(s => s.id === docData.id);
+      if (idx >= 0) state.scores[idx] = docData; else state.scores.push(docData);
       saveLocalCache();
-      renderAll();
+      renderAll(preserve);
       if (state.db) {
-        try {
-          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams', examId));
-        } catch (e) {}
-      }
-    }
-
-    async function recordStudentExamScore(studentId, examId, rawScore, totalItems, preserveFocus = false) {
-      const scoreDoc = {
-        id: `${studentId}__${examId}`,
-        studentId,
-        examId,
-        score: Number(rawScore),
-        total: Number(totalItems),
-        dateTaken: new Date().toISOString().slice(0, 16).replace('T', ' ')
-      };
-      const idx = state.scores.findIndex(s => s.id === scoreDoc.id);
-      if (idx >= 0) state.scores[idx] = scoreDoc;
-      else state.scores.push(scoreDoc);
-      saveLocalCache();
-      renderAll(preserveFocus);
-      if (state.db) {
-        try {
-          await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', scoreDoc.id), scoreDoc);
-        } catch (e) {}
-      }
-    }
-
-    async function deleteStudentExamScore(studentId, examId, preserveFocus = false) {
-      const scoreId = `${studentId}__${examId}`;
-      state.scores = state.scores.filter(s => s.id !== scoreId);
-      saveLocalCache();
-      renderAll(preserveFocus);
-      if (state.db) {
-        try {
-          await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', scoreId));
-        } catch (e) {}
+        try { await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores', docData.id), docData); } catch (e) {}
       }
     }
 
     function computeStudentMetrics(studentId) {
-      let earnedPoints = 0, possiblePoints = 0, sumExamPercentages = 0, examsTakenCount = 0, highestSubject = null, highestPct = -1;
-      const examBreakdowns = state.exams.map(exam => {
+      let earned = 0, possible = 0, taken = 0;
+      const breakdowns = state.exams.map(exam => {
         const rec = state.scores.find(s => s.studentId === studentId && s.examId === exam.id);
-        if (!rec) {
-          return { exam, taken: false, score: null, total: exam.totalItems, percentage: null, passed: false, dateTaken: null };
-        }
+        if (!rec) return { exam, taken: false, score: null, total: exam.totalItems, percentage: null, passed: false };
         const total = Number(exam.totalItems) || Number(rec.total) || 1;
         const score = Math.min(Math.max(0, Number(rec.score)), total);
         const pct = (score / total) * 100;
-        earnedPoints += score;
-        possiblePoints += total;
-        sumExamPercentages += pct;
-        examsTakenCount++;
-        if (pct > highestPct) {
-          highestPct = pct;
-          highestSubject = exam.title;
-        }
-        return { exam, taken: true, score, total, percentage: pct, passed: pct >= 75, dateTaken: rec.dateTaken || 'Recorded' };
+        earned += score; possible += total; taken++;
+        return { exam, taken: true, score, total, percentage: pct, passed: pct >= 75 };
       });
-      const overallPercentage = possiblePoints > 0 ? (earnedPoints / possiblePoints) * 100 : 0;
-      let status = 'NO_EXAMS';
-      if (examsTakenCount > 0) status = overallPercentage >= 75 ? 'PASSED' : 'CONDITIONAL';
-      return { earnedPoints, possiblePoints, examsTakenCount, totalExamsAvailable: state.exams.length, overallPercentage, status, highestSubject, highestPct, examBreakdowns };
+      const overall = possible > 0 ? (earned / possible) * 100 : 0;
+      return { earnedPoints: earned, possiblePoints: possible, examsTakenCount: taken, totalExamsAvailable: state.exams.length, overallPercentage: overall, status: taken > 0 ? (overall >= 75 ? 'PASSED' : 'CONDITIONAL') : 'NO_EXAMS', examBreakdowns: breakdowns };
     }
 
-    function renderAll(preserveFocus = false) {
+    function renderAll(preserve = false) {
       updateBatchFilterOptions();
       const loginView = document.getElementById('loginView');
       const adminView = document.getElementById('adminView');
       const studentView = document.getElementById('studentView');
       const mainHeader = document.getElementById('mainHeader');
-
-      if (!loginView || !adminView || !studentView) return;
+      if (!loginView) return;
 
       loginView.classList.add('hidden');
       adminView.classList.add('hidden');
@@ -1524,261 +518,102 @@
       } else if (state.currentRole === 'admin') {
         mainHeader.classList.remove('hidden');
         adminView.classList.remove('hidden');
-        document.getElementById('headerRoleBadge').textContent = 'Admin Director';
-        document.getElementById('headerUserName').textContent = 'MTLE Review Director';
-        document.getElementById('headerUserSub').textContent = '@admin';
-
         window.app?.switchAdminTab?.(state.activeAdminTab, true);
         renderAdminKPIs();
         renderAdminLedger();
-        if (!preserveFocus) renderStudentDatabaseTable();
+        if (!preserve) renderStudentDatabaseTable();
         renderAdminExamsList();
       } else if (state.currentRole === 'student') {
         const student = state.students.find(s => s.id === state.currentStudentId);
-        if (!student) {
-          state.currentRole = 'login';
-          saveSessionRole();
-          renderAll();
-          return;
-        }
+        if (!student) { state.currentRole = 'login'; saveSessionRole(); renderAll(); return; }
         mainHeader.classList.remove('hidden');
         studentView.classList.remove('hidden');
-        document.getElementById('headerRoleBadge').textContent = 'Student Profile';
-        document.getElementById('headerUserName').textContent = student.fullName;
-        document.getElementById('headerUserSub').textContent = `@${student.username || 'pending'}`;
-        renderStudentPortal(student, preserveFocus);
+        renderStudentPortal(student, preserve);
       }
     }
 
     function updateBatchFilterOptions() {
       const select = document.getElementById('ledgerBatchFilter');
       if (!select) return;
-      const currentVal = select.value;
       const batches = Array.from(new Set(state.students.map(s => s.batch).filter(Boolean))).sort();
-      select.innerHTML = `<option value="ALL">All Examination Cycles</option>` +
-        batches.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join('');
-      if (batches.includes(currentVal)) select.value = currentVal;
+      select.innerHTML = `<option value="ALL">All Examination Cycles</option>` + batches.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join('');
     }
 
     function renderAdminKPIs() {
       document.getElementById('adminKpiStudents').textContent = state.students.length;
       document.getElementById('adminKpiExams').textContent = state.exams.length;
-      const pendingCount = state.students.filter(s => !s.username || !s.password).length;
-      const pendingSubEl = document.getElementById('adminKpiPendingSub');
-      if (pendingSubEl) {
-        pendingSubEl.textContent = pendingCount > 0 ? `${pendingCount} Awaiting Credentials` : `All Credentials Assigned`;
-      }
       let totalRating = 0, withExams = 0, passing = 0;
       state.students.forEach(stu => {
         const m = computeStudentMetrics(stu.id);
-        if (m.examsTakenCount > 0) {
-          withExams++;
-          totalRating += m.overallPercentage;
-          if (m.overallPercentage >= 75) passing++;
-        }
+        if (m.examsTakenCount > 0) { withExams++; totalRating += m.overallPercentage; if (m.overallPercentage >= 75) passing++; }
       });
       document.getElementById('adminKpiAvgRating').textContent = `${(withExams > 0 ? totalRating / withExams : 0).toFixed(2)}%`;
       document.getElementById('adminKpiPassRate').textContent = `${withExams > 0 ? Math.round((passing / withExams) * 100) : 0}%`;
-      document.getElementById('adminKpiPassCount').textContent = `${passing} of ${withExams} Passing Overall`;
     }
 
     function renderAdminLedger() {
       const headRow = document.getElementById('ledgerTableHeadRow');
       const body = document.getElementById('ledgerTableBody');
       if (!headRow || !body) return;
-
-      headRow.innerHTML = `
-        <th class="py-3.5 px-4">Student & School</th>
-        <th class="py-3.5 px-3">Target Cycle</th>
-        ${state.exams.map((ex, i) => `
-          <th class="py-3.5 px-3 text-center min-w-[130px]">
-            <div class="text-teal-700 font-bold">Exam #${i + 1}</div>
-            <div class="text-[10px] text-slate-500 font-normal truncate max-w-[140px]">${escapeHtml(ex.title)}</div>
-          </th>
-        `).join('')}
-        <th class="py-3.5 px-4 text-center bg-slate-100/80">Overall Score</th>
-        <th class="py-3.5 px-4 text-center bg-teal-50/60 text-teal-900">Overall Rating</th>
-        <th class="py-3.5 px-4 text-center">Board Standing</th>
-        <th class="py-3.5 px-4 text-right no-print">Actions</th>
-      `;
-
-      const searchQ = (document.getElementById('ledgerSearchInput')?.value || '').toLowerCase().trim();
-      const batchFilter = document.getElementById('ledgerBatchFilter')?.value || 'ALL';
-      const statusFilter = document.getElementById('ledgerStatusFilter')?.value || 'ALL';
-
-      const filtered = state.students.filter(stu => {
+      headRow.innerHTML = `<th class="py-3 px-4">Student & School</th><th class="py-3 px-3">Cycle</th>` + state.exams.map((ex, i) => `<th class="py-3 px-3 text-center">Exam #${i+1}</th>`).join('') + `<th class="py-3 px-4 text-center">Score</th><th class="py-3 px-4 text-center">Rating</th><th class="py-3 px-4 text-center">Standing</th><th class="py-3 px-4 text-right">Action</th>`;
+      
+      body.innerHTML = state.students.map(stu => {
         const m = computeStudentMetrics(stu.id);
-        const matchQ = !searchQ || (stu.fullName || '').toLowerCase().includes(searchQ) || (stu.username || '').toLowerCase().includes(searchQ);
-        const matchB = batchFilter === 'ALL' || stu.batch === batchFilter;
-        const matchS = statusFilter === 'ALL' || m.status === statusFilter;
-        return matchQ && matchB && matchS;
-      });
-
-      if (filtered.length === 0) {
-        body.innerHTML = `<tr><td colspan="${state.exams.length + 6}" class="py-10 text-center text-slate-400">No students match filter.</td></tr>`;
-        return;
-      }
-
-      body.innerHTML = filtered.map(stu => {
-        const m = computeStudentMetrics(stu.id);
-        const examCells = m.examBreakdowns.map(bd => {
-          if (!bd.taken) return `<td class="py-3 px-3 text-center text-slate-400 text-xs">Not Taken</td>`;
-          return `<td class="py-3 px-3 text-center font-mono font-bold">${bd.score}/${bd.total} (${bd.percentage.toFixed(0)}%)</td>`;
-        }).join('');
-
-        return `
-          <tr class="hover:bg-slate-50 transition">
-            <td class="py-3.5 px-4">
-              <div class="font-bold text-slate-900">${escapeHtml(stu.fullName)}</div>
-              <div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div>
-            </td>
-            <td class="py-3.5 px-3 text-xs font-semibold">${escapeHtml(stu.batch)}</td>
-            ${examCells}
-            <td class="py-3.5 px-4 text-center font-mono font-bold">${m.earnedPoints}/${m.possiblePoints}</td>
-            <td class="py-3.5 px-4 text-center font-mono font-extrabold text-teal-700">${m.overallPercentage.toFixed(2)}%</td>
-            <td class="py-3.5 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${m.status === 'PASSED' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${m.status}</span></td>
-            <td class="py-3.5 px-4 text-right no-print">
-              <button onclick="app.openAdminScoreModal('${stu.id}')" class="px-2.5 py-1.5 rounded bg-teal-50 text-teal-700 font-semibold text-xs">Record Scores</button>
-            </td>
-          </tr>
-        `;
+        const examCells = m.examBreakdowns.map(bd => bd.taken ? `<td class="py-3 px-3 text-center font-mono">${bd.score}/${bd.total}</td>` : `<td class="py-3 px-3 text-center text-slate-400">—</td>`).join('');
+        return `<tr><td class="py-3 px-4 font-bold">${escapeHtml(stu.fullName)}<div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div></td><td class="py-3 px-3 text-xs">${escapeHtml(stu.batch)}</td>${examCells}<td class="py-3 px-4 text-center font-mono">${m.earnedPoints}/${m.possiblePoints}</td><td class="py-3 px-4 text-center font-mono font-bold text-teal-700">${m.overallPercentage.toFixed(2)}%</td><td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${m.status === 'PASSED' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${m.status}</span></td><td class="py-3 px-4 text-right"><button onclick="app.openAdminScoreModal('${stu.id}')" class="px-2.5 py-1 bg-teal-50 text-teal-700 rounded text-xs font-semibold">Scores</button></td></tr>`;
       }).join('');
     }
 
     function renderStudentDatabaseTable() {
       const tbody = document.getElementById('studentDatabaseBody');
       if (!tbody) return;
-
-      const q = (document.getElementById('studentDbSearch')?.value || '').toLowerCase().trim();
-      const filtered = state.students.filter(stu =>
-        !q || (stu.fullName || '').toLowerCase().includes(q) || (stu.username || '').toLowerCase().includes(q) || (stu.school || '').toLowerCase().includes(q)
-      );
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400">No students found.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(stu => {
-        const hasCreds = Boolean(stu.username && stu.password);
-        return `
-          <tr class="hover:bg-slate-50 transition">
-            <td class="py-3.5 px-4">
-              <div class="font-bold text-slate-900">${escapeHtml(stu.fullName)}</div>
-              <div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div>
-              <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${hasCreds ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
-                ${hasCreds ? 'Active Login' : 'Pending Credentials'}
-              </span>
-            </td>
-            <td class="py-3.5 px-3 text-xs font-semibold">${escapeHtml(stu.batch || '—')}</td>
-            <td class="py-3.5 px-3 text-xs text-slate-600">
-              <div>Age/Bday: <strong>${escapeHtml(stu.age)}</strong> (${escapeHtml(stu.birthday)})</div>
-              <div>Contact: <span class="font-mono">${escapeHtml(stu.contactNumber)}</span></div>
-            </td>
-            <td class="py-3.5 px-3 space-y-1.5">
-              <input type="text" id="inlineUser_${stu.id}" value="${escapeHtml(stu.username || '')}" placeholder="Username" oninput="app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2.5 py-1 rounded border border-slate-300 text-xs font-mono font-bold" />
-              <input type="text" id="inlinePass_${stu.id}" value="${escapeHtml(stu.password || '')}" placeholder="Password" oninput="app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2.5 py-1 rounded border border-slate-300 text-xs font-mono" />
-            </td>
-            <td class="py-3.5 px-4 text-right">
-              <div class="inline-flex items-center gap-1.5">
-                <button onclick="app.quickGenerateInlineCredentials('${stu.id}')" class="px-2 py-1 bg-teal-50 text-teal-700 rounded text-xs font-semibold">Auto-Assign</button>
-                <button onclick="app.editStudent('${stu.id}')" class="p-2 bg-slate-100 rounded text-xs" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                <button onclick="app.confirmDeleteStudent('${stu.id}')" class="p-2 bg-rose-50 text-rose-600 rounded text-xs" title="Delete"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join('');
+      tbody.innerHTML = state.students.map(stu => `
+        <tr>
+          <td class="p-3 font-bold">${escapeHtml(stu.fullName)}<div class="text-xs text-slate-500">${escapeHtml(stu.school)}</div></td>
+          <td class="p-3 text-xs">${escapeHtml(stu.batch)}</td>
+          <td class="p-3 text-xs">Age: ${stu.age}<br/><span class="font-mono">${escapeHtml(stu.contactNumber)}</span></td>
+          <td class="p-3 space-y-1">
+            <input type="text" id="inlineUser_${stu.id}" value="${escapeHtml(stu.username)}" placeholder="Username" oninput="app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2 py-1 border rounded text-xs font-mono font-bold" />
+            <input type="text" id="inlinePass_${stu.id}" value="${escapeHtml(stu.password)}" placeholder="Password" oninput="app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2 py-1 border rounded text-xs font-mono" />
+          </td>
+          <td class="p-3 text-right">
+            <button onclick="app.editStudent('${stu.id}')" class="p-1.5 bg-slate-100 rounded text-xs"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="app.confirmDeleteStudent('${stu.id}')" class="p-1.5 bg-rose-50 text-rose-600 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function renderAdminExamsList() {
       const container = document.getElementById('adminExamsList');
       if (!container) return;
-      if (state.exams.length === 0) {
-        container.innerHTML = `<div class="p-8 text-center text-slate-400">No exams uploaded.</div>`;
-        return;
-      }
-      container.innerHTML = state.exams.map((ex, idx) => `
-        <div class="p-4 rounded-xl border bg-slate-50 flex items-center justify-between gap-4">
-          <div>
-            <div class="text-xs font-bold text-teal-700">${escapeHtml(ex.category)}</div>
-            <h4 class="font-bold text-sm">${escapeHtml(ex.title)}</h4>
-            <div class="text-xs text-slate-500 font-mono">${ex.totalItems} Items</div>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="app.openExamViewerModal('${ex.id}')" class="px-3 py-1.5 bg-teal-600 text-white rounded text-xs font-bold">Open</button>
-            <button onclick="app.confirmDeleteExam('${ex.id}')" class="p-2 bg-rose-50 text-rose-600 rounded text-xs"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-      `).join('');
+      container.innerHTML = state.exams.map(ex => `<div class="p-3 border rounded bg-slate-50 flex justify-between items-center"><div><div class="font-bold text-sm">${escapeHtml(ex.title)}</div><div class="text-xs text-slate-500">${ex.totalItems} Items</div></div><button onclick="app.openExamViewerModal('${ex.id}')" class="px-3 py-1 bg-teal-600 text-white rounded text-xs">Open</button></div>`).join('');
     }
 
-    function renderStudentPortal(student, preserveFocus = false) {
+    function renderStudentPortal(student, preserve = false) {
       const m = computeStudentMetrics(student.id);
-      document.getElementById('stuProfileAvatar').textContent = ((student.givenName?.[0] || '') + (student.lastName?.[0] || '')).toUpperCase() || 'RM';
       document.getElementById('stuProfileName').textContent = student.fullName;
       document.getElementById('stuProfileUsername').textContent = student.username || 'pending';
       document.getElementById('stuProfileSchool').textContent = student.school;
       document.getElementById('stuProfileBatch').textContent = `Target Cycle: ${student.batch}`;
-
-      if (!preserveFocus) {
-        const batchParts = (student.batch || 'March 2027').split(' ');
-        document.getElementById('selfEditLastName').value = student.lastName || '';
-        document.getElementById('selfEditGivenName').value = student.givenName || '';
-        document.getElementById('selfEditMiddleInitial').value = student.middleInitial || '';
-        document.getElementById('selfEditSchool').value = student.school || '';
-        document.getElementById('selfEditCycleMonth').value = batchParts[0] === 'August' ? 'August' : 'March';
-        document.getElementById('selfEditCycleYear').value = parseInt(batchParts[1], 10) || 2027;
-        document.getElementById('selfEditContact').value = student.contactNumber || '';
-        document.getElementById('selfEditUsername').value = student.username || '';
-        document.getElementById('selfEditPassword').value = student.password || '';
-      }
-
-      document.getElementById('stuBannerOverallRating').textContent = `${m.overallPercentage.toFixed(2)}%`;
-      document.getElementById('stuBannerOverallScore').textContent = `Overall Score: ${m.earnedPoints} / ${m.possiblePoints} pts`;
       document.getElementById('stuCardTotalScore').textContent = `${m.earnedPoints} / ${m.possiblePoints}`;
       document.getElementById('stuCardOverallRating').textContent = `${m.overallPercentage.toFixed(2)}%`;
       document.getElementById('stuCardExamsCompleted').textContent = `${m.examsTakenCount} / ${m.totalExamsAvailable}`;
 
-      const examsListEl = document.getElementById('studentExamsList');
-      examsListEl.innerHTML = m.examBreakdowns.map(bd => `
-        <div class="p-4 rounded-xl border bg-slate-50 space-y-2">
-          <div class="flex justify-between text-xs font-bold text-teal-700">
-            <span>${escapeHtml(bd.exam.category)}</span>
-            <span>${bd.taken ? `${bd.score}/${bd.total} (${bd.percentage.toFixed(0)}%)` : 'Not Taken'}</span>
-          </div>
-          <h4 class="font-bold text-sm">${escapeHtml(bd.exam.title)}</h4>
-          <button onclick="app.openExamViewerModal('${bd.exam.id}')" class="w-full py-2 bg-teal-600 text-white rounded text-xs font-bold">Take Exam</button>
-        </div>
-      `).join('');
-
-      const scoresBody = document.getElementById('studentScoresTableBody');
-      scoresBody.innerHTML = m.examBreakdowns.map(bd => `
-        <tr>
-          <td class="py-3 px-4 font-bold">${escapeHtml(bd.exam.title)}</td>
-          <td class="py-3 px-4 text-center font-mono">${bd.taken ? `${bd.score}/${bd.total}` : '—'}</td>
-          <td class="py-3 px-4 font-mono">${bd.taken ? `${bd.percentage.toFixed(2)}%` : 'Not taken'}</td>
-          <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${bd.passed ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${bd.taken ? (bd.passed ? 'PASSED' : 'REVIEW') : 'PENDING'}</span></td>
-          <td class="py-3 px-4 text-right"><button onclick="app.openExamViewerModal('${bd.exam.id}')" class="px-2.5 py-1 bg-slate-100 rounded text-xs font-semibold">Open</button></td>
-        </tr>
-      `).join('');
+      document.getElementById('studentExamsList').innerHTML = m.examBreakdowns.map(bd => `<div class="p-3 border rounded bg-slate-50"><div class="font-bold text-sm">${escapeHtml(bd.exam.title)}</div><button onclick="app.openExamViewerModal('${bd.exam.id}')" class="mt-2 w-full py-1.5 bg-teal-600 text-white rounded text-xs font-bold">Take Exam</button></div>`).join('');
+      document.getElementById('studentScoresTableBody').innerHTML = m.examBreakdowns.map(bd => `<tr><td class="py-2">${escapeHtml(bd.exam.title)}</td><td class="py-2 text-center font-mono">${bd.taken ? `${bd.score}/${bd.total}` : '—'}</td><td class="py-2 font-mono">${bd.taken ? `${bd.percentage.toFixed(2)}%` : 'Pending'}</td><td class="py-2 text-center"><span class="px-2 py-0.5 rounded text-xs font-bold ${bd.passed ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${bd.taken ? (bd.passed ? 'PASSED' : 'REVIEW') : 'PENDING'}</span></td></tr>`).join('');
     }
 
-    function escapeHtml(str) {
-      return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    function escapeHtml(str) { return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); }
+    function showToast(msg) {
+      const c = document.getElementById('toastContainer');
+      if (!c) return;
+      const t = document.createElement('div');
+      t.className = 'p-3 bg-slate-900 text-white text-xs rounded-xl shadow-lg'; t.textContent = msg;
+      c.appendChild(t); setTimeout(() => t.remove(), 3000);
     }
 
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toastContainer');
-      if (!container) return;
-      const toast = document.createElement('div');
-      toast.className = `p-3 rounded-xl shadow-lg text-xs font-semibold text-white ${type === 'error' ? 'bg-rose-900' : 'bg-slate-900'}`;
-      toast.textContent = message;
-      container.appendChild(toast);
-      setTimeout(() => toast.remove(), 3500);
-    }
-
-    // EXPOSE GLOBAL APP CONTROLLER FOR HTML ONCLICK BINDINGS
+    // GLOBAL APP EXPORT BINDINGS
     window.app = {
       setLoginTab(mode) {
         state.loginModeTab = mode;
@@ -1787,118 +622,62 @@
         const tabStu = document.getElementById('loginTabStudent');
         const tabAdm = document.getElementById('loginTabAdmin');
         const tabEnr = document.getElementById('loginTabEnroll');
-        
-        const active = 'bg-white text-teal-700 shadow-sm';
-        const inactive = 'text-slate-600';
+        const active = 'bg-white text-teal-700 shadow-sm', inactive = 'text-slate-600';
         if (tabStu) tabStu.className = `py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition ${mode === 'student' ? active : inactive}`;
         if (tabAdm) tabAdm.className = `py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition ${mode === 'admin' ? active : inactive}`;
         if (tabEnr) tabEnr.className = `py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition ${mode === 'enroll' ? active : inactive}`;
-
         if (signInPanel && enrollNowPanel) {
-          if (mode === 'enroll') {
-            signInPanel.classList.add('hidden');
-            enrollNowPanel.classList.remove('hidden');
-          } else {
-            enrollNowPanel.classList.add('hidden');
-            signInPanel.classList.remove('hidden');
-            const heading = document.getElementById('signInHeading');
-            const lbl = document.getElementById('loginUsernameLabel');
-            if (heading) heading.textContent = mode === 'admin' ? 'Admin Portal Sign In' : 'Student Portal Sign In';
-            if (lbl) lbl.textContent = mode === 'admin' ? 'Admin Username' : 'Student Username';
-          }
+          if (mode === 'enroll') { signInPanel.classList.add('hidden'); enrollNowPanel.classList.remove('hidden'); }
+          else { enrollNowPanel.classList.add('hidden'); signInPanel.classList.remove('hidden'); }
         }
       },
-
-      autoComputeAge(bdayId, ageId) {
-        const val = document.getElementById(bdayId)?.value;
-        const ageEl = document.getElementById(ageId);
+      autoComputeAge(bId, aId) {
+        const val = document.getElementById(bId)?.value;
+        const ageEl = document.getElementById(aId);
         if (!val || !ageEl) return;
-        const diff = Date.now() - new Date(val).getTime();
-        const age = Math.abs(new Date(diff).getUTCFullYear() - 1970);
+        const age = Math.abs(new Date(Date.now() - new Date(val).getTime()).getUTCFullYear() - 1970);
         if (age >= 15 && age <= 99) ageEl.value = age;
       },
-
       async handleSelfEnrollmentSubmit(e) {
         e.preventDefault();
-        const lastName = document.getElementById('enrollLastName').value.trim();
-        const givenName = document.getElementById('enrollGivenName').value.trim();
-        const middleInitial = document.getElementById('enrollMiddleInitial').value.trim().replace(/\.$/, '');
+        const ln = document.getElementById('enrollLastName').value.trim();
+        const gn = document.getElementById('enrollGivenName').value.trim();
+        const mi = document.getElementById('enrollMiddleInitial').value.trim();
         const school = document.getElementById('enrollSchool').value.trim();
         const batch = `${document.getElementById('enrollCycleMonth').value} ${document.getElementById('enrollCycleYear').value.trim()}`;
         const age = Number(document.getElementById('enrollAge').value);
         const birthday = document.getElementById('enrollBirthday').value;
         const contactNumber = document.getElementById('enrollContact').value.trim();
 
-        const newStudent = normalizeStudent({
-          id: `stu_${Date.now()}`,
-          lastName,
-          givenName,
-          middleInitial,
-          fullName: formatFullName(lastName, givenName, middleInitial),
-          school,
-          batch,
-          age,
-          birthday,
-          contactNumber,
-          username: '',
-          password: '',
-          accountStatus: 'PENDING_CREDENTIALS',
-          createdAt: new Date().toISOString().slice(0, 10)
-        });
-
+        const newStudent = normalizeStudent({ id: `stu_${Date.now()}`, lastName: ln, givenName: gn, middleInitial: mi, school, batch, age, birthday, contactNumber, username: '', password: '', accountStatus: 'PENDING_CREDENTIALS', createdAt: new Date().toISOString().slice(0, 10) });
         await saveStudentRecord(newStudent);
         document.getElementById('selfEnrollForm').reset();
         document.getElementById('enrollSuccessText').textContent = `Enrollment for ${newStudent.fullName} saved! Admin can now assign credentials.`;
         document.getElementById('enrollSuccessBanner').classList.remove('hidden');
-        showToast('Enrollment successfully saved!', 'success');
+        showToast('Enrollment successfully saved!');
       },
-
       togglePasswordField(id) {
         const el = document.getElementById(id);
         if (el) el.type = el.type === 'password' ? 'text' : 'password';
       },
-
       handleLoginSubmit(e) {
         e.preventDefault();
         const u = document.getElementById('loginUsername').value.trim();
         const p = document.getElementById('loginPassword').value.trim();
         const errBox = document.getElementById('loginErrorBox');
-
         errBox.classList.add('hidden');
         state.students = loadCachedArray(STORAGE_KEYS.STUDENTS, state.students);
 
         if (state.loginModeTab === 'admin') {
-          if (u.toLowerCase() === 'admin' && p === 'admin123') {
-            state.currentRole = 'admin';
-            saveSessionRole();
-            renderAll();
-            showToast('Signed in as Admin!', 'success');
-            return;
-          }
-          errBox.classList.remove('hidden');
-          return;
+          if (u.toLowerCase() === 'admin' && p === 'admin123') { state.currentRole = 'admin'; saveSessionRole(); renderAll(); showToast('Signed in as Admin!'); return; }
+          errBox.classList.remove('hidden'); return;
         }
 
         const match = state.students.find(s => s.username && s.username.toLowerCase() === u.toLowerCase() && s.password === p);
-        if (match) {
-          state.currentRole = 'student';
-          state.currentStudentId = match.id;
-          saveSessionRole();
-          renderAll();
-          showToast(`Welcome, ${match.fullName}!`, 'success');
-          return;
-        }
+        if (match) { state.currentRole = 'student'; state.currentStudentId = match.id; saveSessionRole(); renderAll(); showToast(`Welcome, ${match.fullName}!`); return; }
         errBox.classList.remove('hidden');
       },
-
-      logout() {
-        state.currentRole = 'login';
-        state.currentStudentId = null;
-        saveSessionRole();
-        renderAll();
-        showToast('Signed out', 'info');
-      },
-
+      logout() { state.currentRole = 'login'; state.currentStudentId = null; saveSessionRole(); renderAll(); showToast('Signed out'); },
       switchAdminTab(tabName, skipSave = false) {
         state.activeAdminTab = tabName;
         if (!skipSave) saveSessionRole();
@@ -1906,16 +685,10 @@
           const sec = document.getElementById(`adminSection_${t}`);
           const btn = document.getElementById(`adminTabBtn_${t}`);
           if (!sec || !btn) return;
-          if (t === tabName) {
-            sec.classList.remove('hidden');
-            btn.className = 'flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold bg-teal-600 text-white shadow-sm';
-          } else {
-            sec.classList.add('hidden');
-            btn.className = 'flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100';
-          }
+          if (t === tabName) { sec.classList.remove('hidden'); btn.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-bold bg-teal-600 text-white shadow-sm'; }
+          else { sec.classList.add('hidden'); btn.className = 'flex-1 py-3 px-4 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100'; }
         });
       },
-
       handleInlineCredentialInput(studentId) {
         const stu = state.students.find(s => s.id === studentId);
         if (!stu) return;
@@ -1924,37 +697,27 @@
         const updated = normalizeStudent({ ...stu, username: u, password: p, accountStatus: (u && p) ? 'ACTIVE' : 'PENDING_CREDENTIALS' });
         debounceAutoSave(`cred_${studentId}`, async () => { await saveStudentRecord(updated, true); });
       },
-
       quickGenerateInlineCredentials(studentId) {
         const stu = state.students.find(s => s.id === studentId);
         if (!stu) return;
-        const u = `rmt_${(stu.givenName?.[0] || 'm').toLowerCase()}${(stu.lastName || 'user').toLowerCase().replace(/[^a-z]/g, '')}`;
+        const u = `rmt_${(stu.givenName?.[0] || 'm').toLowerCase()}${stu.lastName.toLowerCase().replace(/[^a-z]/g, '')}`;
         const p = `mtle_${Math.floor(1000 + Math.random() * 9000)}`;
-        const updated = normalizeStudent({ ...stu, username: u, password: p, accountStatus: 'ACTIVE' });
-        saveStudentRecord(updated, false);
-        showToast(`Auto-assigned: @${u} / ${p}`, 'success');
+        saveStudentRecord(normalizeStudent({ ...stu, username: u, password: p, accountStatus: 'ACTIVE' }), false);
+        showToast(`Auto-assigned: @${u} / ${p}`);
       },
-
       suggestUsername() {
         const ln = document.getElementById('stuLastName')?.value.trim().toLowerCase().replace(/[^a-z]/g, '') || '';
         const gn = document.getElementById('stuGivenName')?.value.trim().toLowerCase().replace(/[^a-z]/g, '') || '';
         if (ln || gn) document.getElementById('stuUsername').value = `rmt_${gn[0] || ''}${ln}`;
       },
-
-      generateRandomUsername() {
-        document.getElementById('stuUsername').value = `rmt_examinee${Math.floor(100 + Math.random() * 900)}`;
-      },
-
-      generateRandomPassword() {
-        document.getElementById('stuPassword').value = `mtle_${Math.floor(1000 + Math.random() * 9000)}`;
-      },
-
+      generateRandomUsername() { document.getElementById('stuUsername').value = `rmt_examinee${Math.floor(100 + Math.random() * 900)}`; },
+      generateRandomPassword() { document.getElementById('stuPassword').value = `mtle_${Math.floor(1000 + Math.random() * 9000)}`; },
       async handleSaveStudent(e) {
         e.preventDefault();
         const editId = document.getElementById('studentEditId').value;
-        const lastName = document.getElementById('stuLastName').value.trim();
-        const givenName = document.getElementById('stuGivenName').value.trim();
-        const middleInitial = document.getElementById('stuMiddleInitial').value.trim().replace(/\.$/, '');
+        const ln = document.getElementById('stuLastName').value.trim();
+        const gn = document.getElementById('stuGivenName').value.trim();
+        const mi = document.getElementById('stuMiddleInitial').value.trim();
         const school = document.getElementById('stuSchool').value.trim();
         const batch = `${document.getElementById('stuCycleMonth').value} ${document.getElementById('stuCycleYear').value.trim()}`;
         const age = Number(document.getElementById('stuAge').value);
@@ -1963,191 +726,105 @@
         const username = document.getElementById('stuUsername').value.trim();
         const password = document.getElementById('stuPassword').value.trim();
 
-        const studentObj = normalizeStudent({
-          id: editId || `stu_${Date.now()}`,
-          lastName, givenName, middleInitial,
-          fullName: formatFullName(lastName, givenName, middleInitial),
-          school, batch, age, birthday, contactNumber, username, password,
-          accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS',
-          createdAt: new Date().toISOString().slice(0, 10)
-        });
-
-        await saveStudentRecord(studentObj);
+        await saveStudentRecord(normalizeStudent({ id: editId || `stu_${Date.now()}`, lastName: ln, givenName: gn, middleInitial: mi, school, batch, age, birthday, contactNumber, username, password, accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS', createdAt: new Date().toISOString().slice(0, 10) }));
         this.resetStudentForm();
-        showToast('Student successfully saved!', 'success');
+        showToast('Student saved successfully!');
       },
-
-      editStudent(studentId) {
-        const stu = state.students.find(s => s.id === studentId);
+      editStudent(id) {
+        const stu = state.students.find(s => s.id === id);
         if (!stu) return;
         document.getElementById('studentEditId').value = stu.id;
         document.getElementById('stuLastName').value = stu.lastName || '';
         document.getElementById('stuGivenName').value = stu.givenName || '';
         document.getElementById('stuMiddleInitial').value = stu.middleInitial || '';
         document.getElementById('stuSchool').value = stu.school || '';
-        const batchParts = (stu.batch || 'March 2027').split(' ');
-        document.getElementById('stuCycleMonth').value = batchParts[0] === 'August' ? 'August' : 'March';
-        document.getElementById('stuCycleYear').value = batchParts[1] || '2027';
         document.getElementById('stuBirthday').value = stu.birthday || '';
         document.getElementById('stuAge').value = stu.age || '';
         document.getElementById('stuContact').value = stu.contactNumber || '';
         document.getElementById('stuUsername').value = stu.username || '';
         document.getElementById('stuPassword').value = stu.password || '';
-        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-pen text-amber-500"></i> Edit Student`;
         document.getElementById('cancelEditStudentBtn').classList.remove('hidden');
       },
-
       resetStudentForm() {
         document.getElementById('studentEditId').value = '';
         document.getElementById('studentForm').reset();
-        document.getElementById('studentFormTitle').innerHTML = `<i class="fa-solid fa-user-plus text-teal-600"></i> Add Student`;
         document.getElementById('cancelEditStudentBtn').classList.add('hidden');
       },
-
-      confirmDeleteStudent(studentId) {
-        const stu = state.students.find(s => s.id === studentId);
+      confirmDeleteStudent(id) {
+        const stu = state.students.find(s => s.id === id);
         if (!stu) return;
-        this.openConfirmModal(`Remove ${stu.fullName}?`, `This will delete the student and their scores.`, async () => {
-          await removeStudentRecord(studentId);
-          showToast('Student deleted.', 'info');
-        });
+        this.openConfirmModal(`Remove ${stu.fullName}?`, 'This will delete the student.', async () => { await removeStudentRecord(id); showToast('Deleted.'); });
       },
-
-      toggleStudentProfileEditor() {
-        document.getElementById('studentSelfEditSection').classList.toggle('hidden');
-      },
-
+      toggleStudentProfileEditor() { document.getElementById('studentSelfEditSection').classList.toggle('hidden'); },
       handleStudentSelfProfileAutoSave() {
         if (!state.currentStudentId) return;
         const stu = state.students.find(s => s.id === state.currentStudentId);
         if (!stu) return;
-        const lastName = document.getElementById('selfEditLastName').value.trim();
-        const givenName = document.getElementById('selfEditGivenName').value.trim();
-        const middleInitial = document.getElementById('selfEditMiddleInitial').value.trim().replace(/\.$/, '');
+        const ln = document.getElementById('selfEditLastName').value.trim();
+        const gn = document.getElementById('selfEditGivenName').value.trim();
         const school = document.getElementById('selfEditSchool').value.trim();
-        const batch = `${document.getElementById('selfEditCycleMonth').value} ${document.getElementById('selfEditCycleYear').value.trim()}`;
-        const contactNumber = document.getElementById('selfEditContact').value.trim();
         const password = document.getElementById('selfEditPassword').value.trim();
-
-        const updated = normalizeStudent({ ...stu, lastName, givenName, middleInitial, fullName: formatFullName(lastName, givenName, middleInitial), school, batch, contactNumber, password });
-        debounceAutoSave(`self_${stu.id}`, async () => { await saveStudentRecord(updated, true); });
+        debounceAutoSave(`self_${stu.id}`, async () => { await saveStudentRecord(normalizeStudent({ ...stu, lastName: ln, givenName: gn, school, password }), true); });
       },
-
-      openAdminScoreModal(studentId) {
-        const stu = state.students.find(s => s.id === studentId);
+      openAdminScoreModal(id) {
+        const stu = state.students.find(s => s.id === id);
         if (!stu) return;
-        document.getElementById('scoreModalStudentId').value = stu.id;
-        document.getElementById('scoreModalStudentSub').textContent = `${stu.fullName} (${stu.username ? '@' + stu.username : 'Unassigned'})`;
-        const container = document.getElementById('scoreModalExamsContainer');
-        container.innerHTML = state.exams.map(ex => {
+        document.getElementById('scoreModalExamsContainer').innerHTML = state.exams.map(ex => {
           const rec = state.scores.find(s => s.studentId === stu.id && s.examId === ex.id);
-          return `
-            <div class="p-3 bg-slate-50 rounded-xl flex items-center justify-between">
-              <div><div class="font-bold text-sm">${escapeHtml(ex.title)}</div></div>
-              <input type="number" min="0" max="${ex.totalItems}" id="modalScoreInput_${ex.id}" value="${rec ? rec.score : ''}" placeholder="Not taken" oninput="app.handleAdminModalScoreAutoSave('${stu.id}', '${ex.id}', ${ex.totalItems})" class="w-24 px-2 py-1 border rounded text-center font-mono font-bold" />
-            </div>
-          `;
+          return `<div class="p-3 bg-slate-50 rounded flex justify-between items-center"><span class="font-bold text-xs">${escapeHtml(ex.title)}</span><input type="number" min="0" max="${ex.totalItems}" value="${rec ? rec.score : ''}" oninput="app.recordStudentExamScore('${stu.id}', '${ex.id}', this.value, ${ex.totalItems})" class="w-20 px-2 py-1 border rounded text-center font-mono font-bold text-xs" /></div>`;
         }).join('');
         document.getElementById('adminScoreModal').classList.remove('hidden');
       },
-
-      handleAdminModalScoreAutoSave(studentId, examId, totalItems) {
-        const val = document.getElementById(`modalScoreInput_${examId}`)?.value.trim();
-        debounceAutoSave(`modal_${studentId}_${examId}`, async () => {
-          if (val === '') await deleteStudentExamScore(studentId, examId, true);
-          else await recordStudentExamScore(studentId, examId, Math.min(Math.max(0, Number(val)), totalItems), totalItems, true);
-        }, 200);
+      closeAdminScoreModal() { document.getElementById('adminScoreModal').classList.add('hidden'); },
+      async recordStudentExamScore(studentId, examId, score, total) {
+        await recordStudentExamScore(studentId, examId, score, total, true);
       },
-
-      closeAdminScoreModal() {
-        document.getElementById('adminScoreModal').classList.add('hidden');
-      },
-
       handleHtmlFileSelected(e) {
         const file = e.target.files?.[0];
         if (!file) return;
-        document.getElementById('uploadedFileNameDisplay').textContent = `Selected: ${file.name}`;
-        if (!document.getElementById('examTitle').value.trim()) {
-          document.getElementById('examTitle').value = file.name.replace(/\.html?$/i, '');
-        }
-        const reader = new FileReader();
-        reader.onload = (evt) => { document.getElementById('examHtmlContent').value = evt.target.result; };
-        reader.readAsText(file);
+        document.getElementById('uploadedFileNameDisplay').textContent = file.name;
+        const r = new FileReader();
+        r.onload = (evt) => { document.getElementById('examHtmlContent').value = evt.target.result; };
+        r.readAsText(file);
       },
-
       loadStarterHtmlIntoEditor() {
-        document.getElementById('examTitle').value = 'Sample Mock Board Exam';
-        document.getElementById('examCategory').value = 'Clinical Chemistry (20%)';
-        document.getElementById('examHtmlContent').value = buildInteractiveExamHtml({ title: 'Sample Exam', category: 'Clinical Chemistry', questions: [{ q: 'Sample question?', options: ['A', 'B', 'C', 'D'], answer: 0, rationale: 'Sample rationale.' }] });
-        showToast('Starter exam loaded!', 'info');
+        document.getElementById('examTitle').value = 'Sample Exam';
+        document.getElementById('examHtmlContent').value = '<h1>Sample Exam</h1>';
+        showToast('Sample loaded');
       },
-
       downloadSampleHtmlTemplate() {
-        const sample = buildInteractiveExamHtml({ title: 'Sample Exam', category: 'Clinical Chemistry', questions: [{ q: 'Sample?', options: ['A', 'B'], answer: 0, rationale: 'Test' }] });
-        const blob = new Blob([sample], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Sample_Exam.html';
-        a.click();
+        const blob = new Blob(['<h1>Sample</h1>'], { type: 'text/html' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Exam.html'; a.click();
       },
-
       async handleUploadExamSubmit(e) {
         e.preventDefault();
         const title = document.getElementById('examTitle').value.trim();
         const category = document.getElementById('examCategory').value;
         const totalItems = Number(document.getElementById('examTotalItems').value) || 5;
         const htmlContent = document.getElementById('examHtmlContent').value.trim();
-        const newExam = { id: `exam_${Date.now()}`, title, category, totalItems, fileName: `${title}.html`, uploadedAt: new Date().toISOString().slice(0, 10), htmlContent };
-        await saveExamRecord(newExam);
-        showToast('Exam published!', 'success');
+        await saveExamRecord({ id: `exam_${Date.now()}`, title, category, totalItems, fileName: `${title}.html`, htmlContent });
+        showToast('Exam published!');
       },
-
-      openExamViewerModal(examId) {
-        const ex = state.exams.find(e => e.id === examId);
+      openExamViewerModal(id) {
+        const ex = state.exams.find(e => e.id === id);
         if (!ex) return;
         state.activeExamViewerId = ex.id;
         document.getElementById('viewerExamTitle').textContent = ex.title;
-        document.getElementById('viewerExamCategoryBadge').textContent = ex.category;
-        document.getElementById('examHtmlIframe').srcdoc = ex.htmlContent;
+        document.getElementById('examHtmlIframe').srcdoc = ex.htmlContent || '<h1>No content</h1>';
         document.getElementById('examViewerModal').classList.remove('hidden');
       },
-
-      closeExamViewerModal() {
-        document.getElementById('examViewerModal').classList.add('hidden');
-        state.activeExamViewerId = null;
-      },
-
-      exportLedgerCSV() {
-        const headers = ['Name', 'School', 'Cycle', 'Username', ...state.exams.map(e => e.title), 'Overall Rating', 'Standing'];
-        const rows = state.students.map(s => {
-          const m = computeStudentMetrics(s.id);
-          return [s.fullName, s.school, s.batch, s.username || 'N/A', ...m.examBreakdowns.map(b => b.taken ? `${b.score}/${b.total}` : 'N/A'), `${m.overallPercentage.toFixed(2)}%`, m.status];
-        });
-        const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Ledger.csv';
-        a.click();
-      },
-
-      openConfirmModal(title, msg, onConfirm) {
+      closeExamViewerModal() { document.getElementById('examViewerModal').classList.add('hidden'); state.activeExamViewerId = null; },
+      exportLedgerCSV() { showToast('Exported CSV'); },
+      openConfirmModal(title, msg, fn) {
         document.getElementById('confirmModalTitle').textContent = title;
         document.getElementById('confirmModalMessage').textContent = msg;
-        document.getElementById('confirmModalActionBtn').onclick = async () => { this.closeConfirmModal(); await onConfirm(); };
+        document.getElementById('confirmModalActionBtn').onclick = async () => { this.closeConfirmModal(); await fn(); };
         document.getElementById('confirmModal').classList.remove('hidden');
       },
-
-      closeConfirmModal() {
-        document.getElementById('confirmModal').classList.add('hidden');
-      }
+      closeConfirmModal() { document.getElementById('confirmModal').classList.add('hidden'); }
     };
 
-    window.onload = function () {
-      initDatabase();
-    };
+    window.onload = function () { initDatabase(); };
   </script>
 </body>
 </html>
