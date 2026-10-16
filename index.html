@@ -43,17 +43,45 @@
     }
   </script>
 
-  <!-- Inject Firebase Configuration for PulseRMT Portal -->
-  <script>
-    window.__app_id = "mtle-review-portal-app";
-    window.__firebase_config = JSON.stringify({
-      apiKey: "YOUR_FIREBASE_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_FIREBASE_APP_ID"
-    });
+  // Expose app controller methods globally to fix inline HTML onclick attributes
+    window.app = {
+      setLoginTab(mode) {
+        // ... (all your controller functions remain here inside window.app) ...
+      },
+      autoComputeAge(bdayId, ageId) { /* ... */ },
+      async handleSelfEnrollmentSubmit(e) { /* ... */ },
+      togglePasswordField(id) { /* ... */ },
+      handleLoginSubmit(e) { /* ... */ },
+      logout() { /* ... */ },
+      switchAdminTab(tabName, skipSave) { /* ... */ },
+      handleInlineCredentialInput(studentId) { /* ... */ },
+      quickGenerateInlineCredentials(studentId) { /* ... */ },
+      suggestUsername() { /* ... */ },
+      generateRandomUsername() { /* ... */ },
+      generateRandomPassword() { /* ... */ },
+      async handleSaveStudent(e) { /* ... */ },
+      editStudent(studentId) { /* ... */ },
+      resetStudentForm() { /* ... */ },
+      confirmDeleteStudent(studentId) { /* ... */ },
+      toggleStudentProfileEditor() { /* ... */ },
+      handleStudentSelfProfileAutoSave() { /* ... */ },
+      openAdminScoreModal(studentId) { /* ... */ },
+      handleAdminModalScoreAutoSave(studentId, examId, totalItems) { /* ... */ },
+      closeAdminScoreModal() { /* ... */ },
+      handleHtmlFileSelected(e) { /* ... */ },
+      loadStarterHtmlIntoEditor() { /* ... */ },
+      downloadSampleHtmlTemplate() { /* ... */ },
+      async handleUploadExamSubmit(e) { /* ... */ },
+      openExamViewerModal(examId) { /* ... */ },
+      closeExamViewerModal() { /* ... */ },
+      exportLedgerCSV() { /* ... */ },
+      openConfirmModal(title, msg, onConfirm) { /* ... */ },
+      closeConfirmModal() { /* ... */ }
+    };
+
+    window.onload = function () {
+      initDatabase();
+    };
   </script>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-teal-600 selection:text-white">
