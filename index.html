@@ -58,7 +58,7 @@
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-teal-600 selection:text-white">
 
-  <!-- MAIN NAVIGATION HEADER (Shown when logged in as Admin or Student) -->
+  <!-- MAIN NAVIGATION HEADER -->
   <header id="mainHeader" class="no-print bg-white border-b border-slate-200 shadow-sm sticky top-0 z-40 hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -69,10 +69,10 @@
           <div class="flex flex-wrap items-center gap-2">
             <h1 class="font-bold text-slate-900 text-base sm:text-lg tracking-tight">PulseRMT Review Center</h1>
             <span id="headerRoleBadge" class="px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-full bg-teal-100 text-teal-800">Admin</span>
-            <!-- Live 2-Way Auto-Save Indicator -->
+            <!-- Live Realtime Sync Indicator -->
             <span id="syncStatusPill" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold transition-all">
               <span id="syncStatusDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span id="syncStatusText">2-Way Auto-Save Active</span>
+              <span id="syncStatusText">Cloud Firestore Realtime Synced</span>
             </span>
           </div>
           <p class="text-xs text-slate-500 hidden sm:block">Medical Technologist Licensure Examination (MTLE) Assessment & Ledger System</p>
@@ -94,12 +94,12 @@
   </header>
 
   <!-- ===================================================================== -->
-  <!-- VIEW 1: LOGIN & ENROLLMENT PORTAL (NO CREDENTIALS SHOWN)              -->
+  <!-- VIEW 1: LOGIN & ENROLLMENT PORTAL                                     -->
   <!-- ===================================================================== -->
   <main id="loginView" class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-10 bg-gradient-to-b from-slate-900 via-slate-900 to-teal-950">
     <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200/20">
       
-      <!-- Left Column: Branding & MTLE Subject Weight Reference -->
+      <!-- Left Column: Branding -->
       <div class="lg:col-span-5 bg-gradient-to-br from-teal-800 via-teal-900 to-slate-900 text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
         <div class="relative z-10">
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-200 text-xs font-semibold mb-6">
@@ -109,7 +109,7 @@
             MTLE Online Examination & Student Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Real-time 2-way synchronized platform for student enrollment, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation.
+            Real-time synchronized platform for student enrollment, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation.
           </p>
 
           <!-- Official MTLE Subject Weights Box -->
@@ -147,14 +147,13 @@
           </div>
         </div>
 
-        <!-- Portal Notice -->
         <div class="relative z-10 mt-8 pt-6 border-t border-white/10">
           <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-teal-100/90 space-y-1">
             <div class="font-bold text-teal-300 flex items-center gap-1.5">
-              <i class="fa-solid fa-arrows-rotate"></i> Real-Time 2-Way Sync Enabled
+              <i class="fa-solid fa-arrows-rotate"></i> Real-Time Multi-Device Sync Enabled
             </div>
             <p class="leading-relaxed text-teal-100/80">
-              Enroll via the <strong>Enroll Now</strong> tab. Once the Admin assigns your username and password in the Admin Portal, your credentials work immediately for Student Login.
+              Enroll via the <strong>Enroll Now</strong> tab[cite: 1]. Once the Admin assigns your username and password, your credentials sync instantly across devices.
             </p>
           </div>
         </div>
@@ -163,7 +162,7 @@
       <!-- Right Column: Login & Enroll Now Forms -->
       <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center bg-white">
         
-        <!-- 3-Way Navigation Tabs: Student Login | Admin Login | Enroll Now -->
+        <!-- Navigation Tabs -->
         <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
           <button type="button" id="loginTabStudent" onclick="window.app.setLoginTab('student')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
             <i class="fa-solid fa-user-graduate mr-1"></i>Student Login
@@ -172,15 +171,15 @@
             <i class="fa-solid fa-user-shield mr-1"></i>Admin Login
           </button>
           <button type="button" id="loginTabEnroll" onclick="window.app.setLoginTab('enroll')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
-            <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now
+            <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now[cite: 1]
           </button>
         </div>
 
-        <!-- SIGN IN PANEL (For Student & Admin Login) -->
+        <!-- SIGN IN PANEL -->
         <div id="signInPanel">
           <div class="mb-6">
             <h3 id="signInHeading" class="text-2xl font-bold text-slate-900">Student Portal Sign In</h3>
-            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password to access your profile.</p>
+            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password to access your profile[cite: 1].</p>
           </div>
 
           <form id="loginForm" onsubmit="window.app.handleLoginSubmit(event)" class="space-y-4">
@@ -227,78 +226,74 @@
           <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
             <span>New MTLE Reviewee?</span>
             <button type="button" onclick="window.app.setLoginTab('enroll')" class="font-bold text-teal-600 hover:text-teal-700 hover:underline">
-              Click here to Enroll Now <i class="fa-solid fa-arrow-right ml-1"></i>
+              Click here to Enroll Now[cite: 1] <i class="fa-solid fa-arrow-right ml-1"></i>
             </button>
           </div>
         </div>
 
-        <!-- ENROLL NOW PANEL (For Student Self-Enrollment) -->
+        <!-- ENROLL NOW PANEL -->
         <div id="enrollNowPanel" class="hidden">
           <div class="mb-4">
             <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment</h3>
             <p class="text-xs text-slate-500 mt-0.5">
-              Complete your student information below. Your enrollment is automatically saved to the Admin Database for credential assignment.
+              Complete your student information below[cite: 1]. Your enrollment is automatically saved to Cloud Firestore for credential assignment.
             </p>
           </div>
 
           <form id="selfEnrollForm" onsubmit="window.app.handleSelfEnrollmentSubmit(event)" class="space-y-3.5">
-            <!-- Name Row: Last Name, Given Name, Middle Initial (Optional) -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *[cite: 1]</label>
                 <input type="text" id="enrollLastName" required placeholder="e.g. Santos"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *[cite: 1]</label>
                 <input type="text" id="enrollGivenName" required placeholder="e.g. Maria Clara"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Middle Initial (Optional)">M.I. <span class="text-[9px] font-normal text-slate-400">(Opt)</span></label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Middle Initial (Optional)">M.I. <span class="text-[9px] font-normal text-slate-400">(Opt)[cite: 1]</span></label>
                 <input type="text" id="enrollMiddleInitial" maxlength="3" placeholder="D."
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm text-center focus:border-teal-600 outline-none" />
               </div>
             </div>
 
-            <!-- School / University -->
             <div>
-              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *</label>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *[cite: 1]</label>
               <input type="text" id="enrollSchool" required placeholder="e.g. University of Santo Tomas (UST)"
                 class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
             </div>
 
-            <!-- Target Examination Cycle (March <Year> or August <Year>) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Cycle Month *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Cycle Month *[cite: 1]</label>
                 <select id="enrollCycleMonth" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-teal-600 outline-none">
                   <option value="March">March</option>
                   <option value="August">August</option>
                 </select>
               </div>
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Year *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Year *[cite: 1]</label>
                 <input type="number" id="enrollCycleYear" required min="2026" max="2035" value="2027" placeholder="e.g. 2027"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
               </div>
             </div>
 
-            <!-- Birthday, Age & Contact Number -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *[cite: 1]</label>
                 <input type="date" id="enrollBirthday" required onchange="window.app.autoComputeAge('enrollBirthday', 'enrollAge')"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *[cite: 1]</label>
                 <input type="number" id="enrollAge" required min="15" max="99" placeholder="22"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono text-center focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-5">
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
-                  Contact Number * <span class="text-[10px] font-normal text-slate-400">(Records Only)</span>
+                  Contact Number * <span class="text-[10px] font-normal text-slate-400">(Records Only)[cite: 1]</span>
                 </label>
                 <input type="tel" id="enrollContact" required placeholder="e.g. 09171234567"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
@@ -385,7 +380,7 @@
       </button>
       <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-users-gear"></i>
-        <span>2. Admin Student Management (Auto-Save Credentials)</span>
+        <span>2. Admin Student Management (Auto-Save Credentials)[cite: 1]</span>
       </button>
       <button onclick="window.app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-file-arrow-up"></i>
@@ -393,12 +388,9 @@
       </button>
     </div>
 
-    <!-- =============================================================== -->
-    <!-- ADMIN TAB 1: LEDGER OF STUDENTS & SCORES/RATINGS                -->
-    <!-- =============================================================== -->
+    <!-- ADMIN TAB 1: MASTER LEDGER -->
     <section id="adminSection_ledger" class="space-y-4">
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <!-- Ledger Header & Filters -->
         <div class="p-5 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -411,19 +403,16 @@
           </div>
 
           <div class="no-print flex flex-wrap items-center gap-2.5">
-            <!-- Search Input -->
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
               <input type="text" id="ledgerSearchInput" oninput="window.app.renderAdminLedger()" placeholder="Search name, username, school..."
                 class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-52" />
             </div>
 
-            <!-- Cycle Filter -->
             <select id="ledgerBatchFilter" onchange="window.app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
               <option value="ALL">All Examination Cycles</option>
             </select>
 
-            <!-- Status Filter -->
             <select id="ledgerStatusFilter" onchange="window.app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
               <option value="ALL">All Remarks</option>
               <option value="PASSED">Passed (≥75%)</option>
@@ -440,48 +429,28 @@
           </div>
         </div>
 
-        <!-- Master Ledger Table -->
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr id="ledgerTableHeadRow" class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                <!-- Dynamically built with Exam Columns -->
-              </tr>
+              <tr id="ledgerTableHeadRow" class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500"></tr>
             </thead>
-            <tbody id="ledgerTableBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
-              <!-- Dynamically populated rows -->
-            </tbody>
+            <tbody id="ledgerTableBody" class="divide-y divide-slate-200 text-xs sm:text-sm"></tbody>
           </table>
-        </div>
-
-        <!-- Ledger Footer Legend -->
-        <div class="bg-slate-50 px-5 py-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500">
-          <div class="flex flex-wrap items-center gap-4">
-            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <strong>PASSED:</strong> Overall Rating ≥ 75.00%</span>
-            <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> <strong>BELOW CUTOFF:</strong> Overall Rating &lt; 75.00%</span>
-          </div>
-          <div>
-            Tip: Click <strong>"Record Scores"</strong> on any row to manually input or adjust a student's examination scores.
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- =============================================================== -->
-    <!-- ADMIN TAB 2: DATABASE OF STUDENTS (ADD, REMOVE, ASSIGN CREDENTIALS) -->
-    <!-- =============================================================== -->
+    <!-- ADMIN TAB 2: STUDENT MANAGEMENT -->
     <section id="adminSection_students" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left 4 Cols: Admin Form to Add Student or Assign Firebase Credentials -->
         <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-fit">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
               <h3 id="studentFormTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-user-plus text-teal-600"></i>
-                Add / Manage Student
+                Add / Manage Student[cite: 1]
               </h3>
-              <p class="text-xs text-slate-500">Add a student or assign Firebase login credentials.</p>
+              <p class="text-xs text-slate-500">Add a student or assign Cloud Firestore login credentials[cite: 1].</p>
             </div>
             <button type="button" id="cancelEditStudentBtn" onclick="window.app.resetStudentForm()" class="hidden text-xs text-rose-600 hover:underline font-semibold">
               Cancel Edit
@@ -490,108 +459,98 @@
 
           <form id="studentForm" onsubmit="window.app.handleSaveStudent(event)" class="space-y-3">
             <input type="hidden" id="studentEditId" value="" />
-
-            <!-- Name Fields: Last Name, Given Name, Middle Initial -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *[cite: 1]</label>
                 <input type="text" id="stuLastName" required oninput="window.app.suggestUsername()" placeholder="Santos"
                   class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *[cite: 1]</label>
                 <input type="text" id="stuGivenName" required oninput="window.app.suggestUsername()" placeholder="Maria Clara"
                   class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Optional">M.I.</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Optional">M.I.[cite: 1]</label>
                 <input type="text" id="stuMiddleInitial" maxlength="3" placeholder="D."
                   class="w-full px-2 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm text-center focus:border-teal-600 outline-none" />
               </div>
             </div>
 
             <div>
-              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *</label>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *[cite: 1]</label>
               <input type="text" id="stuSchool" required placeholder="e.g. University of Santo Tomas (UST)"
                 class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
             </div>
 
-            <!-- Target Examination Cycle: March <Year> or August <Year> -->
             <div class="grid grid-cols-2 gap-2.5">
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Month *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Month *[cite: 1]</label>
                 <select id="stuCycleMonth" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white focus:border-teal-600 outline-none">
                   <option value="March">March</option>
                   <option value="August">August</option>
                 </select>
               </div>
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Year *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Year *[cite: 1]</label>
                 <input type="number" id="stuCycleYear" required min="2026" max="2035" value="2027"
                   class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono focus:border-teal-600 outline-none" />
               </div>
             </div>
 
-            <!-- Birthday, Age & Contact Number (For records only) -->
             <div class="grid grid-cols-12 gap-2.5">
               <div class="col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *[cite: 1]</label>
                 <input type="date" id="stuBirthday" required onchange="window.app.autoComputeAge('stuBirthday', 'stuAge')"
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none" />
               </div>
               <div class="col-span-3">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *[cite: 1]</label>
                 <input type="number" id="stuAge" required min="15" max="99" placeholder="22"
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono text-center focus:border-teal-600 outline-none" />
               </div>
               <div class="col-span-4">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="For records only">Contact # *</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="For records only">Contact # *[cite: 1]</label>
                 <input type="tel" id="stuContact" required placeholder="0917..."
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:border-teal-600 outline-none" />
               </div>
             </div>
 
-            <!-- Firebase Credentials Assignment Box -->
             <div class="pt-3 border-t border-slate-100 space-y-2.5">
               <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Username *</label>
-                <button type="button" onclick="window.app.generateRandomUsername()" class="text-[11px] text-teal-600 hover:underline font-semibold">
-                  Auto-Generate
-                </button>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Username *[cite: 1]</label>
+                <button type="button" onclick="window.app.generateRandomUsername()" class="text-[11px] text-teal-600 hover:underline font-semibold">Auto-Generate</button>
               </div>
               <input type="text" id="stuUsername" required placeholder="e.g. rmt_msantos"
                 class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
 
               <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Password *</label>
-                <button type="button" onclick="window.app.generateRandomPassword()" class="text-[11px] text-teal-600 hover:underline font-semibold">
-                  Generate Password
-                </button>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Password *[cite: 1]</label>
+                <button type="button" onclick="window.app.generateRandomPassword()" class="text-[11px] text-teal-600 hover:underline font-semibold">Generate Password</button>
               </div>
               <input type="text" id="stuPassword" required placeholder="Assign student password"
                 class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
             </div>
 
-            <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
+            <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-floppy-disk"></i>
-              <span>Save & Sync Student to Firebase</span>
+              <span>Save & Sync Student to Firestore[cite: 1]</span>
             </button>
           </form>
         </div>
 
-        <!-- Right 8 Cols: Database Table of Enrolled Students -->
         <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
           <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-database text-teal-600"></i>
-                Firebase Student Database & Credential Assignment
+                Cloud Firestore Student Database[cite: 1]
               </h3>
-              <p class="text-xs text-slate-500">Assign usernames and passwords to newly enrolled students, edit info, or remove students.</p>
+              <p class="text-xs text-slate-500">Manage student credentials and review records across devices[cite: 1].</p>
             </div>
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-              <input type="text" id="studentDbSearch" oninput="window.app.renderStudentDatabaseTable()" placeholder="Filter student database..."
+              <input type="text" id="studentDbSearch" oninput="window.app.renderStudentDatabaseTable()" placeholder="Filter database..."
                 class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-56" />
             </div>
           </div>
@@ -607,443 +566,111 @@
                   <th class="py-3 px-4 text-right">Admin Actions</th>
                 </tr>
               </thead>
-              <tbody id="studentDatabaseBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
-                <!-- Populated dynamically -->
-              </tbody>
+              <tbody id="studentDatabaseBody" class="divide-y divide-slate-200 text-xs sm:text-sm"></tbody>
             </table>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- =============================================================== -->
-    <!-- ADMIN TAB 3: UPLOAD HTML EXAMINATIONS MANAGER                   -->
-    <!-- =============================================================== -->
+    <!-- ADMIN TAB 3: EXAMS -->
     <section id="adminSection_exams" class="hidden space-y-6">
-      
-      <!-- Top Helper Banner for Testing HTML File Uploads -->
-      <div class="bg-gradient-to-r from-teal-900 via-teal-800 to-slate-900 rounded-2xl p-5 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="space-y-1">
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-400/20 text-teal-200 text-xs font-semibold">
-            <i class="fa-solid fa-code"></i> HTML Examination Engine
-          </div>
-          <h3 class="text-lg font-bold">Upload Any <code class="font-mono text-teal-300">.html</code> Examination File</h3>
-          <p class="text-xs text-teal-100/80 max-w-2xl leading-relaxed">
-            Upload self-contained <code class="font-mono">.html</code> examination files created by your faculty. Students can open and take the uploaded HTML exam directly inside their portal.
-          </p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-          <button onclick="window.app.downloadSampleHtmlTemplate()" class="px-4 py-2.5 rounded-xl bg-teal-400 hover:bg-teal-300 text-slate-950 font-bold text-xs shadow-lg transition flex items-center gap-2">
-            <i class="fa-solid fa-download"></i>
-            <span>Download Sample Exam (.HTML)</span>
-          </button>
-        </div>
-      </div>
-
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left 5 Cols: Upload HTML Examination Form -->
-        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4 h-fit">
-          <div class="border-b border-slate-100 pb-3">
-            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-file-circle-plus text-teal-600"></i>
-              Upload New HTML Examination
-            </h3>
-            <p class="text-xs text-slate-500">Select an <code class="font-mono">.html</code> file from your computer or paste/edit HTML source below.</p>
-          </div>
-
-          <form id="uploadExamForm" onsubmit="window.app.handleUploadExamSubmit(event)" class="space-y-3.5">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Examination Title *</label>
-              <input type="text" id="examTitle" required placeholder="e.g. Blood Banking & Serology Pre-Board Exam"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">MTLE Subject Category *</label>
-                <select id="examCategory" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white focus:border-teal-600 outline-none">
-                  <option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option>
-                  <option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option>
-                  <option value="Hematology (20%)">Hematology (20%)</option>
-                  <option value="Blood Banking & Serology (20%)">Blood Banking & Serology (20%)</option>
-                  <option value="Clinical Microscopy (10%)">Clinical Microscopy (10%)</option>
-                  <option value="Histopathology & MT Laws (10%)">Histopathology & MT Laws (10%)</option>
-                  <option value="Comprehensive Mock Board">Comprehensive Mock Board</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Total Items / Points *</label>
-                <input type="number" id="examTotalItems" required min="1" max="500" value="5"
-                  class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
-              </div>
-            </div>
-
-            <!-- File Dropzone for .html -->
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Select <code class="font-mono">.html</code> Examination File *</label>
-              <label for="examHtmlFileInput" class="flex flex-col items-center justify-center p-5 border-2 border-dashed border-teal-300 hover:border-teal-500 rounded-2xl bg-teal-50/40 hover:bg-teal-50/80 cursor-pointer transition text-center">
-                <i class="fa-brands fa-html5 text-3xl text-orange-500 mb-1.5"></i>
-                <span id="uploadedFileNameDisplay" class="text-xs font-bold text-slate-700">Click to browse and upload an .HTML file</span>
-                <span class="text-[11px] text-slate-500 mt-0.5">Supports any standard .html or .htm examination file</span>
-                <input type="file" id="examHtmlFileInput" accept=".html,.htm" onchange="window.app.handleHtmlFileSelected(event)" class="hidden" />
-              </label>
-            </div>
-
-            <!-- HTML Source Code Inspector / Editor -->
-            <div>
-              <div class="flex items-center justify-between mb-1">
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">HTML Examination Source Code</label>
-                <button type="button" onclick="window.app.loadStarterHtmlIntoEditor()" class="text-[11px] text-teal-600 hover:underline font-semibold">
-                  Load Starter HTML Quiz Code
-                </button>
-              </div>
-              <textarea id="examHtmlContent" rows="6" required placeholder="Upload an .html file above or paste HTML examination code here..."
-                class="w-full p-3 rounded-xl border border-slate-300 text-xs font-mono bg-slate-900 text-teal-300 focus:border-teal-600 outline-none"></textarea>
-            </div>
-
-            <div class="flex items-center gap-2 pt-1">
-              <button type="button" onclick="window.app.previewDraftHtmlExam()" class="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
-                <i class="fa-solid fa-eye"></i> Preview HTML
-              </button>
-              <button type="submit" class="flex-1 py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>Publish HTML Exam to Portal</span>
-              </button>
-            </div>
+        <div class="lg:col-span-5 bg-white rounded-2xl border p-5">
+          <h3 class="font-bold mb-3">Upload HTML Exam</h3>
+          <form onsubmit="window.app.handleUploadExamSubmit(event)" class="space-y-3">
+            <input type="text" id="examTitle" required placeholder="Exam Title" class="w-full px-3 py-2 border rounded text-xs" />
+            <select id="examCategory" class="w-full px-3 py-2 border rounded text-xs bg-white"><option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option><option value="Hematology (20%)">Hematology (20%)</option></select>
+            <input type="number" id="examTotalItems" value="5" class="w-full px-3 py-2 border rounded text-xs font-mono" />
+            <input type="file" id="examHtmlFileInput" accept=".html" onchange="window.app.handleHtmlFileSelected(event)" class="w-full text-xs" />
+            <textarea id="examHtmlContent" rows="5" placeholder="HTML Code" class="w-full p-2 border rounded text-xs font-mono bg-slate-900 text-teal-300"></textarea>
+            <button type="submit" class="w-full py-2 bg-teal-600 text-white rounded font-bold text-xs">Publish Exam</button>
           </form>
         </div>
-
-        <!-- Right 7 Cols: List of Uploaded HTML Examinations -->
-        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          <div class="p-5 border-b border-slate-200 flex items-center justify-between">
-            <div>
-              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-folder-open text-teal-600"></i>
-                Published HTML Examinations Repository
-              </h3>
-              <p class="text-xs text-slate-500">All examinations below are immediately accessible in every Student Profile.</p>
-            </div>
-          </div>
-
-          <div id="adminExamsList" class="p-5 space-y-3.5 flex-1">
-            <!-- Dynamically populated exam cards -->
-          </div>
-        </div>
-
+        <div class="lg:col-span-7 bg-white rounded-2xl border p-5"><div id="adminExamsList" class="space-y-3"></div></div>
       </div>
     </section>
-
   </main>
 
   <!-- ===================================================================== -->
-  <!-- VIEW 3: STUDENT PORTAL (STUDENT PROFILE & EXAM CENTER)                -->
+  <!-- VIEW 3: STUDENT PORTAL                                                -->
   <!-- ===================================================================== -->
   <main id="studentView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
-    
-    <!-- Student Profile Header Banner -->
-    <section class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
-      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-          <div id="stuProfileAvatar" class="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-600 text-slate-950 font-extrabold text-2xl flex items-center justify-center shadow-lg shrink-0">
-            MS
-          </div>
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-xs font-semibold">
-                MTLE Reviewee Profile
-              </span>
-              <span id="stuProfileBatch" class="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-200 text-xs font-medium">
-                March 2027
-              </span>
-              <button onclick="window.app.toggleStudentProfileEditor()" class="no-print px-2.5 py-0.5 rounded-full bg-teal-500/30 hover:bg-teal-500/50 border border-teal-400/40 text-teal-100 text-xs font-semibold transition">
-                <i class="fa-solid fa-user-gear mr-1"></i>Edit My Profile & Credentials
-              </button>
-            </div>
-            <h2 id="stuProfileName" class="text-2xl sm:text-3xl font-extrabold mt-1">Santos, Maria Clara D.</h2>
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-teal-200/90 mt-1">
-              <span><i class="fa-solid fa-id-card mr-1.5 text-teal-400"></i>Username: <strong id="stuProfileUsername" class="font-mono text-white">rmt_msantos</strong></span>
-              <span><i class="fa-solid fa-building-columns mr-1.5 text-teal-400"></i>School: <strong id="stuProfileSchool" class="text-white">University of Santo Tomas</strong></span>
-            </div>
-          </div>
+    <section class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex justify-between items-center flex-wrap gap-4">
+      <div class="flex items-center gap-4">
+        <div id="stuProfileAvatar" class="w-16 h-16 rounded-2xl bg-teal-400 text-slate-950 font-bold text-2xl flex items-center justify-center">MS</div>
+        <div>
+          <span id="stuProfileBatch" class="px-2 py-0.5 rounded bg-white/10 text-xs">March 2027</span>
+          <h2 id="stuProfileName" class="text-2xl font-bold mt-1">Student Name</h2>
+          <p class="text-xs text-teal-200">Username: <strong id="stuProfileUsername" class="text-white"></strong> | School: <strong id="stuProfileSchool" class="text-white"></strong></p>
         </div>
+      </div>
+      <button onclick="window.app.toggleStudentProfileEditor()" class="px-3 py-1.5 bg-teal-500/30 rounded text-xs font-bold">Edit Profile & Password[cite: 1]</button>
+    </section>
 
-        <!-- Overall Standing Badge Card -->
-        <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 flex items-center gap-5 shrink-0">
-          <div>
-            <div class="text-[11px] font-bold uppercase tracking-wider text-teal-200">Overall MTLE Rating</div>
-            <div id="stuBannerOverallRating" class="text-3xl font-extrabold font-mono text-white mt-0.5">0.00%</div>
-            <div id="stuBannerOverallScore" class="text-xs text-teal-200 mt-0.5">Overall Score: 0 / 0 pts</div>
-          </div>
-          <div class="h-12 w-px bg-white/15"></div>
-          <div>
-            <div class="text-[11px] font-bold uppercase tracking-wider text-teal-200 mb-1">Board Standing</div>
-            <div id="stuBannerRemarksBadge">
-              <!-- Passed / Conditional badge -->
-            </div>
-          </div>
-        </div>
+    <section id="studentSelfEditSection" class="hidden bg-white rounded-2xl border p-5 space-y-3">
+      <h3 class="font-bold text-sm">Edit My Profile & Password</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <input type="text" id="selfEditLastName" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="Last Name[cite: 1]" class="p-2 border rounded" />
+        <input type="text" id="selfEditGivenName" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="Given Name[cite: 1]" class="p-2 border rounded" />
+        <input type="text" id="selfEditSchool" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="School[cite: 1]" class="p-2 border rounded" />
+        <input type="text" id="selfEditPassword" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="New Password[cite: 1]" class="p-2 border rounded font-mono" />
       </div>
     </section>
 
-    <!-- Collapsible 2-Way Student Profile & Credential Editor (Auto-Saves) -->
-    <section id="studentSelfEditSection" class="no-print hidden bg-white rounded-2xl border-2 border-teal-500/40 shadow-md p-5 space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div>
-          <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-arrows-rotate text-teal-600"></i>
-            My Profile & Login Credentials (2-Way Auto-Save)
-          </h3>
-          <p class="text-xs text-slate-500">Any update you make below is automatically saved and synced to the Admin Database.</p>
-        </div>
-        <button onclick="window.app.toggleStudentProfileEditor()" class="text-xs font-bold text-slate-500 hover:text-slate-800">
-          <i class="fa-solid fa-xmark mr-1"></i>Close
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Last Name</label>
-          <input type="text" id="selfEditLastName" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Given Name</label>
-          <input type="text" id="selfEditGivenName" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Middle Initial</label>
-          <input type="text" id="selfEditMiddleInitial" maxlength="3" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">School / University</label>
-          <input type="text" id="selfEditSchool" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Target Exam Cycle</label>
-          <div class="grid grid-cols-2 gap-1.5">
-            <select id="selfEditCycleMonth" onchange="window.app.handleStudentSelfProfileAutoSave()" class="px-2 py-2 rounded-xl border border-slate-300 bg-white font-semibold">
-              <option value="March">March</option>
-              <option value="August">August</option>
-            </select>
-            <input type="number" id="selfEditCycleYear" min="2026" max="2035" oninput="window.app.handleStudentSelfProfileAutoSave()" class="px-2.5 py-2 rounded-xl border border-slate-300 font-mono font-semibold" />
-          </div>
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Contact # (Records Only)</label>
-          <input type="tel" id="selfEditContact" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-teal-700 mb-1">Assigned Username</label>
-          <input type="text" id="selfEditUsername" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 font-mono text-slate-600 cursor-not-allowed" title="Assigned by Admin" />
-        </div>
-        <div>
-          <label class="block font-bold uppercase text-teal-700 mb-1">My Password (Auto-Saves)</label>
-          <input type="text" id="selfEditPassword" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-teal-300 bg-teal-50/30 font-mono font-bold text-slate-900" />
-        </div>
-      </div>
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-white p-5 rounded-2xl border"><div class="text-xs uppercase text-slate-500 font-bold">Overall Score</div><div id="stuCardTotalScore" class="text-2xl font-extrabold font-mono mt-1">0 / 0</div></div>
+      <div class="bg-white p-5 rounded-2xl border"><div class="text-xs uppercase text-slate-500 font-bold">Overall Rating</div><div id="stuCardOverallRating" class="text-2xl font-extrabold font-mono text-teal-600 mt-1">0.00%</div></div>
+      <div class="bg-white p-5 rounded-2xl border"><div class="text-xs uppercase text-slate-500 font-bold">Exams Completed</div><div id="stuCardExamsCompleted" class="text-2xl font-extrabold font-mono mt-1">0 / 0</div></div>
     </section>
 
-    <!-- Student KPI Summary Row -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Overall Cumulative Score</div>
-        <div id="stuCardTotalScore" class="text-2xl font-extrabold text-slate-900 font-mono mt-1.5">0 / 0</div>
-        <div class="text-xs text-slate-500 mt-1">Total raw points across taken exams</div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Computed Overall Rating</div>
-        <div id="stuCardOverallRating" class="text-2xl font-extrabold text-teal-600 font-mono mt-1.5">0.00%</div>
-        <div class="text-xs text-slate-500 mt-1">PRC Passing Standard: <strong>75.00%</strong></div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Examinations Completed</div>
-        <div id="stuCardExamsCompleted" class="text-2xl font-extrabold text-slate-900 font-mono mt-1.5">0 / 0</div>
-        <div class="w-full bg-slate-100 h-2 rounded-full mt-2 overflow-hidden">
-          <div id="stuCardCompletionBar" class="bg-teal-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Highest Subject Rating</div>
-        <div id="stuCardHighestSubject" class="text-lg font-extrabold text-slate-900 mt-1.5 truncate">—</div>
-        <div id="stuCardHighestVal" class="text-xs text-emerald-600 font-semibold mt-1">Take an exam to compute</div>
-      </div>
-    </section>
-
-    <!-- Student Main Content Grid: Uploaded Examinations & Scores Ledger -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      
-      <!-- Left 5 Cols: Access to Uploaded HTML Examinations -->
-      <section class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-        <div class="p-5 border-b border-slate-200">
-          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-laptop-file text-teal-600"></i>
-            Uploaded HTML Examinations
-          </h3>
-          <p class="text-xs text-slate-500 mt-0.5">
-            Click <strong>"Take HTML Exam"</strong> to launch the interactive examination. Scores auto-save to your profile and the Admin Ledger.
-          </p>
-        </div>
-
-        <div id="studentExamsList" class="p-5 space-y-3.5 flex-1">
-          <!-- Dynamically populated available HTML exams for this student -->
-        </div>
-      </section>
-
-      <!-- Right 7 Cols: Detailed Scores & Ratings in Each Exam + Overall Score -->
-      <section class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-        <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-chart-pie text-teal-600"></i>
-              Scores & Ratings per Examination
-            </h3>
-            <p class="text-xs text-slate-500 mt-0.5">
-              Live 2-way synced breakdown of your raw scores, percentage ratings, and cumulative MTLE standing.
-            </p>
-          </div>
-          <button onclick="window.print()" class="no-print px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition inline-flex items-center gap-1.5">
-            <i class="fa-solid fa-print"></i> Print Report Card
-          </button>
-        </div>
-
-        <div class="overflow-x-auto flex-1">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                <th class="py-3 px-4">Examination & Subject</th>
-                <th class="py-3 px-4 text-center">Raw Score</th>
-                <th class="py-3 px-4">Percentage Rating</th>
-                <th class="py-3 px-4 text-center">Remarks</th>
-                <th class="py-3 px-4 text-right no-print">Action</th>
-              </tr>
-            </thead>
-            <tbody id="studentScoresTableBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
-              <!-- Populated dynamically -->
-            </tbody>
-            <tfoot id="studentScoresTableFoot" class="bg-slate-900 text-white font-bold text-xs sm:text-sm">
-              <!-- Overall Summary Row -->
-            </tfoot>
-          </table>
-        </div>
-      </section>
-
+      <div class="lg:col-span-5 bg-white rounded-2xl border p-5"><h3 class="font-bold text-sm mb-3">Available Exams</h3><div id="studentExamsList" class="space-y-3"></div></div>
+      <div class="lg:col-span-7 bg-white rounded-2xl border overflow-hidden p-5">
+        <h3 class="font-bold text-sm mb-3">Scores & Ratings</h3>
+        <table class="w-full text-left">
+          <thead><tr class="text-xs uppercase text-slate-500 border-b"><th class="pb-2">Exam</th><th class="pb-2 text-center">Score</th><th class="pb-2">Rating</th><th class="pb-2 text-center">Remarks</th></tr></thead>
+          <tbody id="studentScoresTableBody" class="divide-y text-sm"></tbody>
+        </table>
+      </div>
     </div>
   </main>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 1: INTERACTIVE HTML EXAMINATION VIEWER & GRADING WORKSPACE      -->
-  <!-- ===================================================================== -->
-  <div id="examViewerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex flex-col p-2 sm:p-4 lg:p-6">
-    <div class="bg-white w-full max-w-7xl mx-auto flex-1 rounded-2xl shadow-2xl border border-slate-300 overflow-hidden flex flex-col">
-      
-      <!-- Modal Top Bar -->
-      <div class="bg-slate-900 text-white px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
-        <div class="flex items-center gap-3">
-          <span class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-400/30 text-teal-300 flex items-center justify-center">
-            <i class="fa-brands fa-html5 text-lg"></i>
-          </span>
-          <div>
-            <div class="flex items-center gap-2">
-              <h3 id="viewerExamTitle" class="font-bold text-sm sm:text-base text-white">Examination Title</h3>
-              <span id="viewerExamCategoryBadge" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-teal-500/20 text-teal-300">Subject</span>
-            </div>
-            <p id="viewerExamineeSub" class="text-xs text-slate-400">Rendered from uploaded .HTML examination file</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <button onclick="window.app.closeExamViewerModal()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center gap-1.5">
-            <i class="fa-solid fa-xmark"></i>
-            <span>Close Exam</span>
-          </button>
-        </div>
+  <!-- MODALS -->
+  <div id="examViewerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex flex-col p-4">
+    <div class="bg-white w-full max-w-7xl mx-auto flex-1 rounded-2xl overflow-hidden flex flex-col">
+      <div class="bg-slate-900 text-white px-6 py-3 flex justify-between items-center">
+        <h3 id="viewerExamTitle" class="font-bold text-sm">Exam</h3>
+        <button onclick="window.app.closeExamViewerModal()" class="px-3 py-1 bg-rose-600 rounded text-xs font-bold">Close</button>
       </div>
-
-      <!-- Modal Body: Sandboxed HTML Iframe -->
-      <div class="flex-1 flex flex-col lg:flex-row overflow-hidden bg-slate-100">
-        <div class="flex-1 h-full relative bg-white">
-          <iframe id="examHtmlIframe" title="Uploaded HTML Examination" class="w-full h-full border-0" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
-        </div>
-      </div>
-
+      <iframe id="examHtmlIframe" class="flex-1 w-full border-0"></iframe>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 2: ADMIN MANUAL SCORE INPUT / EDIT FOR A STUDENT                -->
-  <!-- ===================================================================== -->
-  <div id="adminScoreModal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
-      <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-        <div>
-          <h3 class="font-bold text-base flex items-center gap-2">
-            <i class="fa-solid fa-sliders text-teal-400"></i>
-            <span>Manage Student Examination Scores (Auto-Saves)</span>
-          </h3>
-          <p id="scoreModalStudentSub" class="text-xs text-slate-300 mt-0.5">Student Name (@username)</p>
-        </div>
-        <button onclick="window.app.closeAdminScoreModal()" class="text-slate-400 hover:text-white text-lg">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="p-6 space-y-4">
-        <div class="flex items-center justify-between text-xs text-slate-500">
-          <span>Type a raw score below—changes auto-save & sync to the Student Portal immediately.</span>
-        </div>
-        <div id="scoreModalExamsContainer" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-          <!-- Dynamically populated inputs per exam -->
-        </div>
-        <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-2">
-          <button onclick="window.app.closeAdminScoreModal()" class="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md">
-            Done
-          </button>
-        </div>
-      </div>
+  <div id="adminScoreModal" class="fixed inset-0 z-50 bg-slate-950/75 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-2xl p-6 space-y-4">
+      <div class="flex justify-between items-center"><h3 class="font-bold text-sm">Record Scores</h3><button onclick="window.app.closeAdminScoreModal()" class="text-xl">&times;</button></div>
+      <div id="scoreModalExamsContainer" class="space-y-3 max-h-60 overflow-y-auto"></div>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 3: CONFIRMATION MODAL                                           -->
-  <!-- ===================================================================== -->
-  <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-6 space-y-4">
-      <div class="flex items-start gap-3.5">
-        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </div>
-        <div>
-          <h4 id="confirmModalTitle" class="font-bold text-slate-900 text-base">Confirm Action</h4>
-          <p id="confirmModalMessage" class="text-xs text-slate-600 mt-1 leading-relaxed">Are you sure you want to proceed?</p>
-        </div>
-      </div>
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="window.app.closeConfirmModal()" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs">
-          Cancel
-        </button>
-        <button id="confirmModalActionBtn" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs">
-          Confirm Delete
-        </button>
-      </div>
+  <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/75 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
+      <h4 id="confirmModalTitle" class="font-bold text-sm">Confirm</h4>
+      <p id="confirmModalMessage" class="text-xs text-slate-600"></p>
+      <div class="flex justify-end gap-2"><button onclick="window.app.closeConfirmModal()" class="px-3 py-1.5 bg-slate-100 rounded text-xs">Cancel</button><button id="confirmModalActionBtn" class="px-3 py-1.5 bg-rose-600 text-white rounded text-xs font-bold">Delete</button></div>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
-  <!-- ===================================================================== -->
-  <!-- APPLICATION LOGIC & GLOBAL APP EXPORT FIX                             -->
-  <!-- ===================================================================== -->
+  <!-- CLOUD FIRESTORE REALTIME SYNC ENGINE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    const STORAGE_KEYS = { STUDENTS: 'pulsermt_v5_students', EXAMS: 'pulsermt_v5_exams', SCORES: 'pulsermt_v5_scores', SESSION: 'pulsermt_v5_session' };
+    const STORAGE_KEYS = { STUDENTS: 'pulsermt_fs_students', EXAMS: 'pulsermt_fs_exams', SCORES: 'pulsermt_fs_scores', SESSION: 'pulsermt_fs_session' };
 
     const SEED_EXAMS = [
       { id: 'exam_clinchem_01', title: 'Clinical Chemistry: Carbohydrates, Lipids & Enzymes', category: 'Clinical Chemistry (20%)', totalItems: 5, htmlContent: '<h1>Clinical Chemistry Exam</h1>' }
@@ -1126,7 +753,7 @@
     }
 
     window.addEventListener('storage', (event) => {
-      if (event.key?.startsWith('pulsermt_v5')) {
+      if (event.key?.startsWith('pulsermt_fs')) {
         state.students = loadCachedArray(STORAGE_KEYS.STUDENTS, state.students);
         state.exams = loadCachedArray(STORAGE_KEYS.EXAMS, state.exams);
         state.scores = loadCachedArray(STORAGE_KEYS.SCORES, state.scores);
@@ -1137,28 +764,53 @@
     window.addEventListener('message', async (event) => {
       if (event.data?.type === 'MTLE_EXAM_SUBMIT' && state.activeExamViewerId && state.currentStudentId) {
         await recordStudentExamScore(state.currentStudentId, state.activeExamViewerId, Number(event.data.score), Number(event.data.total));
-        showToast('Exam score auto-saved!');
+        showToast('Exam score auto-saved[cite: 1]!');
       }
     });
 
+    // Cloud Firestore Realtime Sync Initialization
     async function initDatabase() {
       saveLocalCache();
       renderAll();
       try {
         if (typeof __firebase_config === 'undefined' || __firebase_config.includes('YOUR_FIREBASE_API_KEY')) return;
-        const fbApp = initializeApp(JSON.parse(__firebase_config));
+        const config = JSON.parse(__firebase_config);
+        const fbApp = initializeApp(config);
+        const auth = getAuth(fbApp);
         const db = getFirestore(fbApp);
         state.db = db;
-        try { const auth = getAuth(fbApp); await signInAnonymously(auth); } catch (e) {}
+        try { await signInAnonymously(auth); } catch (e) {}
 
-        onSnapshot(collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students'), (snap) => {
+        const studentsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students');
+        const examsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams');
+        const scoresCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores');
+
+        onSnapshot(studentsCol, (snap) => {
           if (!snap.empty) {
             state.students = snap.docs.map(d => normalizeStudent(d.data()));
             saveLocalCache();
             renderAll(true);
           }
         });
-      } catch (e) {}
+
+        onSnapshot(examsCol, (snap) => {
+          if (!snap.empty) {
+            state.exams = snap.docs.map(d => d.data());
+            saveLocalCache();
+            renderAll(true);
+          }
+        });
+
+        onSnapshot(scoresCol, (snap) => {
+          if (!snap.empty) {
+            state.scores = snap.docs.map(d => d.data());
+            saveLocalCache();
+            renderAll(true);
+          }
+        });
+      } catch (e) {
+        console.warn('Cloud Firestore fallback mode:', e);
+      }
     }
 
     async function saveStudentRecord(stu, preserve = false) {
@@ -1374,7 +1026,7 @@
         const newStudent = normalizeStudent({ id: `stu_${Date.now()}`, lastName: ln, givenName: gn, middleInitial: mi, school, batch, age, birthday, contactNumber, username: '', password: '', accountStatus: 'PENDING_CREDENTIALS', createdAt: new Date().toISOString().slice(0, 10) });
         await saveStudentRecord(newStudent);
         document.getElementById('selfEnrollForm').reset();
-        document.getElementById('enrollSuccessText').textContent = `Enrollment for ${newStudent.fullName} saved! Admin can now assign credentials.`;
+        document.getElementById('enrollSuccessText').textContent = `Enrollment for ${newStudent.fullName} saved! Admin can now assign credentials[cite: 1].`;
         document.getElementById('enrollSuccessBanner').classList.remove('hidden');
         showToast('Enrollment successfully saved!');
       },
