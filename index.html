@@ -79,10 +79,11 @@
         </div>
       </div>
 
+      <!-- Dynamic User Info & Sign Out -->
       <div class="flex items-center gap-3">
         <div class="text-right hidden sm:block">
           <div id="headerUserName" class="text-sm font-semibold text-slate-900">Administrator</div>
-          <div id="headerUserSub" class="text-xs text-slate-500 font-mono">admin</div>
+          <div id="headerUserSub" class="text-xs text-slate-500 font-mono">@admin</div>
         </div>
         <button onclick="window.app.logout()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition">
           <i class="fa-solid fa-power-off"></i>
@@ -108,7 +109,7 @@
             MTLE Online Examination & Student Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Real-time 2-way synchronized platform for student enrollment, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation[cite: 1].
+            Real-time 2-way synchronized platform for student enrollment, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation.
           </p>
 
           <!-- Official MTLE Subject Weights Box -->
@@ -153,7 +154,7 @@
               <i class="fa-solid fa-arrows-rotate"></i> Real-Time 2-Way Sync Enabled
             </div>
             <p class="leading-relaxed text-teal-100/80">
-              Enroll via the <strong>Enroll Now</strong> tab[cite: 1]. Once the Admin assigns your username and password in the Admin Portal, your credentials work immediately for Student Login.
+              Enroll via the <strong>Enroll Now</strong> tab. Once the Admin assigns your username and password in the Admin Portal, your credentials work immediately for Student Login.
             </p>
           </div>
         </div>
@@ -171,7 +172,7 @@
             <i class="fa-solid fa-user-shield mr-1"></i>Admin Login
           </button>
           <button type="button" id="loginTabEnroll" onclick="window.app.setLoginTab('enroll')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
-            <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now[cite: 1]
+            <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now
           </button>
         </div>
 
@@ -179,7 +180,7 @@
         <div id="signInPanel">
           <div class="mb-6">
             <h3 id="signInHeading" class="text-2xl font-bold text-slate-900">Student Portal Sign In</h3>
-            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password to access your profile[cite: 1].</p>
+            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password to access your profile.</p>
           </div>
 
           <form id="loginForm" onsubmit="window.app.handleLoginSubmit(event)" class="space-y-4">
@@ -226,7 +227,7 @@
           <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
             <span>New MTLE Reviewee?</span>
             <button type="button" onclick="window.app.setLoginTab('enroll')" class="font-bold text-teal-600 hover:text-teal-700 hover:underline">
-              Click here to Enroll Now[cite: 1] <i class="fa-solid fa-arrow-right ml-1"></i>
+              Click here to Enroll Now <i class="fa-solid fa-arrow-right ml-1"></i>
             </button>
           </div>
         </div>
@@ -236,7 +237,7 @@
           <div class="mb-4">
             <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment</h3>
             <p class="text-xs text-slate-500 mt-0.5">
-              Complete your student information below[cite: 1]. Your enrollment is automatically saved to the Admin Database for credential assignment.
+              Complete your student information below. Your enrollment is automatically saved to the Admin Database for credential assignment.
             </p>
           </div>
 
@@ -244,17 +245,17 @@
             <!-- Name Row: Last Name, Given Name, Middle Initial (Optional) -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *</label>
                 <input type="text" id="enrollLastName" required placeholder="e.g. Santos"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *</label>
                 <input type="text" id="enrollGivenName" required placeholder="e.g. Maria Clara"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Middle Initial (Optional)">M.I. <span class="text-[9px] font-normal text-slate-400">(Opt)[cite: 1]</span></label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Middle Initial (Optional)">M.I. <span class="text-[9px] font-normal text-slate-400">(Opt)</span></label>
                 <input type="text" id="enrollMiddleInitial" maxlength="3" placeholder="D."
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm text-center focus:border-teal-600 outline-none" />
               </div>
@@ -262,22 +263,22 @@
 
             <!-- School / University -->
             <div>
-              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *[cite: 1]</label>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *</label>
               <input type="text" id="enrollSchool" required placeholder="e.g. University of Santo Tomas (UST)"
-                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+                class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
             </div>
 
             <!-- Target Examination Cycle (March <Year> or August <Year>) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Cycle Month *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Cycle Month *</label>
                 <select id="enrollCycleMonth" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-teal-600 outline-none">
                   <option value="March">March</option>
                   <option value="August">August</option>
                 </select>
               </div>
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Year *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Target Exam Year *</label>
                 <input type="number" id="enrollCycleYear" required min="2026" max="2035" value="2027" placeholder="e.g. 2027"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
               </div>
@@ -286,18 +287,18 @@
             <!-- Birthday, Age & Contact Number -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *</label>
                 <input type="date" id="enrollBirthday" required onchange="window.app.autoComputeAge('enrollBirthday', 'enrollAge')"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
                 <input type="number" id="enrollAge" required min="15" max="99" placeholder="22"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono text-center focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-5">
                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
-                  Contact Number * <span class="text-[10px] font-normal text-slate-400">(Records Only)[cite: 1]</span>
+                  Contact Number * <span class="text-[10px] font-normal text-slate-400">(Records Only)</span>
                 </label>
                 <input type="tel" id="enrollContact" required placeholder="e.g. 09171234567"
                   class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
@@ -384,7 +385,7 @@
       </button>
       <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-users-gear"></i>
-        <span>2. Admin Student Management (Auto-Save Credentials)[cite: 1]</span>
+        <span>2. Admin Student Management (Auto-Save Credentials)</span>
       </button>
       <button onclick="window.app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-file-arrow-up"></i>
@@ -493,24 +494,24 @@
             <!-- Name Fields: Last Name, Given Name, Middle Initial -->
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *</label>
                 <input type="text" id="stuLastName" required oninput="window.app.suggestUsername()" placeholder="Santos"
                   class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *</label>
                 <input type="text" id="stuGivenName" required oninput="window.app.suggestUsername()" placeholder="Maria Clara"
                   class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Optional">M.I.[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="Optional">M.I.</label>
                 <input type="text" id="stuMiddleInitial" maxlength="3" placeholder="D."
                   class="w-full px-2 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm text-center focus:border-teal-600 outline-none" />
               </div>
             </div>
 
             <div>
-              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *[cite: 1]</label>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">School / University *</label>
               <input type="text" id="stuSchool" required placeholder="e.g. University of Santo Tomas (UST)"
                 class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
             </div>
@@ -518,14 +519,14 @@
             <!-- Target Examination Cycle: March <Year> or August <Year> -->
             <div class="grid grid-cols-2 gap-2.5">
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Month *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Month *</label>
                 <select id="stuCycleMonth" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white focus:border-teal-600 outline-none">
                   <option value="March">March</option>
                   <option value="August">August</option>
                 </select>
               </div>
               <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Year *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Cycle Year *</label>
                 <input type="number" id="stuCycleYear" required min="2026" max="2035" value="2027"
                   class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono focus:border-teal-600 outline-none" />
               </div>
@@ -534,17 +535,17 @@
             <!-- Birthday, Age & Contact Number (For records only) -->
             <div class="grid grid-cols-12 gap-2.5">
               <div class="col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Birthday *</label>
                 <input type="date" id="stuBirthday" required onchange="window.app.autoComputeAge('stuBirthday', 'stuAge')"
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none" />
               </div>
               <div class="col-span-3">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Age *</label>
                 <input type="number" id="stuAge" required min="15" max="99" placeholder="22"
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono text-center focus:border-teal-600 outline-none" />
               </div>
               <div class="col-span-4">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="For records only">Contact # *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1" title="For records only">Contact # *</label>
                 <input type="tel" id="stuContact" required placeholder="0917..."
                   class="w-full px-2.5 py-2 rounded-xl border border-slate-300 text-xs font-mono focus:border-teal-600 outline-none" />
               </div>
@@ -553,7 +554,7 @@
             <!-- Firebase Credentials Assignment Box -->
             <div class="pt-3 border-t border-slate-100 space-y-2.5">
               <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Username *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Username *</label>
                 <button type="button" onclick="window.app.generateRandomUsername()" class="text-[11px] text-teal-600 hover:underline font-semibold">
                   Auto-Generate
                 </button>
@@ -562,7 +563,7 @@
                 class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
 
               <div class="flex items-center justify-between">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Password *[cite: 1]</label>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Assigned Password *</label>
                 <button type="button" onclick="window.app.generateRandomPassword()" class="text-[11px] text-teal-600 hover:underline font-semibold">
                   Generate Password
                 </button>
@@ -573,7 +574,7 @@
 
             <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-teal-600/20 transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-floppy-disk"></i>
-              <span>Save & Sync Student to Firebase[cite: 1]</span>
+              <span>Save & Sync Student to Firebase</span>
             </button>
           </form>
         </div>
@@ -584,7 +585,7 @@
             <div>
               <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-database text-teal-600"></i>
-                Firebase Student Database & Credential Assignment[cite: 1]
+                Firebase Student Database & Credential Assignment
               </h3>
               <p class="text-xs text-slate-500">Assign usernames and passwords to newly enrolled students, edit info, or remove students.</p>
             </div>
@@ -722,7 +723,7 @@
                 <i class="fa-solid fa-folder-open text-teal-600"></i>
                 Published HTML Examinations Repository
               </h3>
-              <p class="text-xs text-slate-500">All examinations below are immediately accessible in every Student Profile[cite: 1].</p>
+              <p class="text-xs text-slate-500">All examinations below are immediately accessible in every Student Profile.</p>
             </div>
           </div>
 
@@ -757,7 +758,7 @@
                 March 2027
               </span>
               <button onclick="window.app.toggleStudentProfileEditor()" class="no-print px-2.5 py-0.5 rounded-full bg-teal-500/30 hover:bg-teal-500/50 border border-teal-400/40 text-teal-100 text-xs font-semibold transition">
-                <i class="fa-solid fa-user-gear mr-1"></i>Edit My Profile & Credentials[cite: 1]
+                <i class="fa-solid fa-user-gear mr-1"></i>Edit My Profile & Credentials
               </button>
             </div>
             <h2 id="stuProfileName" class="text-2xl sm:text-3xl font-extrabold mt-1">Santos, Maria Clara D.</h2>
@@ -792,9 +793,9 @@
         <div>
           <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <i class="fa-solid fa-arrows-rotate text-teal-600"></i>
-            My Profile & Login Credentials (2-Way Auto-Save)[cite: 1]
+            My Profile & Login Credentials (2-Way Auto-Save)
           </h3>
-          <p class="text-xs text-slate-500">Any update you make below is automatically saved and synced to the Admin Database[cite: 1].</p>
+          <p class="text-xs text-slate-500">Any update you make below is automatically saved and synced to the Admin Database.</p>
         </div>
         <button onclick="window.app.toggleStudentProfileEditor()" class="text-xs font-bold text-slate-500 hover:text-slate-800">
           <i class="fa-solid fa-xmark mr-1"></i>Close
@@ -803,23 +804,23 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
         <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Last Name[cite: 1]</label>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Last Name</label>
           <input type="text" id="selfEditLastName" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
         </div>
         <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Given Name[cite: 1]</label>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Given Name</label>
           <input type="text" id="selfEditGivenName" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
         </div>
         <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Middle Initial[cite: 1]</label>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Middle Initial</label>
           <input type="text" id="selfEditMiddleInitial" maxlength="3" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
         </div>
         <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">School / University[cite: 1]</label>
+          <label class="block font-bold uppercase text-slate-500 mb-1">School / University</label>
           <input type="text" id="selfEditSchool" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-semibold" />
         </div>
         <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Target Exam Cycle[cite: 1]</label>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Target Exam Cycle</label>
           <div class="grid grid-cols-2 gap-1.5">
             <select id="selfEditCycleMonth" onchange="window.app.handleStudentSelfProfileAutoSave()" class="px-2 py-2 rounded-xl border border-slate-300 bg-white font-semibold">
               <option value="March">March</option>
@@ -829,15 +830,15 @@
           </div>
         </div>
         <div>
-          <label class="block font-bold uppercase text-slate-500 mb-1">Contact # (Records Only)[cite: 1]</label>
+          <label class="block font-bold uppercase text-slate-500 mb-1">Contact # (Records Only)</label>
           <input type="tel" id="selfEditContact" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono" />
         </div>
         <div>
-          <label class="block font-bold uppercase text-teal-700 mb-1">Assigned Username[cite: 1]</label>
+          <label class="block font-bold uppercase text-teal-700 mb-1">Assigned Username</label>
           <input type="text" id="selfEditUsername" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-100 font-mono text-slate-600 cursor-not-allowed" title="Assigned by Admin" />
         </div>
         <div>
-          <label class="block font-bold uppercase text-teal-700 mb-1">My Password (Auto-Saves)[cite: 1]</label>
+          <label class="block font-bold uppercase text-teal-700 mb-1">My Password (Auto-Saves)</label>
           <input type="text" id="selfEditPassword" oninput="window.app.handleStudentSelfProfileAutoSave()" class="w-full px-3 py-2 rounded-xl border border-teal-300 bg-teal-50/30 font-mono font-bold text-slate-900" />
         </div>
       </div>
@@ -883,7 +884,7 @@
             Uploaded HTML Examinations
           </h3>
           <p class="text-xs text-slate-500 mt-0.5">
-            Click <strong>"Take HTML Exam"</strong> to launch the interactive examination. Scores auto-save to your profile and the Admin Ledger[cite: 1].
+            Click <strong>"Take HTML Exam"</strong> to launch the interactive examination. Scores auto-save to your profile and the Admin Ledger.
           </p>
         </div>
 
@@ -901,7 +902,7 @@
               Scores & Ratings per Examination
             </h3>
             <p class="text-xs text-slate-500 mt-0.5">
-              Live 2-way synced breakdown of your raw scores, percentage ratings, and cumulative MTLE standing[cite: 1].
+              Live 2-way synced breakdown of your raw scores, percentage ratings, and cumulative MTLE standing.
             </p>
           </div>
           <button onclick="window.print()" class="no-print px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition inline-flex items-center gap-1.5">
@@ -992,7 +993,7 @@
 
       <div class="p-6 space-y-4">
         <div class="flex items-center justify-between text-xs text-slate-500">
-          <span>Type a raw score below—changes auto-save & sync to the Student Portal immediately[cite: 1].</span>
+          <span>Type a raw score below—changes auto-save & sync to the Student Portal immediately.</span>
         </div>
         <div id="scoreModalExamsContainer" class="space-y-3 max-h-80 overflow-y-auto pr-1">
           <!-- Dynamically populated inputs per exam -->
@@ -1236,6 +1237,8 @@
         mainHeader.classList.remove('hidden');
         adminView.classList.remove('hidden');
         window.app?.switchAdminTab?.(state.activeAdminTab, true);
+        document.getElementById('headerUserName').textContent = 'Administrator';
+        document.getElementById('headerUserSub').textContent = '@admin';
         renderAdminKPIs();
         renderAdminLedger();
         if (!preserve) renderStudentDatabaseTable();
@@ -1245,6 +1248,8 @@
         if (!student) { state.currentRole = 'login'; saveSessionRole(); renderAll(); return; }
         mainHeader.classList.remove('hidden');
         studentView.classList.remove('hidden');
+        document.getElementById('headerUserName').textContent = student.fullName;
+        document.getElementById('headerUserSub').textContent = `@${student.username || 'pending'}`;
         renderStudentPortal(student, preserve);
       }
     }
