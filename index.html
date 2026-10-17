@@ -110,7 +110,7 @@
             MTLE Online Examination & Student Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Real-time synchronized platform for student enrollment, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation.
+            Real-time synchronized platform for student enrollment, instructor management, interactive <code class="px-1.5 py-0.5 rounded bg-black/30 text-teal-200 font-mono text-xs">.html</code> mock board examinations, and automated PRC MTLE rating computation.
           </p>
 
           <!-- Official MTLE Subject Weights Box -->
@@ -154,7 +154,7 @@
               <i class="fa-solid fa-arrows-rotate"></i> Real-Time Multi-Device Sync Enabled
             </div>
             <p class="leading-relaxed text-teal-100/80">
-              Enroll via the <strong>Enroll Now</strong> tab. Once the Admin assigns your username and password, your credentials sync instantly across devices.
+              Students & Instructors sign in with Admin-assigned credentials. Profile updates require Admin approval for data integrity.
             </p>
           </div>
         </div>
@@ -163,15 +163,18 @@
       <!-- Right Column: Login & Enroll Now Forms -->
       <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center bg-white">
         
-        <!-- Navigation Tabs -->
-        <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
-          <button type="button" id="loginTabStudent" onclick="window.app.setLoginTab('student')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition bg-white text-teal-700 shadow-sm">
-            <i class="fa-solid fa-user-graduate mr-1"></i>Student Login
+        <!-- Navigation Tabs (4 Tabs) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
+          <button type="button" id="loginTabStudent" onclick="window.app.setLoginTab('student')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition bg-white text-teal-700 shadow-sm">
+            <i class="fa-solid fa-user-graduate mr-1"></i>Student
           </button>
-          <button type="button" id="loginTabAdmin" onclick="window.app.setLoginTab('admin')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
-            <i class="fa-solid fa-user-shield mr-1"></i>Admin Login
+          <button type="button" id="loginTabInstructor" onclick="window.app.setLoginTab('instructor')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900">
+            <i class="fa-solid fa-chalkboard-user mr-1"></i>Instructor
           </button>
-          <button type="button" id="loginTabEnroll" onclick="window.app.setLoginTab('enroll')" class="py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-600 hover:text-slate-900">
+          <button type="button" id="loginTabAdmin" onclick="window.app.setLoginTab('admin')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900">
+            <i class="fa-solid fa-user-shield mr-1"></i>Admin
+          </button>
+          <button type="button" id="loginTabEnroll" onclick="window.app.setLoginTab('enroll')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900">
             <i class="fa-solid fa-user-plus mr-1"></i>Enroll Now
           </button>
         </div>
@@ -327,65 +330,85 @@
   <main id="adminView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
     
     <!-- Admin Top KPI Summary Row -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Enrolled Students</p>
-          <p id="adminKpiStudents" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</p>
-          <p id="adminKpiPendingSub" class="text-xs text-teal-600 font-medium mt-1"><i class="fa-solid fa-user-check mr-1"></i>Active MTLE Reviewees</p>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Enrolled Students</p>
+          <p id="adminKpiStudents" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
+          <p id="adminKpiPendingSub" class="text-[11px] text-teal-600 font-medium mt-1"><i class="fa-solid fa-user-check mr-1"></i>Active Reviewees</p>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl">
+        <div class="w-11 h-11 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg">
           <i class="fa-solid fa-users"></i>
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Uploaded HTML Exams</p>
-          <p id="adminKpiExams" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</p>
-          <p class="text-xs text-indigo-600 font-medium mt-1"><i class="fa-solid fa-file-code mr-1"></i>Interactive .HTML Modules</p>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Faculty Instructors</p>
+          <p id="adminKpiInstructors" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
+          <p class="text-[11px] text-cyan-600 font-medium mt-1"><i class="fa-solid fa-chalkboard-user mr-1"></i>Synced Faculty</p>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+        <div class="w-11 h-11 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-user-doctor"></i>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">HTML Exams</p>
+          <p id="adminKpiExams" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
+          <p class="text-[11px] text-indigo-600 font-medium mt-1"><i class="fa-solid fa-file-code mr-1"></i>Interactive Modules</p>
+        </div>
+        <div class="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
           <i class="fa-solid fa-laptop-medical"></i>
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Cohort Average Rating</p>
-          <p id="adminKpiAvgRating" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0.00%</p>
-          <p class="text-xs text-slate-500 font-medium mt-1">PRC Passing Cutoff: <strong class="text-slate-700">75.00%</strong></p>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Cohort Rating</p>
+          <p id="adminKpiAvgRating" class="text-2xl font-extrabold text-slate-900 mt-1">0.00%</p>
+          <p id="adminKpiPassCount" class="text-[11px] text-emerald-700 font-medium mt-1">0 of 0 Passing</p>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
-          <i class="fa-solid fa-chart-line"></i>
+        <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-medal"></i>
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
+      <div onclick="window.app.switchAdminTab('requests')" class="cursor-pointer bg-white hover:bg-amber-50/40 transition rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Board Passing Rate</p>
-          <p id="adminKpiPassRate" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0%</p>
-          <p id="adminKpiPassCount" class="text-xs text-emerald-700 font-medium mt-1">0 of 0 Passing Overall</p>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Edit Approvals</p>
+          <p id="adminKpiEditRequests" class="text-2xl font-extrabold text-amber-600 mt-1">0</p>
+          <p class="text-[11px] text-amber-700 font-medium mt-1"><i class="fa-solid fa-bell mr-1"></i>Pending Review</p>
         </div>
-        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
-          <i class="fa-solid fa-medal"></i>
+        <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-user-check"></i>
         </div>
       </div>
     </section>
 
-    <!-- Admin Navigation Tabs -->
+    <!-- Admin Navigation Tabs (5 Tabs) -->
     <div class="no-print bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap gap-1.5">
-      <button onclick="window.app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 bg-teal-600 text-white shadow-sm">
+      <button onclick="window.app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 bg-teal-600 text-white shadow-sm">
         <i class="fa-solid fa-table-list"></i>
-        <span>1. Ledger of Students & Scores</span>
+        <span>1. Master Ledger</span>
       </button>
-      <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
+      <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-users-gear"></i>
-        <span>2. Admin Student Management (Auto-Save Credentials)</span>
+        <span>2. Student Database</span>
       </button>
-      <button onclick="window.app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
+      <button onclick="window.app.switchAdminTab('instructors')" id="adminTabBtn_instructors" class="flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <span>3. Instructor Database</span>
+      </button>
+      <button onclick="window.app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-file-arrow-up"></i>
-        <span>3. Upload HTML Examinations</span>
+        <span>4. Upload HTML Exams</span>
+      </button>
+      <button onclick="window.app.switchAdminTab('requests')" id="adminTabBtn_requests" class="flex-1 min-w-[180px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
+        <i class="fa-solid fa-clipboard-check"></i>
+        <span>5. Edit Requests</span>
+        <span id="adminTabBadge_requests" class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-extrabold hidden">0</span>
       </button>
     </div>
 
@@ -416,7 +439,7 @@
 
             <select id="ledgerStatusFilter" onchange="window.app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
               <option value="ALL">All Remarks</option>
-              <option value="PASSED">Passed (≥75%)</option>
+              <option value="PASSED">Passed (75% and above)</option>
               <option value="CONDITIONAL">Conditional / Needs Review</option>
               <option value="NO_EXAMS">No Exams Taken</option>
             </select>
@@ -441,7 +464,7 @@
       </div>
     </section>
 
-    <!-- ADMIN TAB 2: STUDENT MANAGEMENT -->
+    <!-- ADMIN TAB 2: STUDENT DATABASE -->
     <section id="adminSection_students" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-fit">
@@ -574,16 +597,167 @@
       </div>
     </section>
 
-    <!-- ADMIN TAB 3: EXAMS -->
+    <!-- ADMIN TAB 3: INSTRUCTOR DATABASE -->
+    <section id="adminSection_instructors" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Add / Edit Instructor Form -->
+        <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-fit">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+            <div>
+              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-chalkboard-user text-teal-600"></i>
+                Add / Manage Instructor
+              </h3>
+              <p class="text-xs text-slate-500">Assign faculty details, subject specialization & login credentials.</p>
+            </div>
+            <button type="button" id="cancelEditInstructorBtn" onclick="window.app.resetInstructorForm()" class="hidden text-xs text-rose-600 hover:underline font-semibold">
+              Cancel Edit
+            </button>
+          </div>
+
+          <form id="instructorForm" onsubmit="window.app.handleSaveInstructor(event)" class="space-y-3">
+            <input type="hidden" id="instructorEditId" value="" />
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Last Name *</label>
+                <input type="text" id="instLastName" required oninput="window.app.suggestInstructorUsername()" placeholder="Reyes"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Given Name *</label>
+                <input type="text" id="instGivenName" required oninput="window.app.suggestInstructorUsername()" placeholder="Antonio"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">M.I.</label>
+                <input type="text" id="instMiddleInitial" maxlength="3" placeholder="B."
+                  class="w-full px-2 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm text-center focus:border-teal-600 outline-none" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Credentials / Title *</label>
+                <input type="text" id="instCredentials" required placeholder="e.g. RMT, MLS(ASCPi), MPH"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm focus:border-teal-600 outline-none" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">PRC License / Employee ID</label>
+                <input type="text" id="instLicenseNo" placeholder="e.g. PRC-0098412"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono focus:border-teal-600 outline-none" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Assigned MTLE Subject Specialization *</label>
+              <select id="instSpecialization" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm bg-white focus:border-teal-600 outline-none">
+                <option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option>
+                <option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option>
+                <option value="Hematology (20%)">Hematology (20%)</option>
+                <option value="Blood Banking & Serology (20%)">Blood Banking & Serology (20%)</option>
+                <option value="Clinical Microscopy (10%)">Clinical Microscopy (10%)</option>
+                <option value="Histopathologic Tech & MT Laws (10%)">Histopathologic Tech & MT Laws (10%)</option>
+                <option value="All MTLE Board Subjects (General Lecturer)">All MTLE Board Subjects (General Lecturer)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Contact Number / Email *</label>
+              <input type="text" id="instContact" required placeholder="e.g. 09178889900 / areyes@pulsermt.edu"
+                class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono focus:border-teal-600 outline-none" />
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Instructor Username *</label>
+                <button type="button" onclick="window.app.generateRandomInstructorUsername()" class="text-[11px] text-teal-600 hover:underline font-semibold">Auto-Generate</button>
+              </div>
+              <input type="text" id="instUsername" required placeholder="e.g. inst_areyes"
+                class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
+
+              <div class="flex items-center justify-between">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-teal-700">Instructor Password *</label>
+                <button type="button" onclick="window.app.generateRandomInstructorPassword()" class="text-[11px] text-teal-600 hover:underline font-semibold">Generate Password</button>
+              </div>
+              <input type="text" id="instPassword" required placeholder="Assign instructor password"
+                class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono bg-slate-50 focus:bg-white focus:border-teal-600 outline-none" />
+            </div>
+
+            <button type="submit" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span>Save & Sync Instructor to Cloud</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Instructor Database Table -->
+        <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+          <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-user-doctor text-teal-600"></i>
+                Cloud Instructor Database
+              </h3>
+              <p class="text-xs text-slate-500">Assign and auto-save instructor usernames, passwords, and subject specializations.</p>
+            </div>
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+              <input type="text" id="instructorDbSearch" oninput="window.app.renderInstructorDatabaseTable()" placeholder="Filter instructors..."
+                class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-56" />
+            </div>
+          </div>
+
+          <div class="overflow-x-auto flex-1">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  <th class="py-3 px-4">Instructor & Credentials</th>
+                  <th class="py-3 px-3">Subject Specialization</th>
+                  <th class="py-3 px-3">License & Contact</th>
+                  <th class="py-3 px-3">Assigned Credentials (Auto-Saves)</th>
+                  <th class="py-3 px-4 text-right">Admin Actions</th>
+                </tr>
+              </thead>
+              <tbody id="instructorDatabaseBody" class="divide-y divide-slate-200 text-xs sm:text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN TAB 4: UPLOAD HTML EXAMS + DEFAULT TEMPLATE DOWNLOAD -->
     <section id="adminSection_exams" class="hidden space-y-6">
+      <!-- Default HTML Exam Template Download Banner -->
+      <div class="bg-gradient-to-r from-teal-900 via-slate-900 to-teal-950 rounded-2xl p-5 text-white shadow-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-teal-500/20 border border-teal-400/30 text-teal-300 text-[11px] font-bold uppercase tracking-wider">
+            <i class="fa-solid fa-code"></i> Official PulseRMT Exam Starter Kit
+          </div>
+          <h3 class="text-base sm:text-lg font-bold">Default Interactive MTLE `.HTML` Examination Template</h3>
+          <p class="text-xs text-teal-100/80 max-w-2xl">
+            Download our ready-to-edit HTML examination template pre-configured with a countdown timer, question navigator, rationale review mode, and automatic <code class="px-1.5 py-0.5 rounded bg-black/40 font-mono text-teal-300">postMessage</code> score synchronization to the Master Ledger.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button type="button" onclick="window.app.loadDefaultExamTemplateIntoEditor('admin')" class="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold transition inline-flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-teal-300"></i>
+            <span>Load Template into Editor</span>
+          </button>
+          <button type="button" onclick="window.app.downloadDefaultExamTemplate()" class="px-4 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-extrabold shadow-lg transition inline-flex items-center gap-2">
+            <i class="fa-solid fa-download"></i>
+            <span>Download Default .HTML Template</span>
+          </button>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
           <h3 class="font-bold text-base text-slate-900 mb-1 flex items-center gap-2">
             <i class="fa-solid fa-file-code text-teal-600"></i>
             Upload HTML Examination
           </h3>
-          <p class="text-xs text-slate-500 mb-4">Published exams sync immediately to all student devices.</p>
-          <form id="uploadExamForm" onsubmit="window.app.handleUploadExamSubmit(event)" class="space-y-3">
+          <p class="text-xs text-slate-500 mb-4">Published exams sync immediately to all student and instructor devices.</p>
+          <form id="uploadExamForm" onsubmit="window.app.handleUploadExamSubmit(event, 'admin')" class="space-y-3">
             <div>
               <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Title *</label>
               <input type="text" id="examTitle" required placeholder="e.g. Clinical Chemistry Pre-Board 1" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:border-teal-600" />
@@ -605,7 +779,7 @@
             </div>
             <div>
               <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Select .HTML File <span id="uploadedFileNameDisplay" class="text-teal-600 font-mono font-normal ml-1"></span></label>
-              <input type="file" id="examHtmlFileInput" accept=".html,.htm" onchange="window.app.handleHtmlFileSelected(event)" class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100" />
+              <input type="file" id="examHtmlFileInput" accept=".html,.htm" onchange="window.app.handleHtmlFileSelected(event, 'admin')" class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100" />
             </div>
             <div>
               <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">HTML Source Code *</label>
@@ -625,10 +799,216 @@
         </div>
       </div>
     </section>
+
+    <!-- ADMIN TAB 5: PROFILE EDIT APPROVAL REQUESTS (STUDENTS & INSTRUCTORS) -->
+    <section id="adminSection_requests" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-user-check text-amber-600"></i>
+              Student & Instructor Profile Edit Approval Queue
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Review, approve, or decline profile and password modification requests submitted by Students and Instructors. Approved requests automatically update the cloud database.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <select id="editRequestsFilter" onchange="window.app.renderAdminEditRequests()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
+              <option value="ALL">All Requests (Pending & History)</option>
+              <option value="PENDING">Pending Approval Only</option>
+              <option value="APPROVED">Approved</option>
+              <option value="DECLINED">Declined</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="adminEditRequestsContainer" class="p-5 space-y-4"></div>
+      </div>
+    </section>
   </main>
 
   <!-- ===================================================================== -->
-  <!-- VIEW 3: STUDENT PORTAL                                                -->
+  <!-- VIEW 3: INSTRUCTOR PORTAL                                             -->
+  <!-- ===================================================================== -->
+  <main id="instructorView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
+    <!-- Instructor Banner -->
+    <section class="bg-gradient-to-r from-slate-900 via-teal-950 to-cyan-950 rounded-3xl p-6 text-white shadow-xl flex justify-between items-center flex-wrap gap-4">
+      <div class="flex items-center gap-4">
+        <div id="instProfileAvatar" class="w-16 h-16 rounded-2xl bg-cyan-400 text-slate-950 font-extrabold text-2xl flex items-center justify-center">AR</div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/30 text-cyan-200 text-[11px] font-bold uppercase">MTLE Faculty Instructor</span>
+            <span id="instProfileSpecBadge" class="px-2.5 py-0.5 rounded-full bg-white/10 text-xs font-medium">Clinical Chemistry (20%)</span>
+          </div>
+          <h2 id="instProfileName" class="text-2xl font-bold mt-1">Instructor Name</h2>
+          <p class="text-xs text-teal-200">
+            Username: <strong id="instProfileUsername" class="text-white font-mono"></strong> |
+            License: <strong id="instProfileLicense" class="text-white font-mono"></strong> |
+            Contact: <strong id="instProfileContact" class="text-white font-mono"></strong>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2.5">
+        <button onclick="window.app.downloadDefaultExamTemplate()" class="px-3.5 py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 rounded-xl text-xs font-extrabold transition shadow-md">
+          <i class="fa-solid fa-download mr-1.5"></i>Download Default .HTML Exam Template
+        </button>
+        <button onclick="window.app.toggleInstructorProfileEditor()" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-bold transition">
+          <i class="fa-solid fa-user-pen mr-1.5"></i>Request Profile / Password Edit
+        </button>
+      </div>
+    </section>
+
+    <!-- Instructor Pending Edit Request Status Banner -->
+    <div id="instEditRequestStatusBanner" class="hidden"></div>
+
+    <!-- Instructor Request Profile Edit Form (Requires Admin Approval) -->
+    <section id="instructorSelfEditSection" class="hidden bg-white rounded-2xl border border-amber-300 shadow-sm p-5 space-y-4">
+      <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-amber-600"></i>
+            Request Instructor Profile & Password Modification (Subject to Admin Approval)
+          </h3>
+          <p class="text-xs text-slate-500">Submit your updated instructor details below. Your changes will take effect as soon as an Administrator approves your request.</p>
+        </div>
+        <button type="button" onclick="window.app.toggleInstructorProfileEditor()" class="text-xs text-slate-500 hover:text-slate-800 font-semibold">Close</button>
+      </div>
+
+      <form onsubmit="window.app.handleSubmitInstructorEditRequest(event)" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Last Name *</label>
+            <input type="text" id="instReqLastName" required class="w-full p-2.5 border border-slate-300 rounded-xl" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Given Name *</label>
+            <input type="text" id="instReqGivenName" required class="w-full p-2.5 border border-slate-300 rounded-xl" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Credentials / Title *</label>
+            <input type="text" id="instReqCredentials" required class="w-full p-2.5 border border-slate-300 rounded-xl" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Specialization *</label>
+            <select id="instReqSpecialization" class="w-full p-2.5 border border-slate-300 rounded-xl bg-white">
+              <option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option>
+              <option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option>
+              <option value="Hematology (20%)">Hematology (20%)</option>
+              <option value="Blood Banking & Serology (20%)">Blood Banking & Serology (20%)</option>
+              <option value="Clinical Microscopy (10%)">Clinical Microscopy (10%)</option>
+              <option value="Histopathologic Tech & MT Laws (10%)">Histopathologic Tech & MT Laws (10%)</option>
+              <option value="All MTLE Board Subjects (General Lecturer)">All MTLE Board Subjects (General Lecturer)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Contact Number *</label>
+            <input type="text" id="instReqContact" required class="w-full p-2.5 border border-slate-300 rounded-xl font-mono" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">New Password *</label>
+            <input type="text" id="instReqPassword" required class="w-full p-2.5 border border-slate-300 rounded-xl font-mono" />
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+          <input type="text" id="instReqReason" placeholder="Optional note for Admin (e.g. Updated password & post-nominal title)" class="flex-1 px-3 py-2 border border-slate-300 rounded-xl text-xs" />
+          <button type="submit" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-sm transition inline-flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Submit Edit Request for Admin Approval</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Instructor Workspace Grid: Upload HTML Exam + View Student Ledger -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4 h-fit">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-file-code text-teal-600"></i>
+              Instructor Exam Publisher
+            </h3>
+            <p class="text-xs text-slate-500">Upload or load the default HTML template to publish an exam.</p>
+          </div>
+          <button type="button" onclick="window.app.loadDefaultExamTemplateIntoEditor('instructor')" class="px-2.5 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-700 text-xs font-bold transition">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Load Default HTML
+          </button>
+        </div>
+
+        <form id="instUploadExamForm" onsubmit="window.app.handleUploadExamSubmit(event, 'instructor')" class="space-y-3">
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Exam Title *</label>
+            <input type="text" id="instExamTitle" required placeholder="e.g. Hematology Module Assessment 1" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm outline-none focus:border-teal-600" />
+          </div>
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">MTLE Subject *</label>
+              <select id="instExamCategory" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs bg-white outline-none focus:border-teal-600">
+                <option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option>
+                <option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option>
+                <option value="Hematology (20%)">Hematology (20%)</option>
+                <option value="Blood Banking & Serology (20%)">Blood Banking & Serology (20%)</option>
+                <option value="Clinical Microscopy (10%)">Clinical Microscopy (10%)</option>
+                <option value="Histopathologic Tech & MT Laws (10%)">Histopathologic Tech & MT Laws (10%)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Total Items *</label>
+              <input type="number" id="instExamTotalItems" min="1" max="500" value="5" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm font-mono outline-none focus:border-teal-600" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Upload .HTML File <span id="instUploadedFileNameDisplay" class="text-teal-600 font-mono font-normal ml-1"></span></label>
+            <input type="file" accept=".html,.htm" onchange="window.app.handleHtmlFileSelected(event, 'instructor')" class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">HTML Source Code *</label>
+            <textarea id="instExamHtmlContent" rows="5" required placeholder="Paste HTML code or click 'Load Default HTML'..." class="w-full p-3 border border-slate-300 rounded-xl text-xs font-mono bg-slate-900 text-teal-300 outline-none"></textarea>
+          </div>
+          <button type="submit" class="w-full py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold text-xs sm:text-sm shadow-sm transition">
+            <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>Publish Examination to Student Portal
+          </button>
+        </form>
+
+        <div class="pt-3 border-t border-slate-100">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">Published Examinations</h4>
+          <div id="instructorExamsList" class="space-y-2.5"></div>
+        </div>
+      </div>
+
+      <!-- Instructor Student Ledger View -->
+      <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+        <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-users-viewfinder text-teal-600"></i>
+              Reviewee Class Standing & Score Encoding
+            </h3>
+            <p class="text-xs text-slate-500">View student performance and encode/update examination scores.</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto flex-1">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                <th class="py-3 px-4">Student & School</th>
+                <th class="py-3 px-3">Cycle</th>
+                <th class="py-3 px-3 text-center">Raw Score</th>
+                <th class="py-3 px-3 text-center">Overall Rating</th>
+                <th class="py-3 px-3 text-center">Standing</th>
+                <th class="py-3 px-4 text-right">Encode Scores</th>
+              </tr>
+            </thead>
+            <tbody id="instructorLedgerBody" class="divide-y divide-slate-200 text-xs sm:text-sm"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 4: STUDENT PORTAL                                                -->
   <!-- ===================================================================== -->
   <main id="studentView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
     <section class="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-3xl p-6 text-white shadow-xl flex justify-between items-center flex-wrap gap-4">
@@ -637,37 +1017,69 @@
         <div>
           <span id="stuProfileBatch" class="px-2 py-0.5 rounded bg-white/10 text-xs">March 2027</span>
           <h2 id="stuProfileName" class="text-2xl font-bold mt-1">Student Name</h2>
-          <p class="text-xs text-teal-200">Username: <strong id="stuProfileUsername" class="text-white"></strong> | School: <strong id="stuProfileSchool" class="text-white"></strong></p>
+          <p class="text-xs text-teal-200">
+            Username: <strong id="stuProfileUsername" class="text-white font-mono"></strong> |
+            School: <strong id="stuProfileSchool" class="text-white"></strong> |
+            Contact: <strong id="stuProfileContact" class="text-white font-mono"></strong>
+          </p>
         </div>
       </div>
       <button onclick="window.app.toggleStudentProfileEditor()" class="px-3.5 py-2 bg-teal-500/30 hover:bg-teal-500/40 border border-teal-400/30 rounded-xl text-xs font-bold transition">
-        <i class="fa-solid fa-user-pen mr-1.5"></i>Edit Profile & Password
+        <i class="fa-solid fa-user-pen mr-1.5"></i>Request Profile / Password Edit
       </button>
     </section>
 
-    <section id="studentSelfEditSection" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
-      <div class="flex items-center justify-between">
-        <h3 class="font-bold text-sm text-slate-900">Edit My Profile & Password (Auto-Syncs to Admin)</h3>
-        <span class="text-[11px] text-emerald-600 font-semibold"><i class="fa-solid fa-cloud-arrow-up mr-1"></i>Changes save automatically</span>
+    <!-- Student Pending Edit Request Status Banner -->
+    <div id="stuEditRequestStatusBanner" class="hidden"></div>
+
+    <!-- Student Request Profile Edit Section (Requires Admin Approval) -->
+    <section id="studentSelfEditSection" class="hidden bg-white rounded-2xl border border-amber-300 shadow-sm p-5 space-y-4">
+      <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-amber-600"></i>
+            Request Profile & Password Modification (Requires Admin Approval)
+          </h3>
+          <p class="text-xs text-slate-500">Submit your requested changes below. Your profile will update automatically once approved by the Administrator.</p>
+        </div>
+        <button type="button" onclick="window.app.toggleStudentProfileEditor()" class="text-xs text-slate-500 hover:text-slate-800 font-semibold">Close</button>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-        <div>
-          <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Last Name</label>
-          <input type="text" id="selfEditLastName" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="Last Name" class="w-full p-2.5 border border-slate-300 rounded-xl" />
+
+      <form onsubmit="window.app.handleSubmitStudentEditRequest(event)" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Last Name *</label>
+            <input type="text" id="selfEditLastName" required placeholder="Last Name" class="w-full p-2.5 border border-slate-300 rounded-xl" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Given Name *</label>
+            <input type="text" id="selfEditGivenName" required placeholder="Given Name" class="w-full p-2.5 border border-slate-300 rounded-xl" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">M.I.</label>
+            <input type="text" id="selfEditMiddleInitial" maxlength="3" placeholder="M.I." class="w-full p-2.5 border border-slate-300 rounded-xl text-center" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">School / University *</label>
+            <input type="text" id="selfEditSchool" required placeholder="School" class="w-full p-2.5 border border-slate-300 rounded-xl" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Contact Number *</label>
+            <input type="text" id="selfEditContact" required placeholder="0917..." class="w-full p-2.5 border border-slate-300 rounded-xl font-mono" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">New Password *</label>
+            <input type="text" id="selfEditPassword" required placeholder="New Password" class="w-full p-2.5 border border-slate-300 rounded-xl font-mono" />
+          </div>
         </div>
-        <div>
-          <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Given Name</label>
-          <input type="text" id="selfEditGivenName" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="Given Name" class="w-full p-2.5 border border-slate-300 rounded-xl" />
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+          <input type="text" id="selfEditReason" placeholder="Reason for change (e.g. Correction of spelling in Given Name / Password update)" class="flex-1 px-3 py-2 border border-slate-300 rounded-xl text-xs" />
+          <button type="submit" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-sm transition inline-flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Submit Edit Request for Admin Approval</span>
+          </button>
         </div>
-        <div>
-          <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">School</label>
-          <input type="text" id="selfEditSchool" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="School" class="w-full p-2.5 border border-slate-300 rounded-xl" />
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Password</label>
-          <input type="text" id="selfEditPassword" oninput="window.app.handleStudentSelfProfileAutoSave()" placeholder="New Password" class="w-full p-2.5 border border-slate-300 rounded-xl font-mono" />
-        </div>
-      </div>
+      </form>
     </section>
 
     <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -734,7 +1146,7 @@
       <p id="confirmModalMessage" class="text-xs text-slate-600"></p>
       <div class="flex justify-end gap-2">
         <button onclick="window.app.closeConfirmModal()" class="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-semibold">Cancel</button>
-        <button id="confirmModalActionBtn" class="px-3 py-1.5 bg-rose-600 text-white rounded-lg text-xs font-bold">Confirm Delete</button>
+        <button id="confirmModalActionBtn" class="px-3 py-1.5 bg-rose-600 text-white rounded-lg text-xs font-bold">Confirm</button>
       </div>
     </div>
   </div>
@@ -750,10 +1162,163 @@
 
     const STORAGE_KEYS = {
       STUDENTS: 'pulsermt_fs_students',
+      INSTRUCTORS: 'pulsermt_fs_instructors',
       EXAMS: 'pulsermt_fs_exams',
       SCORES: 'pulsermt_fs_scores',
+      EDIT_REQUESTS: 'pulsermt_fs_edit_requests',
       SESSION: 'pulsermt_fs_session'
     };
+
+    // DEFAULT DOWNLOADABLE & INTERACTIVE HTML EXAMINATION TEMPLATE
+    const DEFAULT_EXAM_HTML_TEMPLATE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseRMT Interactive Board Exam Module</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    body { margin: 0; padding: 24px; background: #f8fafc; color: #0f172a; }
+    .container { max-width: 850px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 28px; box-shadow: 0 4px 20px rgba(15,23,42,0.05); }
+    .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .badge { background: #ccfbf1; color: #115e59; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; }
+    .timer { font-family: monospace; font-size: 16px; font-weight: 700; color: #0f766e; background: #f0fdfa; padding: 6px 14px; border-radius: 10px; border: 1px solid #99f6e4; }
+    .question-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+    .q-title { font-weight: 700; font-size: 15px; margin-bottom: 12px; color: #1e293b; }
+    .options label { display: block; padding: 10px 14px; margin-bottom: 8px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.15s; }
+    .options label:hover { border-color: #0d9488; background: #f0fdfa; }
+    .rationale { display: none; margin-top: 10px; padding: 10px 12px; border-radius: 8px; font-size: 13px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+    .btn-submit { width: 100%; padding: 14px; background: #0d9488; color: #ffffff; font-weight: 700; border: none; border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 12px; }
+    .btn-submit:hover { background: #0f766e; }
+    .result-banner { display: none; padding: 18px; border-radius: 12px; background: #0f172a; color: #ffffff; margin-bottom: 20px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <span class="badge">PRC MTLE Pre-Board Module</span>
+        <h1 style="margin: 8px 0 0; font-size: 20px;">Clinical Chemistry: Carbohydrates, Lipids & Enzymes</h1>
+      </div>
+      <div class="timer" id="timerDisplay">Time Elapsed: 00:00</div>
+    </div>
+
+    <div id="resultBanner" class="result-banner"></div>
+
+    <!-- EDIT OR ADD QUESTIONS IN THE FORM BELOW -->
+    <form id="mtleExamForm">
+      <!-- Question 1 -->
+      <div class="question-card" data-correct="B">
+        <div class="q-title">1. Which serves as the reference method for glucose determination in clinical chemistry?</div>
+        <div class="options">
+          <label><input type="radio" name="q1" value="A" required> A. Glucose Oxidase</label>
+          <label><input type="radio" name="q1" value="B"> B. Hexokinase</label>
+          <label><input type="radio" name="q1" value="C"> C. Nelson-Somogyi</label>
+          <label><input type="radio" name="q1" value="D"> D. Ortho-toluidine</label>
+        </div>
+        <div class="rationale"><strong>Rationale:</strong> Hexokinase coupled with G6PD is the reference method for glucose analysis due to high specificity.</div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="question-card" data-correct="C">
+        <div class="q-title">2. According to the Friedewald equation, how is VLDL cholesterol estimated when triglycerides are less than 400 mg/dL (conventional units)?</div>
+        <div class="options">
+          <label><input type="radio" name="q2" value="A" required> A. Triglycerides / 2.175</label>
+          <label><input type="radio" name="q2" value="B"> B. Triglycerides x 0.45</label>
+          <label><input type="radio" name="q2" value="C"> C. Triglycerides / 5</label>
+          <label><input type="radio" name="q2" value="D"> D. Total Cholesterol - HDL</label>
+        </div>
+        <div class="rationale"><strong>Rationale:</strong> In conventional units (mg/dL), VLDL-C is estimated as Triglycerides divided by 5 (or TG / 2.175 in mmol/L).</div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="question-card" data-correct="A">
+        <div class="q-title">3. Which cardiac biomarker is considered the most sensitive and specific indicator of acute myocardial infarction?</div>
+        <div class="options">
+          <label><input type="radio" name="q3" value="A" required> A. Cardiac Troponin (cTnI / cTnT)</label>
+          <label><input type="radio" name="q3" value="B"> B. Myoglobin</label>
+          <label><input type="radio" name="q3" value="C"> C. AST (SGOT)</label>
+          <label><input type="radio" name="q3" value="D"> D. LDH-1</label>
+        </div>
+        <div class="rationale"><strong>Rationale:</strong> Cardiac troponins (cTnI and cTnT) are the gold-standard markers for myocardial necrosis.</div>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="question-card" data-correct="D">
+        <div class="q-title">4. The Jaffe reaction is widely used for the colorimetric measurement of which non-protein nitrogenous (NPN) substance?</div>
+        <div class="options">
+          <label><input type="radio" name="q4" value="A" required> A. Blood Urea Nitrogen (BUN)</label>
+          <label><input type="radio" name="q4" value="B"> B. Uric Acid</label>
+          <label><input type="radio" name="q4" value="C"> C. Ammonia</label>
+          <label><input type="radio" name="q4" value="D"> D. Creatinine</label>
+        </div>
+        <div class="rationale"><strong>Rationale:</strong> Alkaline picrate (Jaffe reaction) reacts with creatinine to form a red-orange Janovski complex.</div>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="question-card" data-correct="B">
+        <div class="q-title">5. Which enzyme exhibits the highest elevation in extrahepatic biliary obstruction and Paget disease of the bone?</div>
+        <div class="options">
+          <label><input type="radio" name="q5" value="A" required> A. Acid Phosphatase (ACP)</label>
+          <label><input type="radio" name="q5" value="B"> B. Alkaline Phosphatase (ALP)</label>
+          <label><input type="radio" name="q5" value="C"> C. Lipase</label>
+          <label><input type="radio" name="q5" value="D"> D. Cholinesterase</label>
+        </div>
+        <div class="rationale"><strong>Rationale:</strong> ALP is markedly elevated in hepatobiliary obstruction and osteoblastic bone disorders such as Paget disease.</div>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit Examination & Sync Score to PulseRMT</button>
+    </form>
+  </div>
+
+  <script>
+    // Elapsed Timer
+    let seconds = 0;
+    setInterval(() => {
+      seconds++;
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      document.getElementById('timerDisplay').textContent = 'Time Elapsed: ' + m + ':' + s;
+    }, 1000);
+
+    // Auto-Score & Sync with PulseRMT Parent Portal
+    document.getElementById('mtleExamForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const cards = document.querySelectorAll('.question-card');
+      let score = 0;
+      const total = cards.length;
+
+      cards.forEach((card, index) => {
+        const correct = card.getAttribute('data-correct');
+        const selected = card.querySelector('input[type="radio"]:checked');
+        const rationale = card.querySelector('.rationale');
+        if (rationale) rationale.style.display = 'block';
+
+        if (selected && selected.value === correct) {
+          score++;
+          card.style.borderColor = '#10b981';
+        } else {
+          card.style.borderColor = '#f43f5e';
+        }
+      });
+
+      const pct = ((score / total) * 100).toFixed(2);
+      const banner = document.getElementById('resultBanner');
+      banner.style.display = 'block';
+      banner.innerHTML = '<h2>Exam Submitted! Score: ' + score + ' / ' + total + ' (' + pct + '%)</h2><p>Your score has been automatically synced to the PulseRMT Cloud Ledger.</p>';
+
+      // Send score to PulseRMT parent window
+      window.parent.postMessage({
+        type: 'MTLE_EXAM_SUBMIT',
+        score: score,
+        total: total
+      }, '*');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  <\/script>
+</body>
+</html>`;
 
     const SEED_EXAMS = [
       {
@@ -761,7 +1326,7 @@
         title: 'Clinical Chemistry: Carbohydrates, Lipids & Enzymes',
         category: 'Clinical Chemistry (20%)',
         totalItems: 5,
-        htmlContent: '<div style="font-family:sans-serif;padding:2rem;"><h1>Clinical Chemistry Pre-Board Exam</h1><p>Interactive examination module loaded.</p></div>'
+        htmlContent: DEFAULT_EXAM_HTML_TEMPLATE
       }
     ];
 
@@ -772,7 +1337,7 @@
         givenName: 'Maria Clara',
         middleInitial: 'D',
         fullName: 'Santos, Maria Clara D.',
-        school: 'UST',
+        school: 'University of Santo Tomas - Legazpi',
         batch: 'March 2027',
         age: 22,
         birthday: '2004-05-14',
@@ -781,6 +1346,24 @@
         password: 'mtle2026',
         accountStatus: 'ACTIVE',
         createdAt: '2026-09-15'
+      }
+    ];
+
+    const SEED_INSTRUCTORS = [
+      {
+        id: 'inst_01',
+        lastName: 'Reyes',
+        givenName: 'Antonio',
+        middleInitial: 'B',
+        fullName: 'Reyes, Antonio B.',
+        credentials: 'RMT, MLS(ASCPi), MPH',
+        licenseNo: 'PRC-0098412',
+        specialization: 'Clinical Chemistry (20%)',
+        contactNumber: '09178889900',
+        username: 'inst_areyes',
+        password: 'faculty2026',
+        accountStatus: 'ACTIVE',
+        createdAt: '2026-09-10'
       }
     ];
 
@@ -814,6 +1397,30 @@
       };
     }
 
+    function normalizeInstructor(inst) {
+      if (!inst || typeof inst !== 'object') return null;
+      const ln = (inst.lastName || 'Instructor').trim();
+      const gn = (inst.givenName || '').trim();
+      const mi = (inst.middleInitial || '').trim();
+      const username = (inst.username || '').trim();
+      const password = (inst.password || '').trim();
+      return {
+        id: String(inst.id || `inst_${Date.now()}`),
+        lastName: ln,
+        givenName: gn,
+        middleInitial: mi,
+        fullName: formatFullName(ln, gn, mi),
+        credentials: (inst.credentials || 'RMT').trim(),
+        licenseNo: (inst.licenseNo || '—').trim(),
+        specialization: inst.specialization || 'Clinical Chemistry (20%)',
+        contactNumber: (inst.contactNumber || '—').trim(),
+        username,
+        password,
+        accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS',
+        createdAt: inst.createdAt || new Date().toISOString().slice(0, 10)
+      };
+    }
+
     function normalizeExam(ex) {
       if (!ex || typeof ex !== 'object') return null;
       return {
@@ -838,6 +1445,22 @@
       };
     }
 
+    function normalizeEditRequest(req) {
+      if (!req || typeof req !== 'object' || !req.targetId) return null;
+      return {
+        id: String(req.id || `req_${req.roleType || 'student'}_${req.targetId}`),
+        roleType: req.roleType === 'instructor' ? 'instructor' : 'student',
+        targetId: String(req.targetId),
+        requesterName: req.requesterName || 'User',
+        requesterUsername: req.requesterUsername || '',
+        proposedChanges: req.proposedChanges || {},
+        reason: (req.reason || 'Profile & credential update request').trim(),
+        status: req.status || 'PENDING', // PENDING | APPROVED | DECLINED
+        requestedAt: req.requestedAt || new Date().toISOString().slice(0, 16).replace('T', ' '),
+        reviewedAt: req.reviewedAt || ''
+      };
+    }
+
     function loadCachedArray(key, fallback, normalizer) {
       try {
         const raw = localStorage.getItem(key);
@@ -854,8 +1477,10 @@
     function saveLocalCache() {
       try {
         localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(state.students));
+        localStorage.setItem(STORAGE_KEYS.INSTRUCTORS, JSON.stringify(state.instructors));
         localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
         localStorage.setItem(STORAGE_KEYS.SCORES, JSON.stringify(state.scores));
+        localStorage.setItem(STORAGE_KEYS.EDIT_REQUESTS, JSON.stringify(state.editRequests));
       } catch (e) {}
     }
 
@@ -864,6 +1489,7 @@
         localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
           currentRole: state.currentRole,
           currentStudentId: state.currentStudentId,
+          currentInstructorId: state.currentInstructorId,
           activeAdminTab: state.activeAdminTab
         }));
       } catch (e) {}
@@ -875,10 +1501,13 @@
 
     const state = {
       students: loadCachedArray(STORAGE_KEYS.STUDENTS, SEED_STUDENTS, normalizeStudent),
+      instructors: loadCachedArray(STORAGE_KEYS.INSTRUCTORS, SEED_INSTRUCTORS, normalizeInstructor),
       exams: loadCachedArray(STORAGE_KEYS.EXAMS, SEED_EXAMS, normalizeExam),
       scores: loadCachedArray(STORAGE_KEYS.SCORES, [], normalizeScore),
+      editRequests: loadCachedArray(STORAGE_KEYS.EDIT_REQUESTS, [], normalizeEditRequest),
       currentRole: cachedSession?.currentRole || 'login',
       currentStudentId: cachedSession?.currentStudentId || null,
+      currentInstructorId: cachedSession?.currentInstructorId || null,
       activeAdminTab: cachedSession?.activeAdminTab || 'ledger',
       loginModeTab: 'student',
       activeExamViewerId: null,
@@ -912,8 +1541,10 @@
     window.addEventListener('storage', (event) => {
       if (event.key?.startsWith('pulsermt_fs')) {
         state.students = loadCachedArray(STORAGE_KEYS.STUDENTS, state.students, normalizeStudent);
+        state.instructors = loadCachedArray(STORAGE_KEYS.INSTRUCTORS, state.instructors, normalizeInstructor);
         state.exams = loadCachedArray(STORAGE_KEYS.EXAMS, state.exams, normalizeExam);
         state.scores = loadCachedArray(STORAGE_KEYS.SCORES, state.scores, normalizeScore);
+        state.editRequests = loadCachedArray(STORAGE_KEYS.EDIT_REQUESTS, state.editRequests, normalizeEditRequest);
         renderAll(true);
       }
     });
@@ -955,8 +1586,10 @@
           state.db = db;
 
           const studentsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_students');
+          const instructorsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_instructors');
           const examsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_exams');
           const scoresCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_scores');
+          const requestsCol = collection(db, 'artifacts', state.appId, 'public', 'data', 'mtle_edit_requests');
 
           onSnapshot(studentsCol, async (snap) => {
             updateSyncIndicator(true, 'Live Multi-Device Cloud Synced');
@@ -967,6 +1600,18 @@
             } else if (state.students.length > 0) {
               for (const s of state.students) {
                 try { await setDoc(doc(studentsCol, s.id), s); } catch (e) {}
+              }
+            }
+          });
+
+          onSnapshot(instructorsCol, async (snap) => {
+            if (!snap.empty) {
+              state.instructors = snap.docs.map(d => normalizeInstructor(d.data())).filter(Boolean);
+              saveLocalCache();
+              renderAll(true);
+            } else if (state.instructors.length > 0) {
+              for (const inst of state.instructors) {
+                try { await setDoc(doc(instructorsCol, inst.id), inst); } catch (e) {}
               }
             }
           });
@@ -990,11 +1635,17 @@
               renderAll(true);
             }
           });
+
+          onSnapshot(requestsCol, (snap) => {
+            state.editRequests = snap.docs.map(d => normalizeEditRequest(d.data())).filter(Boolean);
+            saveLocalCache();
+            renderAll(true);
+          });
         } catch (fsErr) {
           console.warn('Firestore initialization notice:', fsErr);
         }
 
-        // 2. Firebase Realtime Database (RTDB) Real-Time Listeners (Seamless Multi-Device Mirror)
+        // 2. Firebase Realtime Database (RTDB) Real-Time Listeners
         if (config.databaseURL) {
           try {
             const rtdb = getDatabase(fbApp);
@@ -1005,6 +1656,15 @@
               const val = snap.val();
               if (val && typeof val === 'object') {
                 state.students = Object.values(val).map(normalizeStudent).filter(Boolean);
+                saveLocalCache();
+                renderAll(true);
+              }
+            });
+
+            onValue(ref(rtdb, `artifacts/${state.appId}/mtle_instructors`), (snap) => {
+              const val = snap.val();
+              if (val && typeof val === 'object') {
+                state.instructors = Object.values(val).map(normalizeInstructor).filter(Boolean);
                 saveLocalCache();
                 renderAll(true);
               }
@@ -1023,6 +1683,15 @@
               const val = snap.val();
               if (val && typeof val === 'object') {
                 state.scores = Object.values(val).map(normalizeScore).filter(Boolean);
+                saveLocalCache();
+                renderAll(true);
+              }
+            });
+
+            onValue(ref(rtdb, `artifacts/${state.appId}/mtle_edit_requests`), (snap) => {
+              const val = snap.val();
+              if (val && typeof val === 'object') {
+                state.editRequests = Object.values(val).map(normalizeEditRequest).filter(Boolean);
                 saveLocalCache();
                 renderAll(true);
               }
@@ -1075,6 +1744,51 @@
             await rtdbRemove(ref(state.rtdb, `artifacts/${state.appId}/mtle_scores/${sc.id}`));
           }
         } catch (e) {}
+      }
+    }
+
+    async function saveInstructorRecord(inst, preserve = false) {
+      const norm = normalizeInstructor(inst);
+      if (!norm) return;
+      const idx = state.instructors.findIndex(i => i.id === norm.id);
+      if (idx >= 0) state.instructors[idx] = norm; else state.instructors.push(norm);
+      saveLocalCache();
+      renderAll(preserve);
+
+      if (state.db) {
+        try { await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_instructors', norm.id), norm); } catch (e) {}
+      }
+      if (state.rtdb) {
+        try { await rtdbSet(ref(state.rtdb, `artifacts/${state.appId}/mtle_instructors/${norm.id}`), norm); } catch (e) {}
+      }
+    }
+
+    async function removeInstructorRecord(id) {
+      state.instructors = state.instructors.filter(i => i.id !== id);
+      saveLocalCache();
+      renderAll();
+
+      if (state.db) {
+        try { await deleteDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_instructors', id)); } catch (e) {}
+      }
+      if (state.rtdb) {
+        try { await rtdbRemove(ref(state.rtdb, `artifacts/${state.appId}/mtle_instructors/${id}`)); } catch (e) {}
+      }
+    }
+
+    async function saveEditRequestRecord(req) {
+      const norm = normalizeEditRequest(req);
+      if (!norm) return;
+      const idx = state.editRequests.findIndex(r => r.id === norm.id);
+      if (idx >= 0) state.editRequests[idx] = norm; else state.editRequests.unshift(norm);
+      saveLocalCache();
+      renderAll(true);
+
+      if (state.db) {
+        try { await setDoc(doc(state.db, 'artifacts', state.appId, 'public', 'data', 'mtle_edit_requests', norm.id), norm); } catch (e) {}
+      }
+      if (state.rtdb) {
+        try { await rtdbSet(ref(state.rtdb, `artifacts/${state.appId}/mtle_edit_requests/${norm.id}`), norm); } catch (e) {}
       }
     }
 
@@ -1162,6 +1876,7 @@
       updateBatchFilterOptions();
       const loginView = document.getElementById('loginView');
       const adminView = document.getElementById('adminView');
+      const instructorView = document.getElementById('instructorView');
       const studentView = document.getElementById('studentView');
       const mainHeader = document.getElementById('mainHeader');
       const roleBadge = document.getElementById('headerRoleBadge');
@@ -1169,6 +1884,7 @@
 
       loginView.classList.add('hidden');
       adminView.classList.add('hidden');
+      instructorView.classList.add('hidden');
       studentView.classList.add('hidden');
 
       if (state.currentRole === 'login') {
@@ -1183,8 +1899,26 @@
         document.getElementById('headerUserSub').textContent = '@admin';
         renderAdminKPIs();
         renderAdminLedger();
-        if (!preserve) renderStudentDatabaseTable();
+        if (!preserve) {
+          renderStudentDatabaseTable();
+          renderInstructorDatabaseTable();
+        }
         renderAdminExamsList();
+        renderAdminEditRequests();
+      } else if (state.currentRole === 'instructor') {
+        const inst = state.instructors.find(i => i.id === state.currentInstructorId);
+        if (!inst) {
+          state.currentRole = 'login';
+          saveSessionRole();
+          renderAll();
+          return;
+        }
+        mainHeader.classList.remove('hidden');
+        instructorView.classList.remove('hidden');
+        if (roleBadge) roleBadge.textContent = 'Instructor';
+        document.getElementById('headerUserName').textContent = `${inst.fullName}, ${inst.credentials}`;
+        document.getElementById('headerUserSub').textContent = `@${inst.username || 'instructor'}`;
+        renderInstructorPortal(inst, preserve);
       } else if (state.currentRole === 'student') {
         const student = state.students.find(s => s.id === state.currentStudentId);
         if (!student) {
@@ -1214,6 +1948,7 @@
 
     function renderAdminKPIs() {
       document.getElementById('adminKpiStudents').textContent = state.students.length;
+      document.getElementById('adminKpiInstructors').textContent = state.instructors.length;
       document.getElementById('adminKpiExams').textContent = state.exams.length;
 
       const pendingCount = state.students.filter(s => !s.username || !s.password).length;
@@ -1235,9 +1970,19 @@
       });
 
       document.getElementById('adminKpiAvgRating').textContent = `${(withExams > 0 ? totalRating / withExams : 0).toFixed(2)}%`;
-      document.getElementById('adminKpiPassRate').textContent = `${withExams > 0 ? Math.round((passing / withExams) * 100) : 0}%`;
       const passCountEl = document.getElementById('adminKpiPassCount');
       if (passCountEl) passCountEl.textContent = `${passing} of ${withExams} Passing Overall`;
+
+      const pendingEditReqs = state.editRequests.filter(r => r.status === 'PENDING').length;
+      const kpiEditEl = document.getElementById('adminKpiEditRequests');
+      if (kpiEditEl) kpiEditEl.textContent = pendingEditReqs;
+
+      const tabBadge = document.getElementById('adminTabBadge_requests');
+      if (tabBadge) {
+        tabBadge.textContent = pendingEditReqs;
+        if (pendingEditReqs > 0) tabBadge.classList.remove('hidden');
+        else tabBadge.classList.add('hidden');
+      }
     }
 
     function getFilteredLedgerStudents() {
@@ -1321,10 +2066,13 @@
         return;
       }
 
-      tbody.innerHTML = list.map(stu => `
+      tbody.innerHTML = list.map(stu => {
+        const pendingReq = state.editRequests.find(r => r.roleType === 'student' && r.targetId === stu.id && r.status === 'PENDING');
+        return `
         <tr class="hover:bg-slate-50/80">
           <td class="p-3 font-bold text-slate-900">
             ${escapeHtml(stu.fullName)}
+            ${pendingReq ? `<span onclick="window.app.switchAdminTab('requests')" class="cursor-pointer ml-1.5 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Pending Edit Approval</span>` : ''}
             <div class="text-xs font-normal text-slate-500">${escapeHtml(stu.school)}</div>
           </td>
           <td class="p-3 text-xs">${escapeHtml(stu.batch)}</td>
@@ -1346,7 +2094,143 @@
             <button onclick="window.app.confirmDeleteStudent('${stu.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs" title="Delete Student"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
-      `).join('');
+      `}).join('');
+    }
+
+    function renderInstructorDatabaseTable() {
+      const tbody = document.getElementById('instructorDatabaseBody');
+      if (!tbody) return;
+      const q = (document.getElementById('instructorDbSearch')?.value || '').trim().toLowerCase();
+      const list = state.instructors.filter(inst =>
+        !q ||
+        inst.fullName.toLowerCase().includes(q) ||
+        inst.specialization.toLowerCase().includes(q) ||
+        (inst.username || '').toLowerCase().includes(q)
+      );
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400 text-xs">No instructors found in cloud database.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(inst => {
+        const pendingReq = state.editRequests.find(r => r.roleType === 'instructor' && r.targetId === inst.id && r.status === 'PENDING');
+        return `
+        <tr class="hover:bg-slate-50/80">
+          <td class="p-3 font-bold text-slate-900">
+            ${escapeHtml(inst.fullName)}, <span class="text-teal-700">${escapeHtml(inst.credentials)}</span>
+            ${pendingReq ? `<span onclick="window.app.switchAdminTab('requests')" class="cursor-pointer ml-1.5 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Pending Edit Approval</span>` : ''}
+          </td>
+          <td class="p-3 text-xs">
+            <span class="px-2.5 py-1 rounded-lg bg-cyan-50 text-cyan-800 font-semibold">${escapeHtml(inst.specialization)}</span>
+          </td>
+          <td class="p-3 text-xs font-mono">
+            <div>${escapeHtml(inst.licenseNo)}</div>
+            <div class="text-slate-500">${escapeHtml(inst.contactNumber)}</div>
+          </td>
+          <td class="p-3 space-y-1.5">
+            <div class="flex items-center gap-1">
+              <input type="text" id="inlineInstUser_${inst.id}" value="${escapeHtml(inst.username)}" placeholder="Assign Username" oninput="window.app.handleInlineInstructorCredentialInput('${inst.id}')" class="w-full px-2.5 py-1 border border-slate-300 rounded-lg text-xs font-mono font-bold focus:border-teal-600 outline-none" />
+              <button type="button" title="Auto-generate instructor credentials" onclick="window.app.quickGenerateInlineInstructorCredentials('${inst.id}')" class="px-2 py-1 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-lg text-xs font-bold">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </button>
+            </div>
+            <input type="text" id="inlineInstPass_${inst.id}" value="${escapeHtml(inst.password)}" placeholder="Assign Password" oninput="window.app.handleInlineInstructorCredentialInput('${inst.id}')" class="w-full px-2.5 py-1 border border-slate-300 rounded-lg text-xs font-mono focus:border-teal-600 outline-none" />
+          </td>
+          <td class="p-3 text-right space-x-1">
+            <button onclick="window.app.editInstructor('${inst.id}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs" title="Edit Instructor"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="window.app.confirmDeleteInstructor('${inst.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs" title="Delete Instructor"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+      `}).join('');
+    }
+
+    function renderAdminEditRequests() {
+      const container = document.getElementById('adminEditRequestsContainer');
+      if (!container) return;
+      const filter = document.getElementById('editRequestsFilter')?.value || 'ALL';
+
+      const list = state.editRequests.filter(r => filter === 'ALL' || r.status === filter);
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center text-slate-400 text-xs border border-dashed border-slate-200 rounded-2xl">
+            <i class="fa-solid fa-clipboard-check text-2xl text-slate-300 mb-2 block"></i>
+            No profile edit requests matching the current filter.
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(req => {
+        const isInstructor = req.roleType === 'instructor';
+        const currentRecord = isInstructor
+          ? state.instructors.find(i => i.id === req.targetId)
+          : state.students.find(s => s.id === req.targetId);
+
+        const p = req.proposedChanges || {};
+        const statusBadge = req.status === 'PENDING'
+          ? `<span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold">PENDING ADMIN APPROVAL</span>`
+          : req.status === 'APPROVED'
+            ? `<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">APPROVED</span>`
+            : `<span class="px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-extrabold">DECLINED</span>`;
+
+        const diffRows = isInstructor
+          ? [
+              { label: 'Full Name', oldVal: currentRecord ? currentRecord.fullName : '—', newVal: formatFullName(p.lastName, p.givenName, p.middleInitial ?? currentRecord?.middleInitial) },
+              { label: 'Credentials', oldVal: currentRecord?.credentials || '—', newVal: p.credentials || '—' },
+              { label: 'Specialization', oldVal: currentRecord?.specialization || '—', newVal: p.specialization || '—' },
+              { label: 'Contact', oldVal: currentRecord?.contactNumber || '—', newVal: p.contactNumber || '—' },
+              { label: 'Password', oldVal: currentRecord?.password || '—', newVal: p.password || '—' }
+            ]
+          : [
+              { label: 'Full Name', oldVal: currentRecord ? currentRecord.fullName : '—', newVal: formatFullName(p.lastName, p.givenName, p.middleInitial) },
+              { label: 'School', oldVal: currentRecord?.school || '—', newVal: p.school || '—' },
+              { label: 'Contact', oldVal: currentRecord?.contactNumber || '—', newVal: p.contactNumber || '—' },
+              { label: 'Password', oldVal: currentRecord?.password || '—', newVal: p.password || '—' }
+            ];
+
+        return `
+          <div class="p-4 rounded-2xl border ${req.status === 'PENDING' ? 'border-amber-300 bg-amber-50/30' : 'border-slate-200 bg-slate-50'} space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-lg text-[11px] font-bold uppercase ${isInstructor ? 'bg-cyan-100 text-cyan-800' : 'bg-teal-100 text-teal-800'}">
+                  ${isInstructor ? 'Instructor Request' : 'Student Request'}
+                </span>
+                <span class="font-bold text-sm text-slate-900">${escapeHtml(req.requesterName)}</span>
+                <span class="text-xs font-mono text-slate-500">(@${escapeHtml(req.requesterUsername)})</span>
+                <span class="text-xs text-slate-400">• Requested ${escapeHtml(req.requestedAt)}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                ${statusBadge}
+                ${req.status === 'PENDING' ? `
+                  <button onclick="window.app.approveEditRequest('${req.id}')" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-check"></i> Approve & Apply
+                  </button>
+                  <button onclick="window.app.declineEditRequest('${req.id}')" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-sm transition inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-xmark"></i> Decline
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+
+            <div class="text-xs text-slate-600 italic">
+              <strong>Requester Note:</strong> "${escapeHtml(req.reason)}"
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+              ${diffRows.map(d => {
+                const changed = String(d.oldVal) !== String(d.newVal);
+                return `
+                  <div class="p-2.5 rounded-xl bg-white border ${changed ? 'border-amber-300' : 'border-slate-200'}">
+                    <div class="text-[10px] font-bold uppercase text-slate-400">${escapeHtml(d.label)} ${changed ? '<span class="text-amber-600">(Modified)</span>' : ''}</div>
+                    <div class="text-slate-400 line-through text-[11px] truncate">${escapeHtml(d.oldVal)}</div>
+                    <div class="font-bold text-slate-900 font-mono truncate">${escapeHtml(d.newVal)}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function renderAdminExamsList() {
@@ -1370,6 +2254,109 @@
       `).join('');
     }
 
+    function renderRequestBannerHtml(req) {
+      if (!req) return '';
+      if (req.status === 'PENDING') {
+        return `
+          <div class="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-xs flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2.5">
+              <i class="fa-solid fa-clock text-amber-600 text-base"></i>
+              <div>
+                <div class="font-bold">Profile Edit Request Pending Admin Approval</div>
+                <div class="text-amber-700">Submitted on ${escapeHtml(req.requestedAt)} — Reason: "${escapeHtml(req.reason)}". Your profile will update automatically once approved by Admin.</div>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-amber-200 text-amber-900 font-extrabold uppercase text-[10px]">Awaiting Admin Review</span>
+          </div>`;
+      }
+      if (req.status === 'APPROVED') {
+        return `
+          <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center justify-between">
+            <div><i class="fa-solid fa-circle-check text-emerald-600 mr-1.5"></i><strong>Admin Approved Your Profile Edit Request!</strong> Your updated details are now active (${escapeHtml(req.reviewedAt)}).</div>
+          </div>`;
+      }
+      if (req.status === 'DECLINED') {
+        return `
+          <div class="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-xs flex items-center justify-between">
+            <div><i class="fa-solid fa-circle-xmark text-rose-600 mr-1.5"></i><strong>Your Latest Edit Request Was Declined by Admin</strong> (${escapeHtml(req.reviewedAt)}).</div>
+          </div>`;
+      }
+      return '';
+    }
+
+    function renderInstructorPortal(inst, preserve = false) {
+      const initials = `${inst.givenName?.[0] || 'I'}${inst.lastName?.[0] || 'N'}`.toUpperCase();
+      document.getElementById('instProfileAvatar').textContent = initials;
+      document.getElementById('instProfileName').textContent = `${inst.fullName}, ${inst.credentials}`;
+      document.getElementById('instProfileSpecBadge').textContent = inst.specialization;
+      document.getElementById('instProfileUsername').textContent = `@${inst.username}`;
+      document.getElementById('instProfileLicense').textContent = inst.licenseNo;
+      document.getElementById('instProfileContact').textContent = inst.contactNumber;
+
+      const myReq = state.editRequests.find(r => r.roleType === 'instructor' && r.targetId === inst.id);
+      const bannerEl = document.getElementById('instEditRequestStatusBanner');
+      if (bannerEl) {
+        if (myReq) {
+          bannerEl.classList.remove('hidden');
+          bannerEl.innerHTML = renderRequestBannerHtml(myReq);
+        } else {
+          bannerEl.classList.add('hidden');
+        }
+      }
+
+      if (!preserve) {
+        document.getElementById('instReqLastName').value = inst.lastName || '';
+        document.getElementById('instReqGivenName').value = inst.givenName || '';
+        document.getElementById('instReqCredentials').value = inst.credentials || '';
+        document.getElementById('instReqSpecialization').value = inst.specialization || 'Clinical Chemistry (20%)';
+        document.getElementById('instReqContact').value = inst.contactNumber || '';
+        document.getElementById('instReqPassword').value = inst.password || '';
+      }
+
+      // Published Exams in Instructor Portal
+      const exList = document.getElementById('instructorExamsList');
+      if (exList) {
+        exList.innerHTML = state.exams.map(ex => `
+          <div class="p-3 border border-slate-200 rounded-xl bg-slate-50 flex justify-between items-center gap-2">
+            <div>
+              <div class="font-bold text-xs text-slate-900">${escapeHtml(ex.title)}</div>
+              <div class="text-[11px] text-slate-500">${escapeHtml(ex.category)} • ${ex.totalItems} Items</div>
+            </div>
+            <button onclick="window.app.openExamViewerModal('${ex.id}')" class="px-2.5 py-1 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-bold">Preview</button>
+          </div>
+        `).join('');
+      }
+
+      // Student Ledger in Instructor Portal
+      const ledgerBody = document.getElementById('instructorLedgerBody');
+      if (ledgerBody) {
+        ledgerBody.innerHTML = state.students.map(stu => {
+          const m = computeStudentMetrics(stu.id);
+          return `
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-3 px-4 font-bold text-slate-900">
+                ${escapeHtml(stu.fullName)}
+                <div class="text-xs font-normal text-slate-500">${escapeHtml(stu.school)}</div>
+              </td>
+              <td class="py-3 px-3 text-xs">${escapeHtml(stu.batch)}</td>
+              <td class="py-3 px-3 text-center font-mono">${m.earnedPoints}/${m.possiblePoints}</td>
+              <td class="py-3 px-3 text-center font-mono font-bold text-teal-700">${m.overallPercentage.toFixed(2)}%</td>
+              <td class="py-3 px-3 text-center">
+                <span class="px-2 py-0.5 rounded text-xs font-bold ${m.status === 'PASSED' ? 'bg-emerald-100 text-emerald-800' : m.status === 'CONDITIONAL' ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">
+                  ${m.status}
+                </span>
+              </td>
+              <td class="py-3 px-4 text-right">
+                <button onclick="window.app.openAdminScoreModal('${stu.id}')" class="px-2.5 py-1 bg-teal-50 hover:bg-teal-100 text-teal-700 rounded-lg text-xs font-semibold">
+                  Scores
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
     function renderStudentPortal(student, preserve = false) {
       const m = computeStudentMetrics(student.id);
       const initials = `${student.givenName?.[0] || 'R'}${student.lastName?.[0] || 'M'}`.toUpperCase();
@@ -1379,19 +2366,35 @@
       document.getElementById('stuProfileName').textContent = student.fullName;
       document.getElementById('stuProfileUsername').textContent = student.username || 'pending';
       document.getElementById('stuProfileSchool').textContent = student.school;
+      document.getElementById('stuProfileContact').textContent = student.contactNumber || '—';
       document.getElementById('stuProfileBatch').textContent = `Target Cycle: ${student.batch}`;
       document.getElementById('stuCardTotalScore').textContent = `${m.earnedPoints} / ${m.possiblePoints}`;
       document.getElementById('stuCardOverallRating').textContent = `${m.overallPercentage.toFixed(2)}%`;
       document.getElementById('stuCardExamsCompleted').textContent = `${m.examsTakenCount} / ${m.totalExamsAvailable}`;
 
+      const myReq = state.editRequests.find(r => r.roleType === 'student' && r.targetId === student.id);
+      const bannerEl = document.getElementById('stuEditRequestStatusBanner');
+      if (bannerEl) {
+        if (myReq) {
+          bannerEl.classList.remove('hidden');
+          bannerEl.innerHTML = renderRequestBannerHtml(myReq);
+        } else {
+          bannerEl.classList.add('hidden');
+        }
+      }
+
       if (!preserve) {
         const lnInput = document.getElementById('selfEditLastName');
         const gnInput = document.getElementById('selfEditGivenName');
+        const miInput = document.getElementById('selfEditMiddleInitial');
         const schInput = document.getElementById('selfEditSchool');
+        const cntInput = document.getElementById('selfEditContact');
         const pwInput = document.getElementById('selfEditPassword');
         if (lnInput) lnInput.value = student.lastName || '';
         if (gnInput) gnInput.value = student.givenName || '';
+        if (miInput) miInput.value = student.middleInitial || '';
         if (schInput) schInput.value = student.school || '';
+        if (cntInput) cntInput.value = student.contactNumber || '';
         if (pwInput) pwInput.value = student.password || '';
       }
 
@@ -1445,6 +2448,7 @@
         const signInPanel = document.getElementById('signInPanel');
         const enrollNowPanel = document.getElementById('enrollNowPanel');
         const tabStu = document.getElementById('loginTabStudent');
+        const tabInst = document.getElementById('loginTabInstructor');
         const tabAdm = document.getElementById('loginTabAdmin');
         const tabEnr = document.getElementById('loginTabEnroll');
         const heading = document.getElementById('signInHeading');
@@ -1452,14 +2456,19 @@
         const userLabel = document.getElementById('loginUsernameLabel');
 
         const active = 'bg-white text-teal-700 shadow-sm', inactive = 'text-slate-600 hover:text-slate-900';
-        if (tabStu) tabStu.className = `py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition ${mode === 'student' ? active : inactive}`;
-        if (tabAdm) tabAdm.className = `py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition ${mode === 'admin' ? active : inactive}`;
-        if (tabEnr) tabEnr.className = `py-2.5 px-3 rounded-lg text-xs sm:text-sm font-semibold transition ${mode === 'enroll' ? active : inactive}`;
+        if (tabStu) tabStu.className = `py-2.5 px-2 rounded-lg text-xs font-semibold transition ${mode === 'student' ? active : inactive}`;
+        if (tabInst) tabInst.className = `py-2.5 px-2 rounded-lg text-xs font-semibold transition ${mode === 'instructor' ? active : inactive}`;
+        if (tabAdm) tabAdm.className = `py-2.5 px-2 rounded-lg text-xs font-semibold transition ${mode === 'admin' ? active : inactive}`;
+        if (tabEnr) tabEnr.className = `py-2.5 px-2 rounded-lg text-xs font-semibold transition ${mode === 'enroll' ? active : inactive}`;
 
         if (mode === 'admin') {
           if (heading) heading.textContent = 'Admin Portal Sign In';
-          if (subheading) subheading.textContent = 'Sign in with administrator credentials to manage students, credentials, and exams.';
+          if (subheading) subheading.textContent = 'Sign in with administrator credentials to manage students, instructors, edit approvals, and exams.';
           if (userLabel) userLabel.textContent = 'Admin Username';
+        } else if (mode === 'instructor') {
+          if (heading) heading.textContent = 'Instructor Portal Sign In';
+          if (subheading) subheading.textContent = 'Enter your Admin-assigned faculty username and password (e.g. inst_areyes / faculty2026).';
+          if (userLabel) userLabel.textContent = 'Instructor Username';
         } else if (mode === 'student') {
           if (heading) heading.textContent = 'Student Portal Sign In';
           if (subheading) subheading.textContent = 'Enter your Admin-assigned username and password to access your profile.';
@@ -1531,6 +2540,7 @@
         const errBox = document.getElementById('loginErrorBox');
         errBox.classList.add('hidden');
 
+        // Admin Login Check
         if (state.loginModeTab === 'admin' || (u.toLowerCase() === 'admin' && p === 'admin123')) {
           if (u.toLowerCase() === 'admin' && p === 'admin123') {
             state.currentRole = 'admin';
@@ -1543,21 +2553,49 @@
           return;
         }
 
-        const match = state.students.find(s => s.username && s.username.toLowerCase() === u.toLowerCase() && s.password === p);
-        if (match) {
-          state.currentRole = 'student';
-          state.currentStudentId = match.id;
-          saveSessionRole();
-          renderAll();
-          showToast(`Welcome, ${match.fullName}!`);
+        // Instructor Login Check
+        if (state.loginModeTab === 'instructor') {
+          const instMatch = state.instructors.find(i => i.username && i.username.toLowerCase() === u.toLowerCase() && i.password === p);
+          if (instMatch) {
+            state.currentRole = 'instructor';
+            state.currentInstructorId = instMatch.id;
+            saveSessionRole();
+            renderAll();
+            showToast(`Welcome, Instructor ${instMatch.fullName}!`);
+            return;
+          }
+          errBox.classList.remove('hidden');
           return;
         }
+
+        // Student Login Check (or fallback if Instructor typed into Student tab)
+        const stuMatch = state.students.find(s => s.username && s.username.toLowerCase() === u.toLowerCase() && s.password === p);
+        if (stuMatch) {
+          state.currentRole = 'student';
+          state.currentStudentId = stuMatch.id;
+          saveSessionRole();
+          renderAll();
+          showToast(`Welcome, ${stuMatch.fullName}!`);
+          return;
+        }
+
+        const instFallback = state.instructors.find(i => i.username && i.username.toLowerCase() === u.toLowerCase() && i.password === p);
+        if (instFallback) {
+          state.currentRole = 'instructor';
+          state.currentInstructorId = instFallback.id;
+          saveSessionRole();
+          renderAll();
+          showToast(`Welcome, Instructor ${instFallback.fullName}!`);
+          return;
+        }
+
         errBox.classList.remove('hidden');
       },
 
       logout() {
         state.currentRole = 'login';
         state.currentStudentId = null;
+        state.currentInstructorId = null;
         saveSessionRole();
         renderAll();
         showToast('Signed out');
@@ -1566,20 +2604,21 @@
       switchAdminTab(tabName, skipSave = false) {
         state.activeAdminTab = tabName;
         if (!skipSave) saveSessionRole();
-        ['ledger', 'students', 'exams'].forEach(t => {
+        ['ledger', 'students', 'instructors', 'exams', 'requests'].forEach(t => {
           const sec = document.getElementById(`adminSection_${t}`);
           const btn = document.getElementById(`adminTabBtn_${t}`);
           if (!sec || !btn) return;
           if (t === tabName) {
             sec.classList.remove('hidden');
-            btn.className = 'flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 bg-teal-600 text-white shadow-sm';
+            btn.className = 'flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 bg-teal-600 text-white shadow-sm';
           } else {
             sec.classList.add('hidden');
-            btn.className = 'flex-1 min-w-[200px] py-3 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100';
+            btn.className = 'flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100';
           }
         });
       },
 
+      // STUDENT MANAGEMENT
       handleInlineCredentialInput(studentId) {
         const stu = state.students.find(s => s.id === studentId);
         if (!stu) return;
@@ -1684,41 +2723,271 @@
         });
       },
 
+      // INSTRUCTOR DATABASE MANAGEMENT
+      suggestInstructorUsername() {
+        const ln = document.getElementById('instLastName')?.value.trim().toLowerCase().replace(/[^a-z]/g, '') || '';
+        const gn = document.getElementById('instGivenName')?.value.trim().toLowerCase().replace(/[^a-z]/g, '') || '';
+        if (ln || gn) document.getElementById('instUsername').value = `inst_${gn[0] || ''}${ln}`;
+      },
+
+      generateRandomInstructorUsername() {
+        document.getElementById('instUsername').value = `inst_faculty${Math.floor(100 + Math.random() * 900)}`;
+      },
+
+      generateRandomInstructorPassword() {
+        document.getElementById('instPassword').value = `faculty_${Math.floor(1000 + Math.random() * 9000)}`;
+      },
+
+      handleInlineInstructorCredentialInput(instId) {
+        const inst = state.instructors.find(i => i.id === instId);
+        if (!inst) return;
+        const u = document.getElementById(`inlineInstUser_${instId}`)?.value.trim() || '';
+        const p = document.getElementById(`inlineInstPass_${instId}`)?.value.trim() || '';
+        const updated = normalizeInstructor({
+          ...inst,
+          username: u,
+          password: p,
+          accountStatus: (u && p) ? 'ACTIVE' : 'PENDING_CREDENTIALS'
+        });
+        debounceAutoSave(`inst_cred_${instId}`, async () => {
+          await saveInstructorRecord(updated, true);
+          showToast(`Synced instructor credentials for ${updated.lastName}`);
+        });
+      },
+
+      quickGenerateInlineInstructorCredentials(instId) {
+        const inst = state.instructors.find(i => i.id === instId);
+        if (!inst) return;
+        const u = `inst_${(inst.givenName?.[0] || 'f').toLowerCase()}${inst.lastName.toLowerCase().replace(/[^a-z]/g, '')}`;
+        const p = `faculty_${Math.floor(1000 + Math.random() * 9000)}`;
+        saveInstructorRecord(normalizeInstructor({ ...inst, username: u, password: p, accountStatus: 'ACTIVE' }), false);
+        showToast(`Assigned instructor login: @${u} / ${p}`);
+      },
+
+      async handleSaveInstructor(e) {
+        e.preventDefault();
+        const editId = document.getElementById('instructorEditId').value;
+        const ln = document.getElementById('instLastName').value.trim();
+        const gn = document.getElementById('instGivenName').value.trim();
+        const mi = document.getElementById('instMiddleInitial').value.trim();
+        const credentials = document.getElementById('instCredentials').value.trim();
+        const licenseNo = document.getElementById('instLicenseNo').value.trim();
+        const specialization = document.getElementById('instSpecialization').value;
+        const contactNumber = document.getElementById('instContact').value.trim();
+        const username = document.getElementById('instUsername').value.trim();
+        const password = document.getElementById('instPassword').value.trim();
+
+        await saveInstructorRecord(normalizeInstructor({
+          id: editId || `inst_${Date.now()}`,
+          lastName: ln,
+          givenName: gn,
+          middleInitial: mi,
+          credentials,
+          licenseNo,
+          specialization,
+          contactNumber,
+          username,
+          password,
+          accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS',
+          createdAt: new Date().toISOString().slice(0, 10)
+        }));
+        this.resetInstructorForm();
+        showToast('Instructor saved & synced to cloud database!');
+      },
+
+      editInstructor(id) {
+        const inst = state.instructors.find(i => i.id === id);
+        if (!inst) return;
+        document.getElementById('instructorEditId').value = inst.id;
+        document.getElementById('instLastName').value = inst.lastName || '';
+        document.getElementById('instGivenName').value = inst.givenName || '';
+        document.getElementById('instMiddleInitial').value = inst.middleInitial || '';
+        document.getElementById('instCredentials').value = inst.credentials || '';
+        document.getElementById('instLicenseNo').value = inst.licenseNo || '';
+        document.getElementById('instSpecialization').value = inst.specialization || 'Clinical Chemistry (20%)';
+        document.getElementById('instContact').value = inst.contactNumber || '';
+        document.getElementById('instUsername').value = inst.username || '';
+        document.getElementById('instPassword').value = inst.password || '';
+        document.getElementById('cancelEditInstructorBtn').classList.remove('hidden');
+      },
+
+      resetInstructorForm() {
+        document.getElementById('instructorEditId').value = '';
+        document.getElementById('instructorForm').reset();
+        document.getElementById('cancelEditInstructorBtn').classList.add('hidden');
+      },
+
+      confirmDeleteInstructor(id) {
+        const inst = state.instructors.find(i => i.id === id);
+        if (!inst) return;
+        this.openConfirmModal(`Remove Instructor ${inst.fullName}?`, 'This will remove this instructor from the cloud database.', async () => {
+          await removeInstructorRecord(id);
+          showToast('Instructor removed from cloud.');
+        });
+      },
+
+      // PROFILE EDIT REQUESTS & ADMIN APPROVAL WORKFLOW
+      toggleStudentProfileEditor() {
+        const sec = document.getElementById('studentSelfEditSection');
+        if (!sec) return;
+        sec.classList.toggle('hidden');
+      },
+
+      toggleInstructorProfileEditor() {
+        const sec = document.getElementById('instructorSelfEditSection');
+        if (!sec) return;
+        sec.classList.toggle('hidden');
+      },
+
+      async handleSubmitStudentEditRequest(e) {
+        e.preventDefault();
+        if (!state.currentStudentId) return;
+        const stu = state.students.find(s => s.id === state.currentStudentId);
+        if (!stu) return;
+
+        const proposedChanges = {
+          lastName: document.getElementById('selfEditLastName').value.trim() || stu.lastName,
+          givenName: document.getElementById('selfEditGivenName').value.trim() || stu.givenName,
+          middleInitial: document.getElementById('selfEditMiddleInitial').value.trim(),
+          school: document.getElementById('selfEditSchool').value.trim() || stu.school,
+          contactNumber: document.getElementById('selfEditContact').value.trim() || stu.contactNumber,
+          password: document.getElementById('selfEditPassword').value.trim() || stu.password
+        };
+        const reason = document.getElementById('selfEditReason').value.trim() || 'Student requested profile/password update';
+
+        await saveEditRequestRecord({
+          id: `req_student_${stu.id}`,
+          roleType: 'student',
+          targetId: stu.id,
+          requesterName: stu.fullName,
+          requesterUsername: stu.username,
+          proposedChanges,
+          reason,
+          status: 'PENDING',
+          requestedAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+          reviewedAt: ''
+        });
+
+        document.getElementById('studentSelfEditSection').classList.add('hidden');
+        showToast('Edit request submitted for Admin approval!');
+      },
+
+      async handleSubmitInstructorEditRequest(e) {
+        e.preventDefault();
+        if (!state.currentInstructorId) return;
+        const inst = state.instructors.find(i => i.id === state.currentInstructorId);
+        if (!inst) return;
+
+        const proposedChanges = {
+          lastName: document.getElementById('instReqLastName').value.trim() || inst.lastName,
+          givenName: document.getElementById('instReqGivenName').value.trim() || inst.givenName,
+          middleInitial: inst.middleInitial || '',
+          credentials: document.getElementById('instReqCredentials').value.trim() || inst.credentials,
+          specialization: document.getElementById('instReqSpecialization').value || inst.specialization,
+          contactNumber: document.getElementById('instReqContact').value.trim() || inst.contactNumber,
+          password: document.getElementById('instReqPassword').value.trim() || inst.password
+        };
+        const reason = document.getElementById('instReqReason').value.trim() || 'Instructor requested profile/password update';
+
+        await saveEditRequestRecord({
+          id: `req_instructor_${inst.id}`,
+          roleType: 'instructor',
+          targetId: inst.id,
+          requesterName: `${inst.fullName}, ${inst.credentials}`,
+          requesterUsername: inst.username,
+          proposedChanges,
+          reason,
+          status: 'PENDING',
+          requestedAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+          reviewedAt: ''
+        });
+
+        document.getElementById('instructorSelfEditSection').classList.add('hidden');
+        showToast('Edit request submitted for Admin approval!');
+      },
+
+      async approveEditRequest(reqId) {
+        const req = state.editRequests.find(r => r.id === reqId);
+        if (!req) return;
+        const p = req.proposedChanges || {};
+        const nowStr = new Date().toISOString().slice(0, 16).replace('T', ' ');
+
+        if (req.roleType === 'instructor') {
+          const inst = state.instructors.find(i => i.id === req.targetId);
+          if (inst) {
+            await saveInstructorRecord({
+              ...inst,
+              lastName: p.lastName || inst.lastName,
+              givenName: p.givenName || inst.givenName,
+              credentials: p.credentials || inst.credentials,
+              specialization: p.specialization || inst.specialization,
+              contactNumber: p.contactNumber || inst.contactNumber,
+              password: p.password || inst.password
+            });
+          }
+        } else {
+          const stu = state.students.find(s => s.id === req.targetId);
+          if (stu) {
+            await saveStudentRecord({
+              ...stu,
+              lastName: p.lastName || stu.lastName,
+              givenName: p.givenName || stu.givenName,
+              middleInitial: p.middleInitial !== undefined ? p.middleInitial : stu.middleInitial,
+              school: p.school || stu.school,
+              contactNumber: p.contactNumber || stu.contactNumber,
+              password: p.password || stu.password
+            });
+          }
+        }
+
+        await saveEditRequestRecord({
+          ...req,
+          status: 'APPROVED',
+          reviewedAt: nowStr
+        });
+        showToast(`Approved & synced profile changes for ${req.requesterName}!`);
+      },
+
+      async declineEditRequest(reqId) {
+        const req = state.editRequests.find(r => r.id === reqId);
+        if (!req) return;
+        await saveEditRequestRecord({
+          ...req,
+          status: 'DECLINED',
+          reviewedAt: new Date().toISOString().slice(0, 16).replace('T', ' ')
+        });
+        showToast(`Declined edit request from ${req.requesterName}.`);
+      },
+
+      // DEFAULT HTML EXAM TEMPLATE DOWNLOAD & LOADER
+      downloadDefaultExamTemplate() {
+        const blob = new Blob([DEFAULT_EXAM_HTML_TEMPLATE], { type: 'text/html;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'PulseRMT_Default_Exam_Template.html';
+        link.click();
+        showToast('Downloaded PulseRMT_Default_Exam_Template.html!');
+      },
+
+      loadDefaultExamTemplateIntoEditor(target = 'admin') {
+        if (target === 'instructor') {
+          document.getElementById('instExamTitle').value = 'MTLE Pre-Board Sample Exam (Template)';
+          document.getElementById('instExamTotalItems').value = 5;
+          document.getElementById('instExamHtmlContent').value = DEFAULT_EXAM_HTML_TEMPLATE;
+        } else {
+          document.getElementById('examTitle').value = 'MTLE Pre-Board Sample Exam (Template)';
+          document.getElementById('examTotalItems').value = 5;
+          document.getElementById('examHtmlContent').value = DEFAULT_EXAM_HTML_TEMPLATE;
+        }
+        showToast('Default HTML Exam Template loaded into source editor!');
+      },
+
       confirmDeleteExam(examId) {
         const ex = state.exams.find(e => e.id === examId);
         if (!ex) return;
         this.openConfirmModal(`Delete ${ex.title}?`, 'This will remove the examination from all student portals.', async () => {
           await removeExamRecord(examId);
           showToast('Examination removed.');
-        });
-      },
-
-      toggleStudentProfileEditor() {
-        const sec = document.getElementById('studentSelfEditSection');
-        if (!sec) return;
-        sec.classList.toggle('hidden');
-        if (!sec.classList.contains('hidden') && state.currentStudentId) {
-          const stu = state.students.find(s => s.id === state.currentStudentId);
-          if (stu) {
-            document.getElementById('selfEditLastName').value = stu.lastName || '';
-            document.getElementById('selfEditGivenName').value = stu.givenName || '';
-            document.getElementById('selfEditSchool').value = stu.school || '';
-            document.getElementById('selfEditPassword').value = stu.password || '';
-          }
-        }
-      },
-
-      handleStudentSelfProfileAutoSave() {
-        if (!state.currentStudentId) return;
-        const stu = state.students.find(s => s.id === state.currentStudentId);
-        if (!stu) return;
-        const ln = document.getElementById('selfEditLastName').value.trim() || stu.lastName;
-        const gn = document.getElementById('selfEditGivenName').value.trim() || stu.givenName;
-        const school = document.getElementById('selfEditSchool').value.trim() || stu.school;
-        const password = document.getElementById('selfEditPassword').value.trim() || stu.password;
-        debounceAutoSave(`self_${stu.id}`, async () => {
-          await saveStudentRecord(normalizeStudent({ ...stu, lastName: ln, givenName: gn, school, password }), true);
-          showToast('Profile synced to cloud!');
         });
       },
 
@@ -1751,24 +3020,27 @@
         await recordStudentExamScore(studentId, examId, score, total, true);
       },
 
-      handleHtmlFileSelected(e) {
+      handleHtmlFileSelected(e, target = 'admin') {
         const file = e.target.files?.[0];
         if (!file) return;
-        const display = document.getElementById('uploadedFileNameDisplay');
+        const display = document.getElementById(target === 'instructor' ? 'instUploadedFileNameDisplay' : 'uploadedFileNameDisplay');
         if (display) display.textContent = `(${file.name})`;
         const r = new FileReader();
         r.onload = (evt) => {
-          document.getElementById('examHtmlContent').value = evt.target.result;
+          const textareaId = target === 'instructor' ? 'instExamHtmlContent' : 'examHtmlContent';
+          document.getElementById(textareaId).value = evt.target.result;
         };
         r.readAsText(file);
       },
 
-      async handleUploadExamSubmit(e) {
+      async handleUploadExamSubmit(e, source = 'admin') {
         e.preventDefault();
-        const title = document.getElementById('examTitle').value.trim();
-        const category = document.getElementById('examCategory').value;
-        const totalItems = Number(document.getElementById('examTotalItems').value) || 5;
-        const htmlContent = document.getElementById('examHtmlContent').value.trim();
+        const isInst = source === 'instructor';
+        const title = document.getElementById(isInst ? 'instExamTitle' : 'examTitle').value.trim();
+        const category = document.getElementById(isInst ? 'instExamCategory' : 'examCategory').value;
+        const totalItems = Number(document.getElementById(isInst ? 'instExamTotalItems' : 'examTotalItems').value) || 5;
+        const htmlContent = document.getElementById(isInst ? 'instExamHtmlContent' : 'examHtmlContent').value.trim();
+
         await saveExamRecord({
           id: `exam_${Date.now()}`,
           title,
@@ -1777,8 +3049,9 @@
           fileName: `${title}.html`,
           htmlContent
         });
-        document.getElementById('uploadExamForm').reset();
-        const display = document.getElementById('uploadedFileNameDisplay');
+
+        document.getElementById(isInst ? 'instUploadExamForm' : 'uploadExamForm').reset();
+        const display = document.getElementById(isInst ? 'instUploadedFileNameDisplay' : 'uploadedFileNameDisplay');
         if (display) display.textContent = '';
         showToast('Exam published & synced to all devices!');
       },
