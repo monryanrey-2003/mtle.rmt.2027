@@ -1,18 +1,15 @@
 /* ==========================================================================
-   PulseRMT | MTLE Review & Examination Portal — Master Stylesheet (style.css)
-   Aligned with Student, Instructor & Admin Portals + Edit Approval Workflow
+   PulseRMT | Master Stylesheet (style.css)
+   MTLE Online Examination, Enrollment Approval & Student Ledger Portal
    ========================================================================== */
 
 :root {
-  --med-50: #f0fdfa;
-  --med-100: #ccfbf1;
-  --med-200: #99f6e4;
-  --med-500: #14b8a6;
-  --med-600: #0d9488;
-  --med-700: #0f766e;
-  --med-800: #115e59;
-  --med-900: #134e4a;
-  --med-950: #042f2e;
+  --med-teal-50: #f0fdfa;
+  --med-teal-100: #ccfbf1;
+  --med-teal-500: #14b8a6;
+  --med-teal-600: #0d9488;
+  --med-teal-700: #0f766e;
+  --med-teal-900: #134e4a;
   --slate-50: #f8fafc;
   --slate-200: #e2e8f0;
   --slate-800: #1e293b;
@@ -20,7 +17,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   1. Base Reset & Typography Enhancements
+   1. Base Typography & Smooth Scrolling
    -------------------------------------------------------------------------- */
 *,
 *::before,
@@ -43,13 +40,12 @@ body {
 
 code,
 pre,
-textarea.font-mono,
-input.font-mono {
+.font-mono {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 /* --------------------------------------------------------------------------
-   2. Custom Scrollbars (Tables, Modals & HTML Source Editors)
+   2. Custom Scrollbars (Tables, Code Editors & Modals)
    -------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
   width: 8px;
@@ -68,7 +64,7 @@ input.font-mono {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--med-600);
+  background: #94a3b8;
 }
 
 /* Dark Scrollbar for HTML Source Code Textareas */
@@ -83,161 +79,28 @@ input.font-mono {
   border-color: #0f172a;
 }
 
-#examHtmlContent::-webkit-scrollbar-thumb:hover,
-#instExamHtmlContent::-webkit-scrollbar-thumb:hover {
-  background: var(--med-500);
-}
-
 /* --------------------------------------------------------------------------
-   3. Form Controls, Inline Credentials & Code Editors
+   3. View, Modal & Toast Animations
    -------------------------------------------------------------------------- */
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--med-600);
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.16);
-}
-
-/* Clean up number input spinners in score modals & age fields */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  opacity: 0.65;
-}
-
-input[type="number"]:hover::-webkit-inner-spin-button,
-input[type="number"]:hover::-webkit-outer-spin-button {
-  opacity: 1;
-}
-
-/* HTML Exam Code Editor Styling (Admin & Instructor Portals) */
-#examHtmlContent,
-#instExamHtmlContent {
-  background-color: #0f172a;
-  color: #5eead4;
-  caret-color: #2dd4bf;
-  line-height: 1.55;
-  tab-size: 2;
-  border: 1px solid #1e293b;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-#examHtmlContent:focus,
-#instExamHtmlContent:focus {
-  border-color: var(--med-500);
-  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.25);
-}
-
-/* Inline Auto-Save Credential Inputs (Student & Instructor Databases) */
-input[id^="inlineUser_"],
-input[id^="inlinePass_"],
-input[id^="inlineInstUser_"],
-input[id^="inlineInstPass_"] {
-  transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-input[id^="inlineUser_"]:focus,
-input[id^="inlinePass_"]:focus,
-input[id^="inlineInstUser_"]:focus,
-input[id^="inlineInstPass_"]:focus {
-  background-color: var(--med-50);
-  border-color: var(--med-600);
-}
-
-/* --------------------------------------------------------------------------
-   4. Tables, Master Ledger & Sticky Headers
-   -------------------------------------------------------------------------- */
-table {
-  border-spacing: 0;
-}
-
-thead th {
-  white-space: nowrap;
-  user-select: none;
-}
-
-#ledgerTableBody tr,
-#studentDatabaseBody tr,
-#instructorDatabaseBody tr,
-#instructorLedgerBody tr,
-#studentScoresTableBody tr {
-  transition: background-color 0.15s ease;
-}
-
-/* Highlight row subtly on hover */
-#ledgerTableBody tr:hover,
-#studentDatabaseBody tr:hover,
-#instructorDatabaseBody tr:hover,
-#instructorLedgerBody tr:hover {
-  background-color: rgba(240, 253, 250, 0.65);
-}
-
-/* --------------------------------------------------------------------------
-   5. Edit Approval Queue & Notification Badges
-   -------------------------------------------------------------------------- */
-#adminTabBadge_requests {
-  animation: badgePulse 2s infinite ease-in-out;
-}
-
-#studentSelfEditSection,
-#instructorSelfEditSection {
-  animation: slideDownFade 0.22s ease-out;
-}
-
-/* Embedded Exam Iframe Container */
-#examHtmlIframe {
-  background-color: #f8fafc;
-  width: 100%;
-  height: 100%;
-}
-
-/* --------------------------------------------------------------------------
-   6. Modals & Toast Animations
-   -------------------------------------------------------------------------- */
-#examViewerModal:not(.hidden),
-#adminScoreModal:not(.hidden),
-#confirmModal:not(.hidden) {
-  animation: modalBackdropFade 0.18s ease-out;
-}
-
-#examViewerModal:not(.hidden) > div,
-#adminScoreModal:not(.hidden) > div,
-#confirmModal:not(.hidden) > div {
-  animation: modalScaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-#toastContainer > div {
-  animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes modalBackdropFade {
+@keyframes fadeSlideUp {
   from {
     opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes modalScaleUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes slideDownFade {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -252,17 +115,88 @@ thead th {
   }
 }
 
-@keyframes badgePulse {
+@keyframes subtleAmberPulse {
   0%, 100% {
-    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.25);
   }
   50% {
-    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
   }
 }
 
+main:not(.hidden),
+#adminSection_ledger:not(.hidden),
+#adminSection_students:not(.hidden),
+#adminSection_instructors:not(.hidden),
+#adminSection_exams:not(.hidden),
+#adminSection_requests:not(.hidden) {
+  animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#examViewerModal:not(.hidden) > div,
+#adminScoreModal:not(.hidden) > div,
+#confirmModal:not(.hidden) > div {
+  animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#toastContainer > div {
+  animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(8px);
+}
+
 /* --------------------------------------------------------------------------
-   7. Official Print Stylesheet (Print Master Ledger Cleanly)
+   4. Enrollment Approval Queue & Auto-Generated Student ID Highlights
+   -------------------------------------------------------------------------- */
+#pendingEnrollmentsCard {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#pendingEnrollmentsCountBadge,
+#adminTabBadge_students,
+#adminTabBadge_requests {
+  animation: subtleAmberPulse 2s infinite;
+}
+
+/* Student ID Badge Polish */
+#stuProfileIdBadge {
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   5. Form Controls, Focus Rings & Interactive Tables
+   -------------------------------------------------------------------------- */
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.14);
+}
+
+/* Remove default number input spinners for cleaner score/age fields */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.6;
+}
+
+table th {
+  white-space: nowrap;
+  user-select: none;
+}
+
+table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+/* --------------------------------------------------------------------------
+   6. Exam Viewer Iframe Container
+   -------------------------------------------------------------------------- */
+#examHtmlIframe {
+  background-color: #f8fafc;
+  min-height: calc(100vh - 110px);
+}
+
+/* --------------------------------------------------------------------------
+   7. Official Master Ledger Print Styles (@media print)
    -------------------------------------------------------------------------- */
 @media print {
   @page {
@@ -276,34 +210,36 @@ thead th {
     font-size: 11px !important;
   }
 
-  /* Hide navigation, buttons, modals, toast, and non-ledger sections */
+  /* Hide navigation, buttons, filters, KPIs, and non-ledger views */
   .no-print,
   #mainHeader,
   #loginView,
+  #instructorView,
+  #studentView,
+  #adminView > section:first-of-type,
   #adminSection_students,
   #adminSection_instructors,
   #adminSection_exams,
   #adminSection_requests,
+  #toastContainer,
   #examViewerModal,
   #adminScoreModal,
-  #confirmModal,
-  #toastContainer {
+  #confirmModal {
     display: none !important;
   }
 
-  #adminView {
+  /* Force Admin Master Ledger to full width for printing */
+  #adminView,
+  #adminSection_ledger {
     display: block !important;
     max-width: 100% !important;
+    width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  #adminSection_ledger {
-    display: block !important;
-  }
-
   #adminSection_ledger > div {
-    border: 1px solid #94a3b8 !important;
+    border: 1px solid #cbd5e1 !important;
     box-shadow: none !important;
     border-radius: 0 !important;
   }
@@ -313,14 +249,14 @@ thead th {
     border-collapse: collapse !important;
   }
 
-  th,
-  td {
+  table th,
+  table td {
     border: 1px solid #cbd5e1 !important;
     padding: 6px 8px !important;
     color: #0f172a !important;
   }
 
-  thead tr {
+  table thead tr {
     background-color: #f1f5f9 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;

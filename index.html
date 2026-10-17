@@ -151,10 +151,10 @@
         <div class="relative z-10 mt-8 pt-6 border-t border-white/10">
           <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-xs text-teal-100/90 space-y-1">
             <div class="font-bold text-teal-300 flex items-center gap-1.5">
-              <i class="fa-solid fa-arrows-rotate"></i> Real-Time Multi-Device Sync Enabled
+              <i class="fa-solid fa-id-card-clip"></i> Admin Approval & Auto-ID Generation
             </div>
             <p class="leading-relaxed text-teal-100/80">
-              Students & Instructors sign in with Admin-assigned credentials. Profile updates require Admin approval for data integrity.
+              New enrollments are reviewed by the Administrator. Upon approval, your official PulseRMT Student ID and login credentials are automatically generated.
             </p>
           </div>
         </div>
@@ -183,19 +183,19 @@
         <div id="signInPanel">
           <div class="mb-6">
             <h3 id="signInHeading" class="text-2xl font-bold text-slate-900">Student Portal Sign In</h3>
-            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-assigned username and password to access your profile.</p>
+            <p id="signInSubheading" class="text-sm text-slate-500 mt-1">Enter your Admin-approved username (or Student ID) and password to access your profile.</p>
           </div>
 
           <form id="loginForm" onsubmit="window.app.handleLoginSubmit(event)" class="space-y-4">
             <div>
               <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5" id="loginUsernameLabel">
-                Student Username
+                Student Username or Student ID
               </label>
               <div class="relative">
                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                   <i class="fa-solid fa-id-badge"></i>
                 </span>
-                <input type="text" id="loginUsername" required autocomplete="off" placeholder="Enter your assigned username"
+                <input type="text" id="loginUsername" required autocomplete="off" placeholder="e.g. rmt_msantos or PRMT-2027-0001"
                   class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 outline-none text-sm font-mono transition" />
               </div>
             </div>
@@ -218,7 +218,7 @@
 
             <div id="loginErrorBox" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
               <i class="fa-solid fa-circle-exclamation text-rose-500"></i>
-              <span id="loginErrorText">Invalid username or password, or credentials not yet assigned by Admin.</span>
+              <span id="loginErrorText">Invalid username or password, or enrollment not yet approved by Admin.</span>
             </div>
 
             <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 active:bg-teal-800 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
@@ -238,9 +238,12 @@
         <!-- ENROLL NOW PANEL -->
         <div id="enrollNowPanel" class="hidden">
           <div class="mb-4">
-            <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment</h3>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold uppercase mb-1">
+              <i class="fa-solid fa-shield-halved text-amber-600"></i> Subject to Admin Approval
+            </div>
+            <h3 class="text-xl font-bold text-slate-900">Student Reviewee Enrollment Application</h3>
             <p class="text-xs text-slate-500 mt-0.5">
-              Complete your student information below. Your enrollment is automatically synced to the central Admin database for credential assignment.
+              Complete your student details below. Once approved by the Administrator, an official <strong>PulseRMT Student ID</strong> and login credentials will be automatically generated for you.
             </p>
           </div>
 
@@ -304,17 +307,17 @@
               </div>
             </div>
 
-            <div id="enrollSuccessBanner" class="hidden p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs space-y-1">
+            <div id="enrollSuccessBanner" class="hidden p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs space-y-1">
               <div class="font-bold flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-check text-emerald-600"></i>
-                <span>Enrollment Automatically Saved & Synced!</span>
+                <i class="fa-solid fa-clock text-amber-600"></i>
+                <span>Enrollment Application Submitted for Admin Approval!</span>
               </div>
-              <p id="enrollSuccessText" class="text-emerald-700 leading-relaxed"></p>
+              <p id="enrollSuccessText" class="text-amber-800 leading-relaxed"></p>
             </div>
 
             <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-paper-plane"></i>
-              <span>Submit Enrollment Application</span>
+              <span>Submit Application for Admin Approval</span>
             </button>
           </form>
         </div>
@@ -331,9 +334,9 @@
     
     <!-- Admin Top KPI Summary Row -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
+      <div onclick="window.app.switchAdminTab('students')" class="cursor-pointer bg-white hover:bg-teal-50/30 transition rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Enrolled Students</p>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Approved Students</p>
           <p id="adminKpiStudents" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
           <p id="adminKpiPendingSub" class="text-[11px] text-teal-600 font-medium mt-1"><i class="fa-solid fa-user-check mr-1"></i>Active Reviewees</p>
         </div>
@@ -342,7 +345,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
+      <div onclick="window.app.switchAdminTab('instructors')" class="cursor-pointer bg-white hover:bg-cyan-50/30 transition rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Faculty Instructors</p>
           <p id="adminKpiInstructors" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
@@ -353,7 +356,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
+      <div onclick="window.app.switchAdminTab('exams')" class="cursor-pointer bg-white hover:bg-indigo-50/30 transition rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">HTML Exams</p>
           <p id="adminKpiExams" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
@@ -364,7 +367,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
+      <div onclick="window.app.switchAdminTab('ledger')" class="cursor-pointer bg-white hover:bg-emerald-50/30 transition rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
           <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Cohort Rating</p>
           <p id="adminKpiAvgRating" class="text-2xl font-extrabold text-slate-900 mt-1">0.00%</p>
@@ -377,9 +380,9 @@
 
       <div onclick="window.app.switchAdminTab('requests')" class="cursor-pointer bg-white hover:bg-amber-50/40 transition rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
-          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Edit Approvals</p>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Admin Approvals</p>
           <p id="adminKpiEditRequests" class="text-2xl font-extrabold text-amber-600 mt-1">0</p>
-          <p class="text-[11px] text-amber-700 font-medium mt-1"><i class="fa-solid fa-bell mr-1"></i>Pending Review</p>
+          <p id="adminKpiApprovalBreakdown" class="text-[11px] text-amber-700 font-medium mt-1"><i class="fa-solid fa-bell mr-1"></i>Enrollments & Edits</p>
         </div>
         <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg">
           <i class="fa-solid fa-user-check"></i>
@@ -396,6 +399,7 @@
       <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-users-gear"></i>
         <span>2. Student Database</span>
+        <span id="adminTabBadge_students" class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-extrabold hidden">0</span>
       </button>
       <button onclick="window.app.switchAdminTab('instructors')" id="adminTabBtn_instructors" class="flex-1 min-w-[160px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-chalkboard-user"></i>
@@ -407,7 +411,7 @@
       </button>
       <button onclick="window.app.switchAdminTab('requests')" id="adminTabBtn_requests" class="flex-1 min-w-[180px] py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-2 text-slate-600 hover:bg-slate-100">
         <i class="fa-solid fa-clipboard-check"></i>
-        <span>5. Edit Requests</span>
+        <span>5. Approvals Queue</span>
         <span id="adminTabBadge_requests" class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-extrabold hidden">0</span>
       </button>
     </div>
@@ -422,15 +426,15 @@
               Official MTLE Reviewee Master Ledger
             </h2>
             <p class="text-xs text-slate-500 mt-0.5">
-              Centralized real-time record of all enrolled students across devices, individual exam ratings, and overall MTLE general average.
+              Centralized real-time record of all Admin-approved students across devices, auto-generated Student IDs, individual exam ratings, and overall MTLE general average.
             </p>
           </div>
 
           <div class="no-print flex flex-wrap items-center gap-2.5">
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-              <input type="text" id="ledgerSearchInput" oninput="window.app.renderAdminLedger()" placeholder="Search name, username, school..."
-                class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-52" />
+              <input type="text" id="ledgerSearchInput" oninput="window.app.renderAdminLedger()" placeholder="Search ID, name, username, school..."
+                class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-56" />
             </div>
 
             <select id="ledgerBatchFilter" onchange="window.app.renderAdminLedger()" class="px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white focus:border-teal-600 outline-none">
@@ -464,17 +468,39 @@
       </div>
     </section>
 
-    <!-- ADMIN TAB 2: STUDENT DATABASE -->
+    <!-- ADMIN TAB 2: STUDENT DATABASE + PENDING ENROLLMENT APPROVALS -->
     <section id="adminSection_students" class="hidden space-y-6">
+      
+      <!-- Pending Enrollment Applications Banner & Queue -->
+      <div id="pendingEnrollmentsCard" class="bg-white rounded-2xl border-2 border-amber-300 shadow-sm overflow-hidden">
+        <div class="p-4 sm:p-5 bg-amber-50/70 border-b border-amber-200 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-base shadow-sm">
+              <i class="fa-solid fa-id-card-clip"></i>
+            </div>
+            <div>
+              <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                <span>Pending Student Enrollment Applications</span>
+                <span id="pendingEnrollmentsCountBadge" class="px-2.5 py-0.5 text-xs rounded-full bg-amber-600 text-white font-extrabold">0</span>
+              </h3>
+              <p class="text-xs text-slate-600">
+                Approving an applicant automatically generates their official <strong>PulseRMT Student ID</strong> (e.g., <code class="font-mono text-amber-900">PRMT-2027-0002</code>) and activates their portal credentials.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div id="pendingEnrollmentsListContainer" class="p-4 sm:p-5 space-y-3"></div>
+      </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 h-fit">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
             <div>
               <h3 id="studentFormTitle" class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <i class="fa-solid fa-user-plus text-teal-600"></i>
-                Add / Manage Student
+                Direct Admin Enrollment
               </h3>
-              <p class="text-xs text-slate-500">Add a student or assign cloud login credentials.</p>
+              <p class="text-xs text-slate-500">Directly enrolled students are automatically approved & assigned an ID.</p>
             </div>
             <button type="button" id="cancelEditStudentBtn" onclick="window.app.resetStudentForm()" class="hidden text-xs text-rose-600 hover:underline font-semibold">
               Cancel Edit
@@ -558,7 +584,7 @@
 
             <button type="submit" id="studentFormSubmitBtn" class="w-full py-3 px-4 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
               <i class="fa-solid fa-floppy-disk"></i>
-              <span>Save & Sync Student to Cloud</span>
+              <span>Approve, Generate ID & Sync Student</span>
             </button>
           </form>
         </div>
@@ -570,11 +596,11 @@
                 <i class="fa-solid fa-database text-teal-600"></i>
                 Cloud Student Database
               </h3>
-              <p class="text-xs text-slate-500">Manage student credentials and review records synced across all devices.</p>
+              <p class="text-xs text-slate-500">Manage official Student IDs, enrollment statuses, and credentials synced across all devices.</p>
             </div>
             <div class="relative">
               <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-              <input type="text" id="studentDbSearch" oninput="window.app.renderStudentDatabaseTable()" placeholder="Filter database..."
+              <input type="text" id="studentDbSearch" oninput="window.app.renderStudentDatabaseTable()" placeholder="Filter ID, name, school..."
                 class="pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:border-teal-600 outline-none w-56" />
             </div>
           </div>
@@ -583,7 +609,7 @@
             <table class="w-full text-left border-collapse">
               <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                  <th class="py-3 px-4">Student Name & School</th>
+                  <th class="py-3 px-4">Student ID & Name</th>
                   <th class="py-3 px-3">Target Cycle</th>
                   <th class="py-3 px-3">Personal Records</th>
                   <th class="py-3 px-3">Assigned Credentials (Auto-Saves)</th>
@@ -800,8 +826,25 @@
       </div>
     </section>
 
-    <!-- ADMIN TAB 5: PROFILE EDIT APPROVAL REQUESTS (STUDENTS & INSTRUCTORS) -->
+    <!-- ADMIN TAB 5: UNIFIED APPROVALS (ENROLLMENTS + PROFILE EDIT REQUESTS) -->
     <section id="adminSection_requests" class="hidden space-y-6">
+      <!-- Section A: Student Enrollment Approval Queue -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-id-card-clip text-teal-600"></i>
+              Student Enrollment Approval Queue (Auto-Generates Student ID)
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Approve new student reviewee applications to automatically generate their official PulseRMT Student ID and activate their login credentials.
+            </p>
+          </div>
+        </div>
+        <div id="adminEnrollmentRequestsContainer" class="p-5 space-y-3"></div>
+      </div>
+
+      <!-- Section B: Profile Edit Approval Queue -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="p-5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -810,7 +853,7 @@
               Student & Instructor Profile Edit Approval Queue
             </h2>
             <p class="text-xs text-slate-500 mt-0.5">
-              Review, approve, or decline profile and password modification requests submitted by Students and Instructors. Approved requests automatically update the cloud database.
+              Review, approve, or decline profile and password modification requests submitted by Students and Instructors.
             </p>
           </div>
           <div class="flex items-center gap-2">
@@ -983,16 +1026,16 @@
           <div>
             <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
               <i class="fa-solid fa-users-viewfinder text-teal-600"></i>
-              Reviewee Class Standing & Score Encoding
+              Approved Reviewee Class Standing & Score Encoding
             </h3>
-            <p class="text-xs text-slate-500">View student performance and encode/update examination scores.</p>
+            <p class="text-xs text-slate-500">View Admin-approved student performance and encode/update examination scores.</p>
           </div>
         </div>
         <div class="overflow-x-auto flex-1">
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                <th class="py-3 px-4">Student & School</th>
+                <th class="py-3 px-4">Student ID & Name</th>
                 <th class="py-3 px-3">Cycle</th>
                 <th class="py-3 px-3 text-center">Raw Score</th>
                 <th class="py-3 px-3 text-center">Overall Rating</th>
@@ -1015,7 +1058,10 @@
       <div class="flex items-center gap-4">
         <div id="stuProfileAvatar" class="w-16 h-16 rounded-2xl bg-teal-400 text-slate-950 font-bold text-2xl flex items-center justify-center">MS</div>
         <div>
-          <span id="stuProfileBatch" class="px-2 py-0.5 rounded bg-white/10 text-xs">March 2027</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="stuProfileIdBadge" class="px-2.5 py-0.5 rounded-full bg-teal-500/20 border border-teal-400/40 text-teal-200 text-xs font-mono font-bold">ID: PRMT-2027-0001</span>
+            <span id="stuProfileBatch" class="px-2.5 py-0.5 rounded-full bg-white/10 text-xs">March 2027</span>
+          </div>
           <h2 id="stuProfileName" class="text-2xl font-bold mt-1">Student Name</h2>
           <p class="text-xs text-teal-200">
             Username: <strong id="stuProfileUsername" class="text-white font-mono"></strong> |
@@ -1333,6 +1379,7 @@
     const SEED_STUDENTS = [
       {
         id: 'stu_01',
+        studentIdNo: 'PRMT-2027-0001',
         lastName: 'Santos',
         givenName: 'Maria Clara',
         middleInitial: 'D',
@@ -1344,7 +1391,9 @@
         contactNumber: '09171234501',
         username: 'rmt_msantos',
         password: 'mtle2026',
+        enrollmentStatus: 'APPROVED',
         accountStatus: 'ACTIVE',
+        approvedAt: '2026-09-15',
         createdAt: '2026-09-15'
       }
     ];
@@ -1372,6 +1421,26 @@
       return `${l}, ${g}${m ? ` ${m}.` : ''}`;
     }
 
+    // Generates a unique, sequential official Student ID upon Admin approval (e.g., PRMT-2027-0002)
+    function generateOfficialStudentId(batchStr = 'March 2027', existingList = []) {
+      const yearMatch = String(batchStr).match(/\b(20\d{2})\b/);
+      const year = yearMatch ? yearMatch[1] : new Date().getFullYear();
+      const prefix = `PRMT-${year}-`;
+      let maxSeq = 0;
+
+      const sourceList = existingList.length > 0 ? existingList : (window.__pulseStateStudents || []);
+      sourceList.forEach(s => {
+        const idNo = String(s?.studentIdNo || '');
+        if (idNo.startsWith(prefix)) {
+          const num = parseInt(idNo.replace(prefix, ''), 10);
+          if (!isNaN(num) && num > maxSeq) maxSeq = num;
+        }
+      });
+
+      const nextSeq = String(maxSeq + 1).padStart(4, '0');
+      return `${prefix}${nextSeq}`;
+    }
+
     function normalizeStudent(stu) {
       if (!stu || typeof stu !== 'object') return null;
       const ln = stu.lastName || (stu.fullName ? stu.fullName.split(',')[0] : 'Student');
@@ -1379,8 +1448,20 @@
       const mi = (stu.middleInitial || '').trim();
       const username = (stu.username || '').trim();
       const password = (stu.password || '').trim();
+
+      const enrollmentStatus = stu.enrollmentStatus || (stu.accountStatus === 'PENDING_APPROVAL' ? 'PENDING_APPROVAL' : 'APPROVED');
+      const studentIdNo = enrollmentStatus === 'APPROVED'
+        ? (stu.studentIdNo || 'PRMT-2027-0001')
+        : (stu.studentIdNo || '');
+
+      let accountStatus = 'PENDING_CREDENTIALS';
+      if (enrollmentStatus === 'PENDING_APPROVAL') accountStatus = 'PENDING_APPROVAL';
+      else if (enrollmentStatus === 'DECLINED') accountStatus = 'DECLINED';
+      else if (username && password) accountStatus = 'ACTIVE';
+
       return {
         id: String(stu.id || `stu_${Date.now()}`),
+        studentIdNo,
         lastName: ln.trim(),
         givenName: gn.trim(),
         middleInitial: mi,
@@ -1392,7 +1473,9 @@
         contactNumber: (stu.contactNumber || '—').trim(),
         username,
         password,
-        accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS',
+        enrollmentStatus,
+        accountStatus,
+        approvedAt: stu.approvedAt || '',
         createdAt: stu.createdAt || new Date().toISOString().slice(0, 10)
       };
     }
@@ -1476,6 +1559,7 @@
 
     function saveLocalCache() {
       try {
+        window.__pulseStateStudents = state.students;
         localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(state.students));
         localStorage.setItem(STORAGE_KEYS.INSTRUCTORS, JSON.stringify(state.instructors));
         localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
@@ -1515,6 +1599,7 @@
       rtdb: null,
       appId: window.__app_id || 'mtle-review-portal-app'
     };
+    window.__pulseStateStudents = state.students;
 
     function updateSyncIndicator(online, label) {
       const pill = document.getElementById('syncStatusPill');
@@ -1899,6 +1984,7 @@
         document.getElementById('headerUserSub').textContent = '@admin';
         renderAdminKPIs();
         renderAdminLedger();
+        renderPendingEnrollmentsQueues();
         if (!preserve) {
           renderStudentDatabaseTable();
           renderInstructorDatabaseTable();
@@ -1920,7 +2006,7 @@
         document.getElementById('headerUserSub').textContent = `@${inst.username || 'instructor'}`;
         renderInstructorPortal(inst, preserve);
       } else if (state.currentRole === 'student') {
-        const student = state.students.find(s => s.id === state.currentStudentId);
+        const student = state.students.find(s => s.id === state.currentStudentId && s.enrollmentStatus === 'APPROVED');
         if (!student) {
           state.currentRole = 'login';
           saveSessionRole();
@@ -1931,7 +2017,7 @@
         studentView.classList.remove('hidden');
         if (roleBadge) roleBadge.textContent = 'Student';
         document.getElementById('headerUserName').textContent = student.fullName;
-        document.getElementById('headerUserSub').textContent = `@${student.username || 'pending'}`;
+        document.getElementById('headerUserSub').textContent = `${student.studentIdNo} (@${student.username || 'student'})`;
         renderStudentPortal(student, preserve);
       }
     }
@@ -1947,20 +2033,22 @@
     }
 
     function renderAdminKPIs() {
-      document.getElementById('adminKpiStudents').textContent = state.students.length;
+      const approvedStudents = state.students.filter(s => s.enrollmentStatus === 'APPROVED');
+      const pendingEnrollments = state.students.filter(s => s.enrollmentStatus === 'PENDING_APPROVAL');
+
+      document.getElementById('adminKpiStudents').textContent = approvedStudents.length;
       document.getElementById('adminKpiInstructors').textContent = state.instructors.length;
       document.getElementById('adminKpiExams').textContent = state.exams.length;
 
-      const pendingCount = state.students.filter(s => !s.username || !s.password).length;
       const pendingSub = document.getElementById('adminKpiPendingSub');
       if (pendingSub) {
-        pendingSub.innerHTML = pendingCount > 0
-          ? `<i class="fa-solid fa-clock text-amber-600 mr-1"></i><span class="text-amber-700">${pendingCount} Awaiting Credentials</span>`
-          : `<i class="fa-solid fa-user-check mr-1"></i>All Reviewees Credentialed`;
+        pendingSub.innerHTML = pendingEnrollments.length > 0
+          ? `<i class="fa-solid fa-clock text-amber-600 mr-1"></i><span class="text-amber-700 font-bold">${pendingEnrollments.length} Pending Approval</span>`
+          : `<i class="fa-solid fa-user-check mr-1"></i>All Enrollments Approved`;
       }
 
       let totalRating = 0, withExams = 0, passing = 0;
-      state.students.forEach(stu => {
+      approvedStudents.forEach(stu => {
         const m = computeStudentMetrics(stu.id);
         if (m.examsTakenCount > 0) {
           withExams++;
@@ -1974,15 +2062,93 @@
       if (passCountEl) passCountEl.textContent = `${passing} of ${withExams} Passing Overall`;
 
       const pendingEditReqs = state.editRequests.filter(r => r.status === 'PENDING').length;
-      const kpiEditEl = document.getElementById('adminKpiEditRequests');
-      if (kpiEditEl) kpiEditEl.textContent = pendingEditReqs;
+      const totalPendingApprovals = pendingEnrollments.length + pendingEditReqs;
 
-      const tabBadge = document.getElementById('adminTabBadge_requests');
-      if (tabBadge) {
-        tabBadge.textContent = pendingEditReqs;
-        if (pendingEditReqs > 0) tabBadge.classList.remove('hidden');
-        else tabBadge.classList.add('hidden');
+      const kpiEditEl = document.getElementById('adminKpiEditRequests');
+      if (kpiEditEl) kpiEditEl.textContent = totalPendingApprovals;
+
+      const breakdownEl = document.getElementById('adminKpiApprovalBreakdown');
+      if (breakdownEl) {
+        breakdownEl.innerHTML = `<i class="fa-solid fa-bell mr-1"></i>${pendingEnrollments.length} Enroll • ${pendingEditReqs} Edit`;
       }
+
+      const tabBadgeReq = document.getElementById('adminTabBadge_requests');
+      if (tabBadgeReq) {
+        tabBadgeReq.textContent = totalPendingApprovals;
+        if (totalPendingApprovals > 0) tabBadgeReq.classList.remove('hidden');
+        else tabBadgeReq.classList.add('hidden');
+      }
+
+      const tabBadgeStu = document.getElementById('adminTabBadge_students');
+      if (tabBadgeStu) {
+        tabBadgeStu.textContent = pendingEnrollments.length;
+        if (pendingEnrollments.length > 0) tabBadgeStu.classList.remove('hidden');
+        else tabBadgeStu.classList.add('hidden');
+      }
+    }
+
+    // Renders the Pending Student Enrollment Applications Queue in Tab 2 & Tab 5
+    function renderPendingEnrollmentsQueues() {
+      const pendingList = state.students.filter(s => s.enrollmentStatus === 'PENDING_APPROVAL');
+      const countBadge = document.getElementById('pendingEnrollmentsCountBadge');
+      if (countBadge) countBadge.textContent = pendingList.length;
+
+      const containerTab2 = document.getElementById('pendingEnrollmentsListContainer');
+      const containerTab5 = document.getElementById('adminEnrollmentRequestsContainer');
+
+      const htmlContent = pendingList.length === 0
+        ? `<div class="p-6 text-center text-slate-400 text-xs border border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+            <i class="fa-solid fa-circle-check text-xl text-emerald-500 mb-1.5 block"></i>
+            No pending student enrollment applications. All submitted enrollments have been processed.
+          </div>`
+        : pendingList.map(stu => {
+            const suggestedUser = stu.username || `rmt_${(stu.givenName?.[0] || 'm').toLowerCase()}${stu.lastName.toLowerCase().replace(/[^a-z]/g, '')}`;
+            const suggestedPass = stu.password || `mtle_${Math.floor(1000 + Math.random() * 9000)}`;
+            const previewNextId = generateOfficialStudentId(stu.batch, state.students);
+
+            return `
+              <div class="p-4 rounded-2xl border border-amber-300 bg-amber-50/40 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+                <div class="space-y-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-extrabold uppercase tracking-wider">
+                      Awaiting Admin Approval
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800 text-[11px] font-mono font-bold">
+                      Next Auto-ID: ${escapeHtml(previewNextId)}
+                    </span>
+                    <span class="text-xs text-slate-500">Applied: ${escapeHtml(stu.createdAt)}</span>
+                  </div>
+                  <div class="text-base font-bold text-slate-900">${escapeHtml(stu.fullName)}</div>
+                  <div class="text-xs text-slate-600">
+                    <strong>School:</strong> ${escapeHtml(stu.school)} •
+                    <strong>Cycle:</strong> ${escapeHtml(stu.batch)} •
+                    <strong>Age/Bday:</strong> ${escapeHtml(stu.age)} (${escapeHtml(stu.birthday)}) •
+                    <strong>Contact:</strong> <span class="font-mono">${escapeHtml(stu.contactNumber)}</span>
+                  </div>
+                </div>
+
+                <div class="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0">
+                  <div class="flex items-center gap-1.5 bg-white p-1.5 rounded-xl border border-slate-200">
+                    <input type="text" id="approveUser_${stu.id}" value="${escapeHtml(suggestedUser)}" placeholder="Username"
+                      class="w-32 px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs font-mono font-bold focus:border-teal-600 outline-none" title="Assigned Username" />
+                    <input type="text" id="approvePass_${stu.id}" value="${escapeHtml(suggestedPass)}" placeholder="Password"
+                      class="w-28 px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs font-mono focus:border-teal-600 outline-none" title="Assigned Password" />
+                  </div>
+                  <button onclick="window.app.approveStudentEnrollment('${stu.id}')" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-sm transition inline-flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-id-card-clip"></i>
+                    <span>Approve & Generate ID</span>
+                  </button>
+                  <button onclick="window.app.declineStudentEnrollment('${stu.id}')" class="px-3 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition inline-flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Decline</span>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+      if (containerTab2) containerTab2.innerHTML = htmlContent;
+      if (containerTab5) containerTab5.innerHTML = htmlContent;
     }
 
     function getFilteredLedgerStudents() {
@@ -1990,16 +2156,19 @@
       const batch = document.getElementById('ledgerBatchFilter')?.value || 'ALL';
       const status = document.getElementById('ledgerStatusFilter')?.value || 'ALL';
 
-      return state.students.filter(stu => {
-        const m = computeStudentMetrics(stu.id);
-        const matchesQuery = !q ||
-          stu.fullName.toLowerCase().includes(q) ||
-          stu.school.toLowerCase().includes(q) ||
-          (stu.username || '').toLowerCase().includes(q);
-        const matchesBatch = batch === 'ALL' || stu.batch === batch;
-        const matchesStatus = status === 'ALL' || m.status === status;
-        return matchesQuery && matchesBatch && matchesStatus;
-      });
+      return state.students
+        .filter(stu => stu.enrollmentStatus === 'APPROVED')
+        .filter(stu => {
+          const m = computeStudentMetrics(stu.id);
+          const matchesQuery = !q ||
+            (stu.studentIdNo || '').toLowerCase().includes(q) ||
+            stu.fullName.toLowerCase().includes(q) ||
+            stu.school.toLowerCase().includes(q) ||
+            (stu.username || '').toLowerCase().includes(q);
+          const matchesBatch = batch === 'ALL' || stu.batch === batch;
+          const matchesStatus = status === 'ALL' || m.status === status;
+          return matchesQuery && matchesBatch && matchesStatus;
+        });
     }
 
     function renderAdminLedger() {
@@ -2008,13 +2177,13 @@
       if (!headRow || !body) return;
 
       headRow.innerHTML =
-        `<th class="py-3 px-4">Student & School</th><th class="py-3 px-3">Cycle</th>` +
+        `<th class="py-3 px-4">Student ID & Reviewee</th><th class="py-3 px-3">Cycle</th>` +
         state.exams.map((ex, i) => `<th class="py-3 px-3 text-center" title="${escapeHtml(ex.title)}">Exam #${i + 1}</th>`).join('') +
         `<th class="py-3 px-4 text-center">Score</th><th class="py-3 px-4 text-center">Rating</th><th class="py-3 px-4 text-center">Standing</th><th class="py-3 px-4 text-right no-print">Action</th>`;
 
       const filtered = getFilteredLedgerStudents();
       if (filtered.length === 0) {
-        body.innerHTML = `<tr><td colspan="${6 + state.exams.length}" class="py-8 text-center text-slate-400 text-xs">No matching student records found.</td></tr>`;
+        body.innerHTML = `<tr><td colspan="${6 + state.exams.length}" class="py-8 text-center text-slate-400 text-xs">No approved student records matching filter.</td></tr>`;
         return;
       }
 
@@ -2028,8 +2197,11 @@
         return `
           <tr class="hover:bg-slate-50/80">
             <td class="py-3 px-4 font-bold text-slate-900">
-              ${escapeHtml(stu.fullName)}
-              <div class="text-xs font-normal text-slate-500">${escapeHtml(stu.school)} ${stu.username ? `<span class="font-mono text-teal-700">(@${escapeHtml(stu.username)})</span>` : '<span class="text-amber-600 font-semibold">(Pending Credentials)</span>'}</div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200 font-mono text-[11px] font-extrabold">${escapeHtml(stu.studentIdNo || 'UNASSIGNED')}</span>
+                <span>${escapeHtml(stu.fullName)}</span>
+              </div>
+              <div class="text-xs font-normal text-slate-500 mt-0.5">${escapeHtml(stu.school)} ${stu.username ? `<span class="font-mono text-teal-700">(@${escapeHtml(stu.username)})</span>` : ''}</div>
             </td>
             <td class="py-3 px-3 text-xs">${escapeHtml(stu.batch)}</td>
             ${examCells}
@@ -2056,6 +2228,7 @@
       const q = (document.getElementById('studentDbSearch')?.value || '').trim().toLowerCase();
       const list = state.students.filter(stu =>
         !q ||
+        (stu.studentIdNo || '').toLowerCase().includes(q) ||
         stu.fullName.toLowerCase().includes(q) ||
         stu.school.toLowerCase().includes(q) ||
         (stu.username || '').toLowerCase().includes(q)
@@ -2068,11 +2241,23 @@
 
       tbody.innerHTML = list.map(stu => {
         const pendingReq = state.editRequests.find(r => r.roleType === 'student' && r.targetId === stu.id && r.status === 'PENDING');
+        const isPendingApproval = stu.enrollmentStatus === 'PENDING_APPROVAL';
+        const isDeclined = stu.enrollmentStatus === 'DECLINED';
+
+        const statusBadge = isPendingApproval
+          ? `<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-extrabold uppercase">Pending Admin Approval</span>`
+          : isDeclined
+            ? `<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-extrabold uppercase">Declined</span>`
+            : `<span class="px-2 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200 font-mono text-[11px] font-extrabold">${escapeHtml(stu.studentIdNo)}</span>`;
+
         return `
-        <tr class="hover:bg-slate-50/80">
+        <tr class="hover:bg-slate-50/80 ${isPendingApproval ? 'bg-amber-50/30' : ''}">
           <td class="p-3 font-bold text-slate-900">
-            ${escapeHtml(stu.fullName)}
-            ${pendingReq ? `<span onclick="window.app.switchAdminTab('requests')" class="cursor-pointer ml-1.5 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Pending Edit Approval</span>` : ''}
+            <div class="flex flex-wrap items-center gap-1.5 mb-0.5">
+              ${statusBadge}
+              ${pendingReq ? `<span onclick="window.app.switchAdminTab('requests')" class="cursor-pointer px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Pending Edit Request</span>` : ''}
+            </div>
+            <div>${escapeHtml(stu.fullName)}</div>
             <div class="text-xs font-normal text-slate-500">${escapeHtml(stu.school)}</div>
           </td>
           <td class="p-3 text-xs">${escapeHtml(stu.batch)}</td>
@@ -2090,6 +2275,11 @@
             <input type="text" id="inlinePass_${stu.id}" value="${escapeHtml(stu.password)}" placeholder="Assign Password" oninput="window.app.handleInlineCredentialInput('${stu.id}')" class="w-full px-2.5 py-1 border border-slate-300 rounded-lg text-xs font-mono focus:border-teal-600 outline-none" />
           </td>
           <td class="p-3 text-right space-x-1">
+            ${isPendingApproval ? `
+              <button onclick="window.app.approveStudentEnrollment('${stu.id}')" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-sm" title="Approve & Auto-Generate Student ID">
+                <i class="fa-solid fa-check mr-1"></i>Approve & ID
+              </button>
+            ` : ''}
             <button onclick="window.app.editStudent('${stu.id}')" class="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs" title="Edit Student"><i class="fa-solid fa-pen"></i></button>
             <button onclick="window.app.confirmDeleteStudent('${stu.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs" title="Delete Student"><i class="fa-solid fa-trash"></i></button>
           </td>
@@ -2327,15 +2517,19 @@
         `).join('');
       }
 
-      // Student Ledger in Instructor Portal
+      // Approved Student Ledger in Instructor Portal
       const ledgerBody = document.getElementById('instructorLedgerBody');
       if (ledgerBody) {
-        ledgerBody.innerHTML = state.students.map(stu => {
+        const approvedList = state.students.filter(s => s.enrollmentStatus === 'APPROVED');
+        ledgerBody.innerHTML = approvedList.map(stu => {
           const m = computeStudentMetrics(stu.id);
           return `
             <tr class="hover:bg-slate-50/80">
               <td class="py-3 px-4 font-bold text-slate-900">
-                ${escapeHtml(stu.fullName)}
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200 font-mono text-[10px] font-extrabold">${escapeHtml(stu.studentIdNo)}</span>
+                  <span>${escapeHtml(stu.fullName)}</span>
+                </div>
                 <div class="text-xs font-normal text-slate-500">${escapeHtml(stu.school)}</div>
               </td>
               <td class="py-3 px-3 text-xs">${escapeHtml(stu.batch)}</td>
@@ -2362,6 +2556,9 @@
       const initials = `${student.givenName?.[0] || 'R'}${student.lastName?.[0] || 'M'}`.toUpperCase();
       const avatarEl = document.getElementById('stuProfileAvatar');
       if (avatarEl) avatarEl.textContent = initials;
+
+      const idBadgeEl = document.getElementById('stuProfileIdBadge');
+      if (idBadgeEl) idBadgeEl.textContent = `ID: ${student.studentIdNo || 'ASSIGNED'}`;
 
       document.getElementById('stuProfileName').textContent = student.fullName;
       document.getElementById('stuProfileUsername').textContent = student.username || 'pending';
@@ -2438,7 +2635,7 @@
       t.className = 'p-3 bg-slate-900 text-white text-xs font-semibold rounded-xl shadow-lg border border-teal-500/30';
       t.textContent = msg;
       c.appendChild(t);
-      setTimeout(() => t.remove(), 3200);
+      setTimeout(() => t.remove(), 3500);
     }
 
     // GLOBAL APP EXPORT BINDINGS
@@ -2463,7 +2660,7 @@
 
         if (mode === 'admin') {
           if (heading) heading.textContent = 'Admin Portal Sign In';
-          if (subheading) subheading.textContent = 'Sign in with administrator credentials to manage students, instructors, edit approvals, and exams.';
+          if (subheading) subheading.textContent = 'Sign in with administrator credentials to approve enrollments, generate IDs, and manage exams.';
           if (userLabel) userLabel.textContent = 'Admin Username';
         } else if (mode === 'instructor') {
           if (heading) heading.textContent = 'Instructor Portal Sign In';
@@ -2471,8 +2668,8 @@
           if (userLabel) userLabel.textContent = 'Instructor Username';
         } else if (mode === 'student') {
           if (heading) heading.textContent = 'Student Portal Sign In';
-          if (subheading) subheading.textContent = 'Enter your Admin-assigned username and password to access your profile.';
-          if (userLabel) userLabel.textContent = 'Student Username';
+          if (subheading) subheading.textContent = 'Enter your Admin-approved username (or official Student ID) and password.';
+          if (userLabel) userLabel.textContent = 'Student Username or Student ID';
         }
 
         if (signInPanel && enrollNowPanel) {
@@ -2494,6 +2691,7 @@
         if (age >= 15 && age <= 99) ageEl.value = age;
       },
 
+      // Self-enrollment creates a PENDING_APPROVAL record awaiting Admin approval & auto-ID generation
       async handleSelfEnrollmentSubmit(e) {
         e.preventDefault();
         const ln = document.getElementById('enrollLastName').value.trim();
@@ -2507,6 +2705,7 @@
 
         const newStudent = normalizeStudent({
           id: `stu_${Date.now()}`,
+          studentIdNo: '',
           lastName: ln,
           givenName: gn,
           middleInitial: mi,
@@ -2517,15 +2716,68 @@
           contactNumber,
           username: '',
           password: '',
-          accountStatus: 'PENDING_CREDENTIALS',
+          enrollmentStatus: 'PENDING_APPROVAL',
+          accountStatus: 'PENDING_APPROVAL',
+          approvedAt: '',
           createdAt: new Date().toISOString().slice(0, 10)
         });
 
         await saveStudentRecord(newStudent);
         document.getElementById('selfEnrollForm').reset();
-        document.getElementById('enrollSuccessText').textContent = `Enrollment for ${newStudent.fullName} has been synced to the central Admin portal! The Admin can now assign your login credentials.`;
+        document.getElementById('enrollSuccessText').textContent =
+          `Application for ${newStudent.fullName} has been sent to the Admin Approval Queue. Once approved by the Administrator, your official PulseRMT Student ID and login credentials will be automatically generated.`;
         document.getElementById('enrollSuccessBanner').classList.remove('hidden');
-        showToast('Enrollment synced to Admin database!');
+        showToast('Enrollment application submitted for Admin approval!');
+      },
+
+      // Admin approves enrollment -> Auto-generates official Student ID & activates credentials
+      async approveStudentEnrollment(studentId) {
+        const stu = state.students.find(s => s.id === studentId);
+        if (!stu) return;
+
+        const userFromQueue = document.getElementById(`approveUser_${studentId}`)?.value.trim()
+          || document.getElementById(`inlineUser_${studentId}`)?.value.trim()
+          || stu.username
+          || `rmt_${(stu.givenName?.[0] || 'm').toLowerCase()}${stu.lastName.toLowerCase().replace(/[^a-z]/g, '')}`;
+
+        const passFromQueue = document.getElementById(`approvePass_${studentId}`)?.value.trim()
+          || document.getElementById(`inlinePass_${studentId}`)?.value.trim()
+          || stu.password
+          || `mtle_${Math.floor(1000 + Math.random() * 9000)}`;
+
+        const generatedIdNo = stu.studentIdNo && stu.studentIdNo.startsWith('PRMT-')
+          ? stu.studentIdNo
+          : generateOfficialStudentId(stu.batch, state.students);
+
+        const approvedStudent = normalizeStudent({
+          ...stu,
+          studentIdNo: generatedIdNo,
+          username: userFromQueue,
+          password: passFromQueue,
+          enrollmentStatus: 'APPROVED',
+          accountStatus: 'ACTIVE',
+          approvedAt: new Date().toISOString().slice(0, 16).replace('T', ' ')
+        });
+
+        await saveStudentRecord(approvedStudent);
+        showToast(`Approved! Auto-Generated ID: ${generatedIdNo} (@${userFromQueue})`);
+      },
+
+      async declineStudentEnrollment(studentId) {
+        const stu = state.students.find(s => s.id === studentId);
+        if (!stu) return;
+        this.openConfirmModal(
+          `Decline Enrollment for ${stu.fullName}?`,
+          'This will mark the enrollment application as Declined and prevent portal sign-in.',
+          async () => {
+            await saveStudentRecord({
+              ...stu,
+              enrollmentStatus: 'DECLINED',
+              accountStatus: 'DECLINED'
+            });
+            showToast(`Enrollment application for ${stu.fullName} declined.`);
+          }
+        );
       },
 
       togglePasswordField(id) {
@@ -2538,6 +2790,7 @@
         const u = document.getElementById('loginUsername').value.trim();
         const p = document.getElementById('loginPassword').value.trim();
         const errBox = document.getElementById('loginErrorBox');
+        const errText = document.getElementById('loginErrorText');
         errBox.classList.add('hidden');
 
         // Admin Login Check
@@ -2549,6 +2802,7 @@
             showToast('Signed in as Administrator');
             return;
           }
+          if (errText) errText.textContent = 'Invalid Administrator username or password.';
           errBox.classList.remove('hidden');
           return;
         }
@@ -2564,18 +2818,35 @@
             showToast(`Welcome, Instructor ${instMatch.fullName}!`);
             return;
           }
+          if (errText) errText.textContent = 'Invalid Instructor credentials.';
           errBox.classList.remove('hidden');
           return;
         }
 
-        // Student Login Check (or fallback if Instructor typed into Student tab)
-        const stuMatch = state.students.find(s => s.username && s.username.toLowerCase() === u.toLowerCase() && s.password === p);
+        // Check if student is still pending Admin approval
+        const pendingStu = state.students.find(s =>
+          s.enrollmentStatus === 'PENDING_APPROVAL' &&
+          ((s.username && s.username.toLowerCase() === u.toLowerCase()) || s.fullName.toLowerCase().includes(u.toLowerCase()))
+        );
+        if (pendingStu) {
+          if (errText) errText.textContent = 'Your enrollment application is still awaiting Admin approval and Student ID generation.';
+          errBox.classList.remove('hidden');
+          return;
+        }
+
+        // Student Login Check (supports Username OR Auto-Generated Student ID)
+        const stuMatch = state.students.find(s =>
+          s.enrollmentStatus === 'APPROVED' &&
+          s.password === p &&
+          ((s.username && s.username.toLowerCase() === u.toLowerCase()) ||
+           (s.studentIdNo && s.studentIdNo.toLowerCase() === u.toLowerCase()))
+        );
         if (stuMatch) {
           state.currentRole = 'student';
           state.currentStudentId = stuMatch.id;
           saveSessionRole();
           renderAll();
-          showToast(`Welcome, ${stuMatch.fullName}!`);
+          showToast(`Welcome, ${stuMatch.fullName} (${stuMatch.studentIdNo})!`);
           return;
         }
 
@@ -2589,6 +2860,7 @@
           return;
         }
 
+        if (errText) errText.textContent = 'Invalid username/Student ID or password, or enrollment not yet approved by Admin.';
         errBox.classList.remove('hidden');
       },
 
@@ -2628,7 +2900,7 @@
           ...stu,
           username: u,
           password: p,
-          accountStatus: (u && p) ? 'ACTIVE' : 'PENDING_CREDENTIALS'
+          accountStatus: stu.enrollmentStatus === 'APPROVED' && (u && p) ? 'ACTIVE' : stu.accountStatus
         });
         debounceAutoSave(`cred_${studentId}`, async () => {
           await saveStudentRecord(updated, true);
@@ -2641,8 +2913,20 @@
         if (!stu) return;
         const u = `rmt_${(stu.givenName?.[0] || 'm').toLowerCase()}${stu.lastName.toLowerCase().replace(/[^a-z]/g, '')}`;
         const p = `mtle_${Math.floor(1000 + Math.random() * 9000)}`;
-        saveStudentRecord(normalizeStudent({ ...stu, username: u, password: p, accountStatus: 'ACTIVE' }), false);
-        showToast(`Assigned & synced: @${u} / ${p}`);
+        const generatedIdNo = stu.studentIdNo && stu.studentIdNo.startsWith('PRMT-')
+          ? stu.studentIdNo
+          : generateOfficialStudentId(stu.batch, state.students);
+
+        saveStudentRecord(normalizeStudent({
+          ...stu,
+          studentIdNo: generatedIdNo,
+          username: u,
+          password: p,
+          enrollmentStatus: 'APPROVED',
+          accountStatus: 'ACTIVE',
+          approvedAt: stu.approvedAt || new Date().toISOString().slice(0, 16).replace('T', ' ')
+        }), false);
+        showToast(`Approved & Synced: ${generatedIdNo} (@${u} / ${p})`);
       },
 
       suggestUsername() {
@@ -2662,6 +2946,8 @@
       async handleSaveStudent(e) {
         e.preventDefault();
         const editId = document.getElementById('studentEditId').value;
+        const existingStu = editId ? state.students.find(s => s.id === editId) : null;
+
         const ln = document.getElementById('stuLastName').value.trim();
         const gn = document.getElementById('stuGivenName').value.trim();
         const mi = document.getElementById('stuMiddleInitial').value.trim();
@@ -2673,8 +2959,13 @@
         const username = document.getElementById('stuUsername').value.trim();
         const password = document.getElementById('stuPassword').value.trim();
 
+        const studentIdNo = existingStu?.studentIdNo && existingStu.studentIdNo.startsWith('PRMT-')
+          ? existingStu.studentIdNo
+          : generateOfficialStudentId(batch, state.students);
+
         await saveStudentRecord(normalizeStudent({
           id: editId || `stu_${Date.now()}`,
+          studentIdNo,
           lastName: ln,
           givenName: gn,
           middleInitial: mi,
@@ -2685,11 +2976,13 @@
           contactNumber,
           username,
           password,
+          enrollmentStatus: 'APPROVED',
           accountStatus: (username && password) ? 'ACTIVE' : 'PENDING_CREDENTIALS',
-          createdAt: new Date().toISOString().slice(0, 10)
+          approvedAt: existingStu?.approvedAt || new Date().toISOString().slice(0, 16).replace('T', ' '),
+          createdAt: existingStu?.createdAt || new Date().toISOString().slice(0, 10)
         }));
         this.resetStudentForm();
-        showToast('Student synced across all devices!');
+        showToast(`Student approved & synced with ID: ${studentIdNo}`);
       },
 
       editStudent(id) {
@@ -2859,7 +3152,7 @@
           id: `req_student_${stu.id}`,
           roleType: 'student',
           targetId: stu.id,
-          requesterName: stu.fullName,
+          requesterName: `${stu.fullName} (${stu.studentIdNo})`,
           requesterUsername: stu.username,
           proposedChanges,
           reason,
@@ -3071,10 +3364,11 @@
       },
 
       exportLedgerCSV() {
-        const headers = ['Full Name', 'Username', 'School', 'Cycle', ...state.exams.map(e => e.title), 'Total Score', 'Overall Rating (%)', 'Standing'];
+        const headers = ['Student ID', 'Full Name', 'Username', 'School', 'Cycle', ...state.exams.map(e => e.title), 'Total Score', 'Overall Rating (%)', 'Standing'];
         const rows = getFilteredLedgerStudents().map(stu => {
           const m = computeStudentMetrics(stu.id);
           return [
+            `"${stu.studentIdNo || ''}"`,
             `"${stu.fullName.replace(/"/g, '""')}"`,
             `"${stu.username || ''}"`,
             `"${stu.school.replace(/"/g, '""')}"`,
