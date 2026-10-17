@@ -12,6 +12,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Document Parsers: PDF.js & Mammoth.js for Word .docx -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -74,7 +81,11 @@
       background: #0d9488 !important;
       border-color: #0d9488 !important;
       color: #ffffff !important;
-      box-shadow: 0 0 10px rgba(13, 148, 136, 0.3);
+      box-shadow: 0 0 12px rgba(13, 148, 136, 0.4);
+      transform: scale(1.05);
+    }
+    button:active, .btn-click:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
@@ -104,7 +115,7 @@
           <div id="headerUserName" class="text-sm font-semibold text-slate-900">Administrator</div>
           <div id="headerUserSub" class="text-xs text-slate-500 font-mono">@admin</div>
         </div>
-        <button onclick="window.app.logout()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition">
+        <button onclick="window.app.logout()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border border-rose-200/80 transition shadow-sm">
           <i class="fa-solid fa-power-off"></i><span>Sign Out</span>
         </button>
       </div>
@@ -123,7 +134,7 @@
             MTLE AI Study Notes Examination & Ledger Portal
           </h2>
           <p class="mt-3 text-teal-100/80 text-sm leading-relaxed">
-            Upload study notes or textbooks to automatically generate unique multiple-choice questions. Take up to 3 attempts with tracked averaging and shaded-circle answer sheets.
+            Upload PDF, Word (.docx), or text study notes to automatically generate unique multiple-choice questions with tracked averaging.
           </p>
         </div>
         <div class="mt-8 pt-6 border-t border-white/10 text-xs text-teal-100/90">
@@ -134,10 +145,10 @@
 
       <div class="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center bg-white">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-slate-100 rounded-xl mb-6">
-          <button type="button" id="loginTabStudent" onclick="window.app.setLoginTab('student')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition bg-white text-teal-700 shadow-sm"><i class="fa-solid fa-user-graduate mr-1"></i>Student</button>
-          <button type="button" id="loginTabInstructor" onclick="window.app.setLoginTab('instructor')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900"><i class="fa-solid fa-chalkboard-user mr-1"></i>Instructor</button>
-          <button type="button" id="loginTabAdmin" onclick="window.app.setLoginTab('admin')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900"><i class="fa-solid fa-user-shield mr-1"></i>Admin</button>
-          <button type="button" id="loginTabEnroll" onclick="window.app.setLoginTab('enroll')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition text-slate-600 hover:text-slate-900"><i class="fa-solid fa-user-plus mr-1"></i>Enroll</button>
+          <button type="button" id="loginTabStudent" onclick="window.app.setLoginTab('student')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition active:scale-95 bg-white text-teal-700 shadow-sm"><i class="fa-solid fa-user-graduate mr-1"></i>Student</button>
+          <button type="button" id="loginTabInstructor" onclick="window.app.setLoginTab('instructor')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition active:scale-95 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"><i class="fa-solid fa-chalkboard-user mr-1"></i>Instructor</button>
+          <button type="button" id="loginTabAdmin" onclick="window.app.setLoginTab('admin')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition active:scale-95 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"><i class="fa-solid fa-user-shield mr-1"></i>Admin</button>
+          <button type="button" id="loginTabEnroll" onclick="window.app.setLoginTab('enroll')" class="py-2.5 px-2 rounded-lg text-xs font-semibold transition active:scale-95 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"><i class="fa-solid fa-user-plus mr-1"></i>Enroll</button>
         </div>
 
         <div id="signInPanel">
@@ -158,7 +169,7 @@
               <i class="fa-solid fa-circle-exclamation text-rose-500"></i>
               <span id="loginErrorText">Invalid credentials or enrollment pending.</span>
             </div>
-            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-lg transition">Access MTLE Portal</button>
+            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 active:bg-teal-800 active:scale-[0.98] text-white font-bold text-sm shadow-lg transition">Access MTLE Portal</button>
           </form>
         </div>
 
@@ -169,23 +180,23 @@
           </div>
           <form id="selfEnrollForm" onsubmit="window.app.handleSelfEnrollmentSubmit(event)" class="space-y-3">
             <div class="grid grid-cols-2 gap-3">
-              <input type="text" id="enrollLastName" required placeholder="Last Name" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm" />
-              <input type="text" id="enrollGivenName" required placeholder="Given Name" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm" />
+              <input type="text" id="enrollLastName" required placeholder="Last Name" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+              <input type="text" id="enrollGivenName" required placeholder="Given Name" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
             </div>
-            <input type="text" id="enrollSchool" required placeholder="School / University" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm" />
+            <input type="text" id="enrollSchool" required placeholder="School / University" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
             <div class="grid grid-cols-2 gap-3">
-              <select id="enrollCycleMonth" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white"><option value="March">March</option><option value="August">August</option></select>
-              <input type="number" id="enrollCycleYear" value="2027" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono" />
+              <select id="enrollCycleMonth" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm bg-white focus:border-teal-600 outline-none"><option value="March">March</option><option value="August">August</option></select>
+              <input type="number" id="enrollCycleYear" value="2027" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <input type="date" id="enrollBirthday" required class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm" />
-              <input type="tel" id="enrollContact" required placeholder="Contact Number" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono" />
+              <input type="date" id="enrollBirthday" required class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-teal-600 outline-none" />
+              <input type="tel" id="enrollContact" required placeholder="Contact Number" class="px-3 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:border-teal-600 outline-none" />
             </div>
             <div id="enrollSuccessBanner" class="hidden p-3 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs">
               <div class="font-bold mb-1">Application Submitted!</div>
               <p id="enrollSuccessText" class="text-amber-800"></p>
             </div>
-            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-lg">Submit Application</button>
+            <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-teal-600 hover:bg-teal-700 active:bg-teal-800 active:scale-[0.98] text-white font-bold text-sm shadow-lg transition">Submit Application</button>
           </form>
         </div>
       </div>
@@ -195,34 +206,35 @@
   <!-- VIEW 2: ADMIN PORTAL -->
   <main id="adminView" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden space-y-6">
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-      <div onclick="window.app.switchAdminTab('students')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div onclick="window.app.switchAdminTab('students')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition active:scale-95">
         <p class="text-[11px] font-bold uppercase text-slate-500">Approved Students</p>
         <p id="adminKpiStudents" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
       </div>
-      <div onclick="window.app.switchAdminTab('instructors')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div onclick="window.app.switchAdminTab('instructors')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition active:scale-95">
         <p class="text-[11px] font-bold uppercase text-slate-500">Faculty Instructors</p>
         <p id="adminKpiInstructors" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
       </div>
-      <div onclick="window.app.switchAdminTab('exams')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div onclick="window.app.switchAdminTab('exams')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition active:scale-95">
         <p class="text-[11px] font-bold uppercase text-slate-500">Exams (Study Notes)</p>
         <p id="adminKpiExams" class="text-2xl font-extrabold text-slate-900 mt-1">0</p>
       </div>
-      <div onclick="window.app.switchAdminTab('ledger')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div onclick="window.app.switchAdminTab('ledger')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-teal-500 hover:shadow-md transition active:scale-95">
         <p class="text-[11px] font-bold uppercase text-slate-500">Cohort Rating</p>
         <p id="adminKpiAvgRating" class="text-2xl font-extrabold text-slate-900 mt-1">0.00%</p>
       </div>
-      <div onclick="window.app.switchAdminTab('requests')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div onclick="window.app.switchAdminTab('requests')" class="cursor-pointer bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-amber-500 hover:shadow-md transition active:scale-95">
         <p class="text-[11px] font-bold uppercase text-slate-500">Pending Approvals</p>
         <p id="adminKpiEditRequests" class="text-2xl font-extrabold text-amber-600 mt-1">0</p>
       </div>
     </section>
 
+    <!-- Admin Navigation Tabs -->
     <div class="bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap gap-1.5">
-      <button onclick="window.app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold bg-teal-600 text-white">1. Master Ledger</button>
-      <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-100">2. Students</button>
-      <button onclick="window.app.switchAdminTab('instructors')" id="adminTabBtn_instructors" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-100">3. Instructors</button>
-      <button onclick="window.app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-100">4. Generate Exams (Notes)</button>
-      <button onclick="window.app.switchAdminTab('requests')" id="adminTabBtn_requests" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-100">5. Approvals Queue</button>
+      <button onclick="window.app.switchAdminTab('ledger')" id="adminTabBtn_ledger" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 bg-teal-600 text-white shadow-sm">1. Master Ledger</button>
+      <button onclick="window.app.switchAdminTab('students')" id="adminTabBtn_students" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 text-slate-600 hover:bg-slate-100 hover:text-slate-900">2. Students</button>
+      <button onclick="window.app.switchAdminTab('instructors')" id="adminTabBtn_instructors" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 text-slate-600 hover:bg-slate-100 hover:text-slate-900">3. Instructors</button>
+      <button onclick="window.app.switchAdminTab('exams')" id="adminTabBtn_exams" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 text-slate-600 hover:bg-slate-100 hover:text-slate-900">4. Generate Exams (Notes)</button>
+      <button onclick="window.app.switchAdminTab('requests')" id="adminTabBtn_requests" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 text-slate-600 hover:bg-slate-100 hover:text-slate-900">5. Approvals Queue</button>
     </div>
 
     <!-- ADMIN TAB 1: MASTER LEDGER -->
@@ -231,8 +243,8 @@
         <div class="flex justify-between items-center flex-wrap gap-3">
           <h2 class="text-lg font-bold text-slate-900"><i class="fa-solid fa-book-medical text-teal-600 mr-2"></i>Official MTLE Reviewee Master Ledger (3-Attempt Averages)</h2>
           <div class="flex items-center gap-2">
-            <input type="text" id="ledgerSearchInput" oninput="window.app.renderAdminLedger()" placeholder="Search student..." class="px-3 py-2 rounded-xl border border-slate-300 text-xs outline-none" />
-            <button onclick="window.app.exportLedgerCSV()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs"><i class="fa-solid fa-file-csv text-teal-600 mr-1"></i> Export CSV</button>
+            <input type="text" id="ledgerSearchInput" oninput="window.app.renderAdminLedger()" placeholder="Search student..." class="px-3 py-2 rounded-xl border border-slate-300 text-xs outline-none focus:border-teal-600" />
+            <button onclick="window.app.exportLedgerCSV()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 font-semibold text-xs transition shadow-sm"><i class="fa-solid fa-file-csv text-teal-600 mr-1"></i> Export CSV</button>
           </div>
         </div>
         <div class="overflow-x-auto">
@@ -274,7 +286,7 @@
       </div>
     </section>
 
-    <!-- ADMIN TAB 3: INSTRUCTORS (WITH EDIT & DELETE) -->
+    <!-- ADMIN TAB 3: INSTRUCTORS -->
     <section id="adminSection_instructors" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
@@ -284,13 +296,13 @@
           </div>
           <form id="instructorForm" onsubmit="window.app.handleSaveInstructor(event)" class="space-y-3 text-xs">
             <input type="hidden" id="instructorEditId" value="" />
-            <input type="text" id="instLastName" required placeholder="Last Name" class="w-full p-2.5 border rounded-xl" />
-            <input type="text" id="instGivenName" required placeholder="Given Name" class="w-full p-2.5 border rounded-xl" />
-            <input type="text" id="instCredentials" required placeholder="Credentials (e.g. RMT, MPH)" class="w-full p-2.5 border rounded-xl" />
-            <select id="instSpecialization" class="w-full p-2.5 border rounded-xl bg-white"><option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option><option value="Hematology (20%)">Hematology (20%)</option><option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option></select>
-            <input type="text" id="instUsername" required placeholder="Username" class="w-full p-2.5 border rounded-xl font-mono" />
-            <input type="text" id="instPassword" required placeholder="Password" class="w-full p-2.5 border rounded-xl font-mono" />
-            <button type="submit" id="instructorFormSubmitBtn" class="w-full py-2.5 bg-teal-600 text-white font-bold rounded-xl shadow">Save Instructor</button>
+            <input type="text" id="instLastName" required placeholder="Last Name" class="w-full p-2.5 border rounded-xl focus:border-teal-600 outline-none" />
+            <input type="text" id="instGivenName" required placeholder="Given Name" class="w-full p-2.5 border rounded-xl focus:border-teal-600 outline-none" />
+            <input type="text" id="instCredentials" required placeholder="Credentials (e.g. RMT, MPH)" class="w-full p-2.5 border rounded-xl focus:border-teal-600 outline-none" />
+            <select id="instSpecialization" class="w-full p-2.5 border rounded-xl bg-white focus:border-teal-600 outline-none"><option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option><option value="Hematology (20%)">Hematology (20%)</option><option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option></select>
+            <input type="text" id="instUsername" required placeholder="Username" class="w-full p-2.5 border rounded-xl font-mono focus:border-teal-600 outline-none" />
+            <input type="text" id="instPassword" required placeholder="Password" class="w-full p-2.5 border rounded-xl font-mono focus:border-teal-600 outline-none" />
+            <button type="submit" id="instructorFormSubmitBtn" class="w-full py-2.5 bg-teal-600 hover:bg-teal-700 active:scale-[0.98] text-white font-bold rounded-xl shadow transition">Save Instructor</button>
           </form>
         </div>
         <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-x-auto">
@@ -303,20 +315,20 @@
       </div>
     </section>
 
-    <!-- ADMIN TAB 4: GENERATE EXAMS FROM STUDY NOTES -->
+    <!-- ADMIN TAB 4: GENERATE EXAMS FROM STUDY NOTES / FILES -->
     <section id="adminSection_exams" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-3">
-          <h3 class="font-bold text-base text-slate-900"><i class="fa-solid fa-wand-magic-sparkles text-teal-600 mr-2"></i>Generate Exam from Study Notes</h3>
-          <p class="text-xs text-slate-500">Paste textbook chapters or study notes. The AI generator will extract concepts and build multiple-choice questions without duplicates.</p>
+          <h3 class="font-bold text-base text-slate-900"><i class="fa-solid fa-wand-magic-sparkles text-teal-600 mr-2"></i>Generate Exam from File or Notes</h3>
+          <p class="text-xs text-slate-500">Upload a PDF, Word (.docx), or text document. The parser will extract text to automatically generate multiple-choice questions.</p>
           <form onsubmit="window.app.handleGenerateExamSubmit(event)" class="space-y-3 text-xs">
             <div>
               <label class="block font-bold mb-1 uppercase text-[10px] text-slate-500">Exam Title *</label>
-              <input type="text" id="genExamTitle" required placeholder="e.g. Clinical Chemistry Chapter 1" class="w-full p-2.5 border rounded-xl" />
+              <input type="text" id="genExamTitle" required placeholder="e.g. Clinical Chemistry Chapter 1" class="w-full p-2.5 border rounded-xl focus:border-teal-600 outline-none" />
             </div>
             <div>
               <label class="block font-bold mb-1 uppercase text-[10px] text-slate-500">Subject Category *</label>
-              <select id="genExamCategory" class="w-full p-2.5 border rounded-xl bg-white">
+              <select id="genExamCategory" class="w-full p-2.5 border rounded-xl bg-white focus:border-teal-600 outline-none">
                 <option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option>
                 <option value="Microbiology & Parasitology (20%)">Microbiology & Parasitology (20%)</option>
                 <option value="Hematology (20%)">Hematology (20%)</option>
@@ -327,14 +339,14 @@
             </div>
             <div>
               <label class="block font-bold mb-1 uppercase text-[10px] text-slate-500">Number of Items *</label>
-              <input type="number" id="genExamItemCount" min="1" max="100" value="5" required class="w-full p-2.5 border rounded-xl font-mono" />
+              <input type="number" id="genExamItemCount" min="1" max="100" value="5" required class="w-full p-2.5 border rounded-xl font-mono focus:border-teal-600 outline-none" />
             </div>
             <div>
-              <label class="block font-bold mb-1 uppercase text-[10px] text-slate-500">Upload Study Notes (.txt) or Paste Below</label>
-              <input type="file" accept=".txt,.md" onchange="window.app.handleNotesFileSelected(event)" class="w-full text-xs mb-2" />
-              <textarea id="genExamNotesContent" rows="7" required placeholder="Paste textbook notes here..." class="w-full p-3 border rounded-xl text-xs font-mono bg-slate-900 text-teal-300"></textarea>
+              <label class="block font-bold mb-1 uppercase text-[10px] text-slate-500">Upload PDF, Word (.docx), or Text File</label>
+              <input type="file" id="genNotesFileInput" accept=".pdf,.docx,.doc,.txt,.md" onchange="window.app.handleNotesFileSelected(event)" class="w-full text-xs mb-2 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100" />
+              <textarea id="genExamNotesContent" rows="7" required placeholder="Or paste textbook notes here directly..." class="w-full p-3 border rounded-xl text-xs font-mono bg-slate-900 text-teal-300 focus:outline-none"></textarea>
             </div>
-            <button type="submit" class="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-md">Generate Exam & Publish</button>
+            <button type="submit" class="w-full py-3 bg-teal-600 hover:bg-teal-700 active:scale-[0.98] text-white font-bold rounded-xl shadow-md transition">Generate Exam & Publish</button>
           </form>
         </div>
         <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
@@ -367,13 +379,14 @@
     </section>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
-        <h3 class="font-bold text-base text-slate-900"><i class="fa-solid fa-wand-magic-sparkles text-teal-600 mr-2"></i>Generate Exam from Notes</h3>
+        <h3 class="font-bold text-base text-slate-900"><i class="fa-solid fa-wand-magic-sparkles text-teal-600 mr-2"></i>Generate Exam from File or Notes</h3>
         <form onsubmit="window.app.handleInstructorGenerateExamSubmit(event)" class="space-y-3 text-xs">
-          <input type="text" id="instGenTitle" required placeholder="Exam Title" class="w-full p-2.5 border rounded-xl" />
-          <select id="instGenCategory" class="w-full p-2.5 border rounded-xl bg-white"><option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option><option value="Hematology (20%)">Hematology (20%)</option></select>
-          <input type="number" id="instGenCount" min="1" max="50" value="5" required class="w-full p-2.5 border rounded-xl" />
-          <textarea id="instGenNotes" rows="6" required placeholder="Paste study notes here..." class="w-full p-3 border rounded-xl font-mono text-xs"></textarea>
-          <button type="submit" class="w-full py-2.5 bg-teal-600 text-white font-bold rounded-xl">Generate & Publish</button>
+          <input type="text" id="instGenTitle" required placeholder="Exam Title" class="w-full p-2.5 border rounded-xl focus:border-teal-600 outline-none" />
+          <select id="instGenCategory" class="w-full p-2.5 border rounded-xl bg-white focus:border-teal-600 outline-none"><option value="Clinical Chemistry (20%)">Clinical Chemistry (20%)</option><option value="Hematology (20%)">Hematology (20%)</option></select>
+          <input type="number" id="instGenCount" min="1" max="50" value="5" required class="w-full p-2.5 border rounded-xl focus:border-teal-600 outline-none" />
+          <input type="file" id="instNotesFileInput" accept=".pdf,.docx,.doc,.txt,.md" onchange="window.app.handleInstNotesFileSelected(event)" class="w-full text-xs cursor-pointer file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700" />
+          <textarea id="instGenNotes" rows="6" required placeholder="Paste study notes here..." class="w-full p-3 border rounded-xl font-mono text-xs focus:outline-none"></textarea>
+          <button type="submit" class="w-full py-2.5 bg-teal-600 hover:bg-teal-700 active:scale-[0.98] text-white font-bold rounded-xl transition">Generate & Publish</button>
         </form>
       </div>
       <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
@@ -432,12 +445,12 @@
           <h3 id="takerExamTitle" class="font-bold text-base">Examination</h3>
           <p id="takerAttemptNotice" class="text-xs text-teal-300 font-mono"></p>
         </div>
-        <button onclick="window.app.closeExamTakerModal()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 rounded-xl text-xs font-bold">Exit Exam</button>
+        <button onclick="window.app.closeExamTakerModal()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 active:scale-95 rounded-xl text-xs font-bold transition">Exit Exam</button>
       </div>
       <div class="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6" id="takerQuestionsContainer"></div>
       <div class="bg-slate-100 px-6 py-4 border-t flex justify-between items-center">
         <span id="takerTimer" class="font-mono font-bold text-xs text-teal-700">Time Elapsed: 00:00</span>
-        <button onclick="window.app.submitExamAttempt()" class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm rounded-xl shadow-lg">Submit Shaded Answers</button>
+        <button onclick="window.app.submitExamAttempt()" class="px-6 py-3 bg-teal-600 hover:bg-teal-700 active:scale-[0.98] text-white font-bold text-sm rounded-xl shadow-lg transition">Submit Shaded Answers</button>
       </div>
     </div>
   </div>
@@ -447,8 +460,8 @@
       <h4 id="confirmModalTitle" class="font-bold text-sm text-slate-900">Confirm Action</h4>
       <p id="confirmModalMessage" class="text-xs text-slate-600"></p>
       <div class="flex justify-end gap-2">
-        <button onclick="window.app.closeConfirmModal()" class="px-3.5 py-2 bg-slate-100 rounded-xl text-xs font-semibold">Cancel</button>
-        <button id="confirmModalActionBtn" class="px-3.5 py-2 bg-rose-600 text-white rounded-xl text-xs font-bold">Confirm</button>
+        <button onclick="window.app.closeConfirmModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 active:scale-95 rounded-xl text-xs font-semibold transition">Cancel</button>
+        <button id="confirmModalActionBtn" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white rounded-xl text-xs font-bold transition">Confirm</button>
       </div>
     </div>
   </div>
@@ -468,6 +481,29 @@
       ATTEMPTS: 'pulsermt_notes_attempts',
       SESSION: 'pulsermt_notes_session'
     };
+
+    // Helper to extract text from PDF, Word (.docx), or Text files
+    async function extractTextFromFile(file) {
+      const fileName = file.name.toLowerCase();
+      if (fileName.endsWith('.pdf')) {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items.map(item => item.str).join(' ');
+          fullText += pageText + '\n';
+        }
+        return fullText;
+      } else if (fileName.endsWith('.docx') || fileName.endsWith('.doc')) {
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        return result.value;
+      } else {
+        return await file.text();
+      }
+    }
 
     function generateQuestionsFromNotes(title, notesText, count = 5) {
       const cleaned = notesText.replace(/[#*_`]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -573,6 +609,12 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
         localStorage.setItem(STORAGE_KEYS.INSTRUCTORS, JSON.stringify(state.instructors));
         localStorage.setItem(STORAGE_KEYS.EXAMS, JSON.stringify(state.exams));
         localStorage.setItem(STORAGE_KEYS.ATTEMPTS, JSON.stringify(state.attempts));
+        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({
+          currentRole: state.currentRole,
+          currentStudentId: state.currentStudentId,
+          currentInstructorId: state.currentInstructorId,
+          activeAdminTab: state.activeAdminTab
+        }));
       } catch (e) {}
     }
 
@@ -725,6 +767,7 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
         document.getElementById('headerUserSub').textContent = `${student.studentIdNo} (@${student.username})`;
         renderStudentDashboard(student);
       }
+      saveLocalCache();
     }
 
     function renderAdminDashboard() {
@@ -754,19 +797,22 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
       const body = document.getElementById('ledgerTableBody');
       if (!body) return;
       const approved = state.students.filter(s => s.enrollmentStatus === 'APPROVED');
-      if (approved.length === 0 || state.exams.length === 0) {
-        body.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">No student records or exams available.</td></tr>`;
+      const searchTerm = (document.getElementById('ledgerSearchInput')?.value || '').toLowerCase();
+      const filtered = approved.filter(s => s.fullName.toLowerCase().includes(searchTerm) || s.studentIdNo.toLowerCase().includes(searchTerm));
+
+      if (filtered.length === 0 || state.exams.length === 0) {
+        body.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">No student records or exams available matching search.</td></tr>`;
         return;
       }
       let html = '';
-      approved.forEach(stu => {
+      filtered.forEach(stu => {
         state.exams.forEach(ex => {
           const m = computeStudentAttemptMetrics(stu.id, ex.id);
           const att1 = m.attempts[0] ? `${m.attempts[0].score}/${m.attempts[0].total} (${m.attempts[0].percentage.toFixed(0)}%)` : '—';
           const att2 = m.attempts[1] ? `${m.attempts[1].score}/${m.attempts[1].total} (${m.attempts[1].percentage.toFixed(0)}%)` : '—';
           const att3 = m.attempts[2] ? `${m.attempts[2].score}/${m.attempts[2].total} (${m.attempts[2].percentage.toFixed(0)}%)` : '—';
           html += `
-            <tr class="hover:bg-slate-50">
+            <tr class="hover:bg-slate-50 transition">
               <td class="p-3 font-bold">${escapeHtml(stu.fullName)}<br/><span class="font-mono text-teal-700 font-normal">${stu.studentIdNo}</span></td>
               <td class="p-3">${escapeHtml(ex.title)}</td>
               <td class="p-3 text-center font-mono">${att1}</td>
@@ -784,13 +830,13 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
       const tbody = document.getElementById('studentDatabaseBody');
       if (!tbody) return;
       tbody.innerHTML = state.students.map(stu => `
-        <tr class="hover:bg-slate-50">
+        <tr class="hover:bg-slate-50 transition">
           <td class="p-3 font-bold">${escapeHtml(stu.fullName)}<br/><span class="font-mono text-teal-700">${stu.studentIdNo || 'PENDING'}</span></td>
           <td class="p-3 text-xs">${escapeHtml(stu.school)}<br/>Cycle: ${stu.batch}</td>
           <td class="p-3 font-mono text-xs">User: ${stu.username}<br/>Pass: ${stu.password}</td>
           <td class="p-3 text-right">
-            ${stu.enrollmentStatus === 'PENDING_APPROVAL' ? `<button onclick="window.app.approveStudent('${stu.id}')" class="px-3 py-1 bg-emerald-600 text-white rounded-lg text-xs font-bold mr-1">Approve</button>` : ''}
-            <button onclick="window.app.deleteStudent('${stu.id}')" class="p-1.5 bg-rose-50 text-rose-600 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+            ${stu.enrollmentStatus === 'PENDING_APPROVAL' ? `<button onclick="window.app.approveStudent('${stu.id}')" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white rounded-lg text-xs font-bold mr-1 transition">Approve</button>` : ''}
+            <button onclick="window.app.deleteStudent('${stu.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 active:scale-95 text-rose-600 rounded-lg transition"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>`).join('');
     }
@@ -803,13 +849,13 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
         return;
       }
       tbody.innerHTML = state.instructors.map(i => `
-        <tr class="hover:bg-slate-50">
+        <tr class="hover:bg-slate-50 transition">
           <td class="p-2 font-bold">${escapeHtml(i.fullName)}, ${escapeHtml(i.credentials)}</td>
           <td class="p-2 text-xs">${escapeHtml(i.specialization)}</td>
           <td class="p-2 font-mono text-xs">User: ${escapeHtml(i.username)}<br/>Pass: ${escapeHtml(i.password)}</td>
           <td class="p-2 text-right space-x-1">
-            <button onclick="window.app.editInstructor('${i.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold" title="Edit Instructor"><i class="fa-solid fa-pen"></i></button>
-            <button onclick="window.app.confirmDeleteInstructor('${i.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold" title="Delete Instructor"><i class="fa-solid fa-trash"></i></button>
+            <button onclick="window.app.editInstructor('${i.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 rounded-lg text-xs font-semibold transition" title="Edit Instructor"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="window.app.confirmDeleteInstructor('${i.id}')" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 active:scale-95 text-rose-600 rounded-lg text-xs font-semibold transition" title="Delete Instructor"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>`).join('');
     }
@@ -819,8 +865,8 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
       if (!container) return;
       container.innerHTML = state.exams.map(ex => `
         <div class="p-3 border rounded-xl bg-slate-50 flex justify-between items-center text-xs">
-          <div><div class="font-bold">${escapeHtml(ex.title)}</div><div class="text-slate-500">${ex.category} • ${ex.questions.length} Items (Generated from Notes)</div></div>
-          <button onclick="window.app.deleteExam('${ex.id}')" class="p-1.5 bg-rose-50 text-rose-600 rounded"><i class="fa-solid fa-trash"></i></button>
+          <div><div class="font-bold">${escapeHtml(ex.title)}</div><div class="text-slate-500">${ex.category} • ${ex.questions.length} Items (Generated from Notes/Files)</div></div>
+          <button onclick="window.app.deleteExam('${ex.id}')" class="p-1.5 bg-rose-50 hover:bg-rose-100 active:scale-95 text-rose-600 rounded transition"><i class="fa-solid fa-trash"></i></button>
         </div>`).join('');
     }
 
@@ -835,7 +881,7 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
       container.innerHTML = pending.map(stu => `
         <div class="p-4 rounded-xl border border-amber-300 bg-amber-50/40 flex justify-between items-center text-xs">
           <div><div class="font-bold text-sm">${escapeHtml(stu.fullName)}</div><div>School: ${stu.school} • Batch: ${stu.batch}</div></div>
-          <button onclick="window.app.approveStudent('${stu.id}')" class="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl shadow">Approve & Generate ID</button>
+          <button onclick="window.app.approveStudent('${stu.id}')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-xl shadow transition">Approve & Generate ID</button>
         </div>`).join('');
     }
 
@@ -871,7 +917,7 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
             <div class="font-bold text-sm">${escapeHtml(ex.title)}</div>
             <div class="text-slate-500">${ex.category} • ${ex.questions.length} Items</div>
             <div class="font-semibold text-teal-700">Attempts Used: ${m.attemptsCount} / 3 (${remainingTries} remaining)</div>
-            <button onclick="window.app.startExamTaker('${ex.id}')" ${remainingTries <= 0 ? 'disabled class="w-full py-2 bg-slate-300 text-slate-500 rounded-lg font-bold cursor-not-allowed"' : 'class="w-full py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-bold transition"'}>
+            <button onclick="window.app.startExamTaker('${ex.id}')" ${remainingTries <= 0 ? 'disabled class="w-full py-2 bg-slate-300 text-slate-500 rounded-lg font-bold cursor-not-allowed"' : 'class="w-full py-2 bg-teal-600 hover:bg-teal-700 active:scale-[0.98] text-white rounded-lg font-bold transition shadow-sm"'}>
               ${remainingTries > 0 ? `Take Exam (Attempt ${m.attemptsCount + 1})` : 'Max 3 Attempts Reached'}
             </button>
           </div>`;
@@ -884,7 +930,7 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
         const a2 = m.attempts[1] ? `${m.attempts[1].percentage.toFixed(0)}%` : '—';
         const a3 = m.attempts[2] ? `${m.attempts[2].percentage.toFixed(0)}%` : '—';
         return `
-          <tr class="hover:bg-slate-50">
+          <tr class="hover:bg-slate-50 transition">
             <td class="py-3 font-medium">${escapeHtml(ex.title)}</td>
             <td class="py-3 text-center font-mono">${a1}</td>
             <td class="py-3 text-center font-mono">${a2}</td>
@@ -912,14 +958,44 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
     window.app = {
       setLoginTab(mode) {
         state.loginModeTab = mode;
+        ['student', 'instructor', 'admin', 'enroll'].forEach(m => {
+          const btn = document.getElementById(`loginTab${m.charAt(0).toUpperCase() + m.slice(1)}`);
+          if (btn) {
+            if (m === mode) {
+              btn.className = 'py-2.5 px-2 rounded-lg text-xs font-semibold transition active:scale-95 bg-white text-teal-700 shadow-sm';
+            } else {
+              btn.className = 'py-2.5 px-2 rounded-lg text-xs font-semibold transition active:scale-95 text-slate-600 hover:text-slate-900 hover:bg-slate-200/60';
+            }
+          }
+        });
+
         const signInPanel = document.getElementById('signInPanel');
         const enrollNowPanel = document.getElementById('enrollNowPanel');
+        const heading = document.getElementById('signInHeading');
+        const sub = document.getElementById('signInSubheading');
+
         if (mode === 'enroll') {
           signInPanel.classList.add('hidden');
           enrollNowPanel.classList.remove('hidden');
         } else {
           enrollNowPanel.classList.add('hidden');
           signInPanel.classList.remove('hidden');
+          if (mode === 'admin') {
+            heading.textContent = 'Admin Portal Access';
+            sub.textContent = 'Sign in with administrator credentials.';
+            document.getElementById('loginUsername').value = 'admin';
+            document.getElementById('loginPassword').value = 'admin123';
+          } else if (mode === 'instructor') {
+            heading.textContent = 'Faculty Instructor Sign In';
+            sub.textContent = 'Enter your instructor username and password.';
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+          } else {
+            heading.textContent = 'Student Portal Sign In';
+            sub.textContent = 'Enter your username or Student ID and password.';
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+          }
         }
       },
 
@@ -1012,12 +1088,30 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
         });
       },
 
-      handleNotesFileSelected(e) {
+      async handleNotesFileSelected(e) {
         const file = e.target.files?.[0];
         if (!file) return;
-        const r = new FileReader();
-        r.onload = evt => { document.getElementById('genExamNotesContent').value = evt.target.result; };
-        r.readAsText(file);
+        showToast('Extracting text from document...');
+        try {
+          const text = await extractTextFromFile(file);
+          document.getElementById('genExamNotesContent').value = text;
+          showToast('Document successfully parsed!');
+        } catch (err) {
+          showToast('Error parsing file. Please try text paste or another format.');
+        }
+      },
+
+      async handleInstNotesFileSelected(e) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        showToast('Extracting text from document...');
+        try {
+          const text = await extractTextFromFile(file);
+          document.getElementById('instGenNotes').value = text;
+          showToast('Document successfully parsed!');
+        } catch (err) {
+          showToast('Error parsing file.');
+        }
       },
 
       async handleGenerateExamSubmit(e) {
@@ -1030,7 +1124,7 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
         const questions = generateQuestionsFromNotes(title, notes, count);
         const exam = { id: `exam_${Date.now()}`, title, category, questions };
         await saveExam(exam);
-        showToast(`Successfully generated ${questions.length} unique MCQ items from study notes!`);
+        showToast(`Successfully generated ${questions.length} unique MCQ items from document/notes!`);
       },
 
       async handleInstructorGenerateExamSubmit(e) {
@@ -1055,7 +1149,16 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
         ['ledger', 'students', 'instructors', 'exams', 'requests'].forEach(t => {
           const sec = document.getElementById(`adminSection_${t}`);
           if (sec) sec.classList.toggle('hidden', t !== tab);
+          const btn = document.getElementById(`adminTabBtn_${t}`);
+          if (btn) {
+            if (t === tab) {
+              btn.className = 'flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 bg-teal-600 text-white shadow-sm';
+            } else {
+              btn.className = 'flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition active:scale-95 text-slate-600 hover:bg-slate-100 hover:text-slate-900';
+            }
+          }
         });
+        saveLocalCache();
       },
 
       handleLoginSubmit(e) {
@@ -1078,6 +1181,7 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
 
       logout() {
         state.currentRole = 'login'; state.currentStudentId = null; state.currentInstructorId = null;
+        saveLocalCache();
         renderAll(); showToast('Signed out');
       },
 
@@ -1098,7 +1202,7 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
             <div class="font-bold text-sm text-slate-900">${escapeHtml(q.title)}</div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               ${q.options.map(opt => `
-                <label class="flex items-center gap-3 p-3 bg-white border rounded-xl cursor-pointer hover:border-teal-600 transition">
+                <label class="flex items-center gap-3 p-3 bg-white border rounded-xl cursor-pointer hover:border-teal-600 transition active:scale-[0.99]">
                   <input type="radio" name="${q.id}" value="${opt.letter}" class="hidden" />
                   <span class="shading-circle">${opt.letter}</span>
                   <span class="text-xs text-slate-700">${escapeHtml(opt.text)}</span>
@@ -1200,7 +1304,12 @@ Cardiac troponins (cTnI and cTnT) serve as the gold standard biomarkers for acut
       closeConfirmModal() { document.getElementById('confirmModal').classList.add('hidden'); }
     };
 
-    window.onload = function() { initDatabase(); };
+    window.onload = function() {
+      initDatabase();
+      if (state.currentRole !== 'login') {
+        window.app.switchAdminTab(state.activeAdminTab);
+      }
+    };
   </script>
 </body>
 </html>
