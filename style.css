@@ -5,9 +5,6 @@
 :root {
   --med-50: #f0fdfa;
   --med-100: #ccfbf1;
-  --med-200: #99f6e4;
-  --med-300: #5eead4;
-  --med-400: #2dd4bf;
   --med-500: #14b8a6;
   --med-600: #0d9488;
   --med-700: #0f766e;
@@ -15,16 +12,13 @@
   --med-900: #134e4a;
   --med-950: #042f2e;
   --slate-50: #f8fafc;
-  --slate-100: #f1f5f9;
   --slate-200: #e2e8f0;
-  --slate-300: #cbd5e1;
-  --slate-600: #475569;
-  --slate-800: #1e293b;
+  --slate-700: #334155;
   --slate-900: #0f172a;
 }
 
 /* --------------------------------------------------------------------------
-   1. Base Reset & Typography
+   1. Base Reset & Typography Polish
    -------------------------------------------------------------------------- */
 *,
 *::before,
@@ -34,28 +28,28 @@
 
 html {
   scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--slate-50);
-  color: var(--slate-900);
-  margin: 0;
-  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
 code,
 pre,
+textarea.font-mono,
+input.font-mono,
 .font-mono {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-variant-numeric: tabular-nums;
+  font-feature-settings: "liga" 0, "zero" 1;
 }
 
 /* --------------------------------------------------------------------------
-   2. Custom Scrollbar Styling
+   2. Custom Scrollbars (Tables, Modals, & HTML Code Editor)
    -------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
   width: 8px;
@@ -63,26 +57,41 @@ pre,
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--slate-100);
+  background: #f1f5f9;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--slate-300);
+  background: #cbd5e1;
   border-radius: 9999px;
-  border: 2px solid var(--slate-100);
+  border: 2px solid #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--med-600);
+}
+
+/* Dark scrollbar for the HTML Exam Code Editor */
+#examHtmlContent::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+#examHtmlContent::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-color: #0f172a;
+}
+
+#examHtmlContent::-webkit-scrollbar-thumb:hover {
+  background: var(--med-500);
 }
 
 /* --------------------------------------------------------------------------
-   3. View, Tab & Modal Animations
+   3. Keyframe Animations (Views, Modals, & Toast Notifications)
    -------------------------------------------------------------------------- */
-@keyframes fadeSlideUp {
+@keyframes fadeInSlideUp {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -90,10 +99,10 @@ pre,
   }
 }
 
-@keyframes modalZoomIn {
+@keyframes modalScaleIn {
   from {
     opacity: 0;
-    transform: scale(0.97);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
@@ -101,126 +110,88 @@ pre,
   }
 }
 
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Apply smooth entrance to main views and sections */
 #loginView:not(.hidden),
 #adminView:not(.hidden),
 #studentView:not(.hidden),
-#signInPanel:not(.hidden),
-#enrollNowPanel:not(.hidden),
-#studentSelfEditSection:not(.hidden),
 #adminSection_ledger:not(.hidden),
 #adminSection_students:not(.hidden),
-#adminSection_exams:not(.hidden) {
-  animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+#adminSection_exams:not(.hidden),
+#studentSelfEditSection:not(.hidden) {
+  animation: fadeInSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Apply scale entrance to active modal cards */
 #examViewerModal:not(.hidden) > div,
 #adminScoreModal:not(.hidden) > div,
 #confirmModal:not(.hidden) > div {
-  animation: modalZoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: modalScaleIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Glassmorphism Header Utility */
-.glass-header {
-  background: rgba(15, 23, 42, 0.94);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Toast notifications inside #toastContainer */
+#toastContainer {
+  pointer-events: none;
+}
+
+#toastContainer > div {
+  pointer-events: auto;
+  animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(8px);
 }
 
 /* --------------------------------------------------------------------------
-   4. Form Controls & Interactive States
+   4. Form Controls, Tables & Interactive Exam Iframe
    -------------------------------------------------------------------------- */
-input,
-select,
-textarea {
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
-}
-
 input:focus,
 select:focus,
 textarea:focus {
-  outline: none;
-  border-color: var(--med-600) !important;
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.16);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: #94a3b8;
-}
-
+/* Keep number inputs clean and aligned */
 input[type="number"] {
-  font-variant-numeric: tabular-nums;
+  appearance: textfield;
+  -moz-appearance: textfield;
 }
 
-button {
-  cursor: pointer;
-  user-select: none;
-  transition: all 0.15s ease;
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-button:active:not(:disabled) {
-  transform: translateY(1px);
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* --------------------------------------------------------------------------
-   5. Ledger & Student Database Tables
-   -------------------------------------------------------------------------- */
+/* Master Ledger & Database Table Enhancements */
 table {
-  border-collapse: collapse;
-  width: 100%;
+  border-spacing: 0;
 }
 
-th {
-  white-space: nowrap;
-  user-select: none;
+#ledgerTableBody tr,
+#studentDatabaseBody tr,
+#studentScoresTableBody tr {
+  transition: background-color 0.12s ease;
 }
 
-td {
-  vertical-align: middle;
-}
-
-/* Sticky First Column on Horizontal Scroll for Master Ledger */
-@media (min-width: 768px) {
-  #ledgerTableHeadRow th:first-child,
-  #ledgerTableBody td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 10;
-  }
-
-  #ledgerTableHeadRow th:first-child {
-    background-color: #f8fafc;
-    box-shadow: 1px 0 0 0 var(--slate-200);
-  }
-
-  #ledgerTableBody tr td:first-child {
-    background-color: #ffffff;
-    box-shadow: 1px 0 0 0 var(--slate-200);
-    transition: background-color 0.15s ease;
-  }
-
-  #ledgerTableBody tr:hover td:first-child {
-    background-color: #f8fafc;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   6. Uploaded HTML Exam Iframe Container
-   -------------------------------------------------------------------------- */
+/* Interactive Exam Viewer Iframe */
 #examHtmlIframe {
+  background-color: #ffffff;
   width: 100%;
   height: 100%;
-  border: none;
-  background-color: #ffffff;
+  display: block;
 }
 
 /* --------------------------------------------------------------------------
-   7. Official Print Stylesheet (Admin Master Ledger & Student Report Card)
+   5. Official Print Formatting (@media print for Master Ledger)
    -------------------------------------------------------------------------- */
 @media print {
   @page {
@@ -228,80 +199,79 @@ td {
     margin: 12mm;
   }
 
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11px !important;
+  }
+
+  /* Hide navigation, buttons, filters, modals, and non-printable elements */
   .no-print,
+  #mainHeader,
+  #loginView,
   #toastContainer,
   #examViewerModal,
   #adminScoreModal,
   #confirmModal,
+  #adminSection_students,
+  #adminSection_exams,
   button {
     display: none !important;
   }
 
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 11pt;
-  }
-
-  main {
+  /* Ensure main container and ledger expand to full printable page */
+  #adminView {
+    display: block !important;
     max-width: 100% !important;
     width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  .shadow-sm,
-  .shadow-md,
-  .shadow-lg,
-  .shadow-xl,
-  .shadow-2xl {
+  /* Compact KPI summary row at top of printed report */
+  #adminView > section:first-child {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  #adminView > section:first-child > div {
+    border: 1px solid #94a3b8 !important;
     box-shadow: none !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
   }
 
-  .rounded-2xl,
-  .rounded-3xl {
-    border-radius: 6px !important;
-  }
-
-  #studentView > section:first-child {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    border: 2px solid #0f172a !important;
-    padding: 16px !important;
-  }
-
-  #studentView > section:first-child * {
-    color: #0f172a !important;
-  }
-
+  /* Remove scroll clipping on printed ledger table */
+  #adminSection_ledger,
+  #adminSection_ledger > div,
   .overflow-x-auto {
     overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   table {
     width: 100% !important;
-    border: 1px solid #cbd5e1 !important;
+    border-collapse: collapse !important;
+    border: 1px solid #334155 !important;
   }
 
   th,
   td {
     border: 1px solid #cbd5e1 !important;
     padding: 6px 8px !important;
-    font-size: 9.5pt !important;
-  }
-
-  #ledgerTableHeadRow th:first-child,
-  #ledgerTableBody td:first-child {
-    position: static !important;
-    box-shadow: none !important;
-  }
-
-  tfoot#studentScoresTableFoot {
-    background: #f1f5f9 !important;
     color: #0f172a !important;
   }
 
-  tfoot#studentScoresTableFoot * {
-    color: #0f172a !important;
+  thead tr {
+    background-color: #f1f5f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  tr {
+    page-break-inside: avoid;
   }
 }
