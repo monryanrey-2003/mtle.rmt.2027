@@ -1,52 +1,79 @@
-/* ==========================================================================
-   PulseRMT | Master Stylesheet (style.css)
-   MTLE Online Examination, Enrollment Approval & Student Ledger Portal
-   ========================================================================== */
+/* ========================================================================== */
+/* PulseRMT | MTLE Review & Examination Portal Master Stylesheet              */
+/* ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  --med-teal-50: #f0fdfa;
-  --med-teal-100: #ccfbf1;
-  --med-teal-500: #14b8a6;
-  --med-teal-600: #0d9488;
-  --med-teal-700: #0f766e;
-  --med-teal-900: #134e4a;
-  --slate-50: #f8fafc;
-  --slate-200: #e2e8f0;
-  --slate-800: #1e293b;
-  --slate-900: #0f172a;
+  --med-50: #f0fdfa;
+  --med-100: #ccfbf1;
+  --med-200: #99f6e4;
+  --med-300: #5eead4;
+  --med-400: #2dd4bf;
+  --med-500: #14b8a6;
+  --med-600: #0d9488;
+  --med-700: #0f766e;
+  --med-800: #115e59;
+  --med-900: #134e4a;
+  --med-950: #042f2e;
 }
 
-/* --------------------------------------------------------------------------
-   1. Base Typography & Smooth Scrolling
-   -------------------------------------------------------------------------- */
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--slate-50);
-  color: var(--slate-800);
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #f8fafc;
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-code,
-pre,
-.font-mono {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }
 
-/* --------------------------------------------------------------------------
-   2. Custom Scrollbars (Tables, Code Editors & Modals)
-   -------------------------------------------------------------------------- */
+/* ========================================================================== */
+/* Shading Circle Answer Sheet Styles                                         */
+/* ========================================================================== */
+.shading-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  border: 2px solid #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  user-select: none;
+  background: #ffffff;
+  color: #475569;
+}
+
+.shading-circle:hover {
+  border-color: var(--med-600);
+  background: var(--med-50);
+  color: var(--med-700);
+}
+
+input[type="radio"]:checked + .shading-circle,
+.shading-circle.selected {
+  background: var(--med-600) !important;
+  border-color: var(--med-600) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(13, 148, 136, 0.35);
+}
+
+/* ========================================================================== */
+/* Custom Scrollbars & Layout Enhancements                                    */
+/* ========================================================================== */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -54,211 +81,33 @@ pre,
 
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
-  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 9999px;
-  border: 2px solid #f1f5f9;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 
-/* Dark Scrollbar for HTML Source Code Textareas */
-#examHtmlContent::-webkit-scrollbar-track,
-#instExamHtmlContent::-webkit-scrollbar-track {
-  background: #0f172a;
-}
-
-#examHtmlContent::-webkit-scrollbar-thumb,
-#instExamHtmlContent::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-color: #0f172a;
-}
-
-/* --------------------------------------------------------------------------
-   3. View, Modal & Toast Animations
-   -------------------------------------------------------------------------- */
-@keyframes fadeSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes modalPopIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-@keyframes toastSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(24px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-@keyframes subtleAmberPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
-  }
-}
-
-main:not(.hidden),
-#adminSection_ledger:not(.hidden),
-#adminSection_students:not(.hidden),
-#adminSection_instructors:not(.hidden),
-#adminSection_exams:not(.hidden),
-#adminSection_requests:not(.hidden) {
-  animation: fadeSlideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-#examViewerModal:not(.hidden) > div,
-#adminScoreModal:not(.hidden) > div,
-#confirmModal:not(.hidden) > div {
-  animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-#toastContainer > div {
-  animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  backdrop-filter: blur(8px);
-}
-
-/* --------------------------------------------------------------------------
-   4. Enrollment Approval Queue & Auto-Generated Student ID Highlights
-   -------------------------------------------------------------------------- */
-#pendingEnrollmentsCard {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-#pendingEnrollmentsCountBadge,
-#adminTabBadge_students,
-#adminTabBadge_requests {
-  animation: subtleAmberPulse 2s infinite;
-}
-
-/* Student ID Badge Polish */
-#stuProfileIdBadge {
-  letter-spacing: 0.03em;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-/* --------------------------------------------------------------------------
-   5. Form Controls, Focus Rings & Interactive Tables
-   -------------------------------------------------------------------------- */
-input:focus,
-select:focus,
-textarea:focus {
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.14);
-}
-
-/* Remove default number input spinners for cleaner score/age fields */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  opacity: 0.6;
-}
-
-table th {
-  white-space: nowrap;
-  user-select: none;
-}
-
-table tbody tr {
-  transition: background-color 0.12s ease;
-}
-
-/* --------------------------------------------------------------------------
-   6. Exam Viewer Iframe Container
-   -------------------------------------------------------------------------- */
-#examHtmlIframe {
-  background-color: #f8fafc;
-  min-height: calc(100vh - 110px);
-}
-
-/* --------------------------------------------------------------------------
-   7. Official Master Ledger Print Styles (@media print)
-   -------------------------------------------------------------------------- */
+/* Print Styles */
 @media print {
-  @page {
-    size: landscape;
-    margin: 12mm;
-  }
-
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 11px !important;
-  }
-
-  /* Hide navigation, buttons, filters, KPIs, and non-ledger views */
-  .no-print,
-  #mainHeader,
-  #loginView,
-  #instructorView,
-  #studentView,
-  #adminView > section:first-of-type,
-  #adminSection_students,
-  #adminSection_instructors,
-  #adminSection_exams,
-  #adminSection_requests,
-  #toastContainer,
-  #examViewerModal,
-  #adminScoreModal,
-  #confirmModal {
+  .no-print {
     display: none !important;
   }
-
-  /* Force Admin Master Ledger to full width for printing */
-  #adminView,
-  #adminSection_ledger {
-    display: block !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
+  body {
+    background: white !important;
+    color: black !important;
   }
-
-  #adminSection_ledger > div {
-    border: 1px solid #cbd5e1 !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-  }
-
   table {
-    width: 100% !important;
-    border-collapse: collapse !important;
+    border-collapse: collapse;
+    width: 100%;
   }
-
-  table th,
-  table td {
-    border: 1px solid #cbd5e1 !important;
-    padding: 6px 8px !important;
-    color: #0f172a !important;
-  }
-
-  table thead tr {
-    background-color: #f1f5f9 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 8px;
+    font-size: 11px;
   }
 }
